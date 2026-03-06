@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Change List — AEA Website Updates</title>
+    <style>
+        :root { --aea-blue: #003366; --aea-gold: #c8a84e; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.7; margin: 0; }
+        .header { background: var(--aea-blue); color: #fff; padding: 20px 0; }
+        .header a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 13px; }
+        .header a:hover { color: #fff; }
+        .header h1 { font-size: 1.4rem; font-weight: 700; margin: 8px 0 0; }
+        .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+        .content { padding: 40px 0; }
+        .content h1 { color: var(--aea-blue); font-size: 1.6rem; border-bottom: 2px solid var(--aea-gold); padding-bottom: 8px; margin-bottom: 20px; }
+        .content h2 { color: var(--aea-blue); font-size: 1.3rem; margin-top: 32px; margin-bottom: 12px; }
+        .content h3 { color: var(--aea-blue); font-size: 1.1rem; margin-top: 24px; }
+        .content table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+        .content th { background: var(--aea-blue); color: #fff; padding: 10px 14px; text-align: left; font-size: 13px; text-transform: uppercase; letter-spacing: 0.3px; }
+        .content td { padding: 10px 14px; border-bottom: 1px solid #ddd; font-size: 14px; }
+        .content tr:hover td { background: #f8f9fa; }
+        .content code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+        .content pre { background: #1a1a2e; color: #e0e0e0; padding: 16px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+        .content pre code { background: none; padding: 0; color: inherit; }
+        .content ul { margin: 8px 0; }
+        .content li { margin: 4px 0; }
+        .content blockquote { border-left: 4px solid var(--aea-gold); margin: 16px 0; padding: 12px 20px; background: #f8f8f8; }
+        .content hr { border: none; border-top: 1px solid #ddd; margin: 30px 0; }
+        .content strong { color: #222; }
+        .content em { color: #856404; }
+        .content input[type="checkbox"] { margin-right: 6px; }
+        .footer { border-top: 1px solid #ddd; padding: 20px 0; font-size: 12px; color: #888; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="header"><div class="container"><a href="../index.html">&larr; Back to All Projects</a><h1>Master Change List</h1></div></div>
+    <div class="container"><div class="content"><h1>Master Change List — AEA Website Updates (March 2026)</h1>
+<h2>Priority 1: CAET-Advanced Page (New)</h2>
+<ul>
+<li><input type="checkbox" disabled> Create new page at <code>aea.net/CAET-Advanced</code></li>
+<li><input type="checkbox" disabled> Build around three-part sequential assessment: PQS Practical → Written → Oral</li>
+<li><input type="checkbox" disabled> Feature 8 skill categories (65 tasks) with PQS sign-off process</li>
+<li><input type="checkbox" disabled> Include apprenticeship program connection</li>
+<li><input type="checkbox" disabled> Set up redirects: <code>/caetadvanced</code> and <code>/caet-advanced</code> → <code>/CAET-Advanced</code></li>
+<li><input type="checkbox" disabled> Add CAET-Advanced to Training nav menu</li>
+<li><input type="checkbox" disabled> NO gap exam content on this page (that goes on /caet/)</li>
+</ul>
+<h2>Priority 2: CAET Page Edits (Existing)</h2>
+<ul>
+<li><input type="checkbox" disabled> Remove "Available in 2026" from CAET-Advanced badge image area</li>
+<li><input type="checkbox" disabled> Remove "Available in 2026" from CAET-Advanced badge comparison card</li>
+<li><input type="checkbox" disabled> Link CAET-Advanced badge image to <code>/CAET-Advanced</code></li>
+<li><input type="checkbox" disabled> Link CAET-Advanced text in comparison card to <code>/CAET-Advanced</code></li>
+<li><input type="checkbox" disabled> Keep "Available in 2026" on CAET-Pro (both locations)</li>
+<li><input type="checkbox" disabled> Add AET → CAET gap exam section (pending details from Alexis)</li>
+<li><input type="checkbox" disabled> Add AET → CAET gap exam info (section or FAQ — details pending from Alexis)</li>
+</ul>
+<h2>Priority 3: Workforce Folder (New)</h2>
+<ul>
+<li><input type="checkbox" disabled> Create <code>/workforce/</code> directory</li>
+<li><input type="checkbox" disabled> Upload Career Playbook PDF → <code>aea.net/workforce/careerplaybook.pdf</code></li>
+<li><input type="checkbox" disabled> Upload Hiring Toolkit PDF → <code>aea.net/workforce/hiringtoolkit.pdf</code></li>
+</ul>
+<h2>Priority 4: Apprentice Site Migration</h2>
+<ul>
+<li><input type="checkbox" disabled> Migrate apprentice site content from GitHub to <code>aea.net/apprentice</code></li>
+<li><input type="checkbox" disabled> Remove standalone header elements (squares, logo)</li>
+<li><input type="checkbox" disabled> Move DOL CBOF reference to FAQ section (link to PDF)</li>
+<li><input type="checkbox" disabled> Move FAA letter to FAQ section (link to PDF)</li>
+</ul>
+<h2>Priority 5: Convention Support</h2>
+<ul>
+<li><input type="checkbox" disabled> Generate QR codes for slide deck and sign-up URLs (pending final URLs)</li>
+<li><input type="checkbox" disabled> Plan April/May webinar with interested companies</li>
+</ul>
+<hr />
+<h2>Pending Items (Blocked)</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Waiting On</th>
+<th>Where It Goes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AET → CAET gap exam details</td>
+<td>Alexis</td>
+<td>Main /caet/ page (section or FAQ)</td>
+</tr>
+<tr>
+<td>CAET-Advanced exam registration link</td>
+<td>USI platform</td>
+<td>CAET-Advanced page</td>
+</tr>
+<tr>
+<td>CAET-Advanced pricing</td>
+<td>Decision</td>
+<td>CAET-Advanced FAQ</td>
+</tr>
+<tr>
+<td>CAET-Advanced prep course links</td>
+<td>AERO/Academy</td>
+<td>CAET-Advanced page</td>
+</tr>
+<tr>
+<td>Convention slide deck URL</td>
+<td>Nick</td>
+<td>QR code generation</td>
+</tr>
+<tr>
+<td>Convention sign-up URL</td>
+<td>Nick</td>
+<td>QR code generation</td>
+</tr>
+</tbody>
+</table></div></div>
+    <div class="footer"><div class="container">AEA Workforce Development — Nick Brown — nickb@aea.net</div></div>
+</body>
+</html>

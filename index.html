@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEA Website Updates — March 2026</title>
+    <style>
+        :root {
+            --aea-blue: #003366;
+            --aea-gold: #c8a84e;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6; }
+        .header { background: var(--aea-blue); color: #fff; padding: 40px 0; }
+        .header h1 { font-size: 1.8rem; font-weight: 700; }
+        .header p { opacity: 0.8; margin-top: 8px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+        .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin: 40px 0; }
+        .card { border: 1px solid #ddd; border-radius: 8px; padding: 24px; transition: box-shadow 0.2s; }
+        .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .card h3 { font-size: 1.1rem; color: var(--aea-blue); margin-bottom: 8px; }
+        .card p { font-size: 14px; color: #555; margin-bottom: 16px; }
+        .card a { display: inline-block; background: var(--aea-blue); color: #fff; padding: 8px 20px; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+        .card a:hover { background: #004d99; }
+        .card .status { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .status-ready { background: #d4edda; color: #155724; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .footer { border-top: 1px solid #ddd; padding: 24px 0; margin-top: 40px; font-size: 13px; color: #888; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>AEA Website Updates — March 2026</h1>
+            <p>Mockups and implementation specs for aea.net updates. Prepared for March 10 planning meeting.</p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="cards">
+            <div class="card">
+                <span class="status status-ready">Mockup Ready</span>
+                <h3>CAET-Advanced Page</h3>
+                <p>New dedicated page for CAET-Advanced certification. Three-part assessment (PQS Practical, Written, Oral), 8 skill categories, 65 tasks, evaluator sign-off process.</p>
+                <a href="caet-advanced/index.html">View Mockup</a>
+            </div>
+            <div class="card">
+                <span class="status status-ready">Spec Ready</span>
+                <h3>CAET Page Edits</h3>
+                <p>Remove "Available in 2026" from CAET-Advanced badges, add links to new page, add AET→CAET gap exam info.</p>
+                <a href="caet-updates/CHANGES.html">View Changes</a>
+            </div>
+            <div class="card">
+                <span class="status status-ready">Spec Ready</span>
+                <h3>Workforce Folder</h3>
+                <p>New /workforce/ directory for military transition resources — Career Playbook and Hiring Toolkit PDFs.</p>
+                <a href="workforce/SETUP.html">View Setup</a>
+            </div>
+            <div class="card">
+                <span class="status status-ready">Spec Ready</span>
+                <h3>Apprentice Migration</h3>
+                <p>Move apprentice site from GitHub to aea.net/apprentice. Strip standalone headers, move DOL/FAA docs to FAQs.</p>
+                <a href="apprentice/MIGRATION.html">View Checklist</a>
+            </div>
+            <div class="card">
+                <span class="status status-pending">Pending URLs</span>
+                <h3>Convention Support</h3>
+                <p>QR codes for slide deck and sign-ups. Webinar planning for April/May.</p>
+                <a href="convention/README.html">View Details</a>
+            </div>
+            <div class="card">
+                <span class="status status-ready">Reference</span>
+                <h3>URL Redirects</h3>
+                <p>All redirect rules needed — IIS, Apache, and Nginx configs included.</p>
+                <a href="docs/REDIRECTS.html">View Redirects</a>
+            </div>
+        </div>
+        <div style="background:#f5f5f5;border-radius:8px;padding:24px;margin-bottom:20px;">
+            <h3 style="color:var(--aea-blue);margin-bottom:12px;">Master Change List</h3>
+            <p style="font-size:14px;"><a href="docs/MASTER-CHANGELIST.html" style="color:#0066cc;">View the full prioritized checklist</a> across all projects with pending items tracker.</p>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="container">AEA Workforce Development — Nick Brown — nickb@aea.net — 816-366-5102</div>
+    </div>
+</body>
+</html>

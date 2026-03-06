@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAET-Advanced | Certified Aircraft Electronics Technician | Aircraft Electronics Association</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --aea-blue: #003366;
+            --aea-blue-light: #004d99;
+            --aea-blue-accent: #0066cc;
+            --aea-gold: #c8a84e;
+            --aea-gray: #f5f5f5;
+            --aea-dark: #222;
+            --aea-text: #333;
+            --aea-border: #ddd;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--aea-text); line-height: 1.6; margin: 0; }
+        .aea-topbar { background: var(--aea-blue); padding: 8px 0; font-size: 13px; }
+        .aea-topbar a { color: rgba(255,255,255,0.7); text-decoration: none; margin-left: 16px; }
+        .aea-topbar a:hover { color: #fff; }
+        .aea-header { background: #fff; border-bottom: 3px solid var(--aea-blue); padding: 12px 0; }
+        .aea-nav { background: var(--aea-blue); padding: 0; }
+        .aea-nav .nav-link { color: #fff !important; font-size: 14px; font-weight: 500; padding: 12px 18px; text-transform: uppercase; letter-spacing: 0.3px; }
+        .aea-nav .nav-link:hover { background: var(--aea-blue-light); }
+        .breadcrumb-bar { background: var(--aea-gray); border-bottom: 1px solid var(--aea-border); padding: 10px 0; font-size: 13px; }
+        .breadcrumb-bar a { color: var(--aea-blue-accent); text-decoration: none; }
+        .breadcrumb-bar a:hover { text-decoration: underline; }
+        .hero-section { background: linear-gradient(135deg, var(--aea-blue) 0%, #001a33 100%); color: #fff; padding: 60px 0; position: relative; overflow: hidden; }
+        .hero-section::after { content: ''; position: absolute; top: -50%; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(200,168,78,0.08) 0%, transparent 70%); border-radius: 50%; }
+        .hero-section h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 16px; }
+        .hero-section p { font-size: 1.1rem; opacity: 0.9; max-width: 700px; line-height: 1.7; }
+        .hero-badge-label { display: inline-block; background: var(--aea-gold); color: var(--aea-blue); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 4px 12px; border-radius: 3px; margin-bottom: 16px; }
+        .section { padding: 50px 0; }
+        .section-alt { background: var(--aea-gray); }
+        .section h2 { font-size: 1.6rem; font-weight: 700; color: var(--aea-blue); margin-bottom: 20px; }
+        .section h3 { font-size: 1.3rem; font-weight: 600; color: var(--aea-blue); margin-bottom: 14px; }
+        .btn-aea { background: var(--aea-blue); color: #fff; border: none; padding: 12px 30px; font-weight: 600; border-radius: 4px; text-transform: uppercase; font-size: 14px; letter-spacing: 0.5px; text-decoration: none; display: inline-block; }
+        .btn-aea:hover { background: var(--aea-blue-light); color: #fff; }
+        .btn-aea-outline { border: 2px solid var(--aea-blue); color: var(--aea-blue); background: transparent; padding: 10px 28px; font-weight: 600; border-radius: 4px; text-transform: uppercase; font-size: 14px; letter-spacing: 0.5px; text-decoration: none; display: inline-block; }
+        .btn-aea-outline:hover { background: var(--aea-blue); color: #fff; }
+        .info-box { background: #fff; border-left: 4px solid var(--aea-gold); padding: 24px 28px; border-radius: 0 6px 6px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin: 20px 0; }
+        .assessment-pathway { display: flex; gap: 0; justify-content: center; flex-wrap: wrap; margin: 30px 0; }
+        .assessment-step { background: #fff; border: 2px solid var(--aea-border); border-radius: 10px; padding: 30px 24px; text-align: center; width: 300px; position: relative; transition: box-shadow 0.2s; }
+        .assessment-step:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .assessment-step .step-number { background: var(--aea-blue); color: #fff; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; margin: 0 auto 14px; }
+        .assessment-step h4 { font-size: 1.05rem; font-weight: 700; color: var(--aea-blue); margin-bottom: 10px; }
+        .assessment-step p { font-size: 14px; color: #555; margin-bottom: 0; }
+        .assessment-step .step-icon { font-size: 2rem; color: var(--aea-gold); margin-bottom: 12px; }
+        .assessment-arrow { display: flex; align-items: center; color: var(--aea-gold); font-size: 1.6rem; padding: 0 8px; }
+        @media (max-width: 992px) { .assessment-arrow { transform: rotate(90deg); padding: 8px 0; } .assessment-pathway { flex-direction: column; align-items: center; } }
+        .cat-card { background: #fff; border: 1px solid var(--aea-border); border-radius: 8px; padding: 24px 20px; height: 100%; transition: box-shadow 0.2s, border-color 0.2s; }
+        .cat-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); border-color: var(--aea-gold); }
+        .cat-card .cat-icon { font-size: 1.5rem; margin-bottom: 12px; }
+        .cat-card h5 { font-size: 0.95rem; font-weight: 700; color: var(--aea-blue); margin-bottom: 8px; }
+        .cat-card p { font-size: 13px; color: #666; margin-bottom: 0; }
+        .evaluator-section { background: linear-gradient(135deg, #f8f9fa, #eef2f7); border: 1px solid var(--aea-border); border-radius: 10px; padding: 36px; }
+        .eval-step { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+        .eval-step:last-child { margin-bottom: 0; }
+        .eval-num { background: var(--aea-blue); color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+        .benefit-card { background: #fff; border: 1px solid var(--aea-border); border-radius: 6px; padding: 28px 24px; height: 100%; transition: box-shadow 0.2s; }
+        .benefit-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .benefit-card h4 { font-size: 1rem; font-weight: 700; color: var(--aea-blue); margin-bottom: 10px; }
+        .benefit-card p { font-size: 14px; color: #555; margin-bottom: 0; }
+        .benefit-icon { color: var(--aea-gold); font-size: 1.6rem; margin-bottom: 14px; }
+        .badge-cards { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+        .badge-card { background: #fff; border: 1px solid var(--aea-border); border-radius: 8px; padding: 30px 24px; text-align: center; width: 280px; transition: box-shadow 0.2s; }
+        .badge-card.active { border: 2px solid var(--aea-gold); box-shadow: 0 4px 20px rgba(200,168,78,0.15); }
+        .badge-placeholder { width: 160px; height: 160px; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        .badge-caet { background: linear-gradient(135deg, #003366, #004d99); color: #fff; }
+        .badge-advanced { background: linear-gradient(135deg, #003366, #b8860b); color: #fff; }
+        .badge-pro { background: linear-gradient(135deg, #003366, #1a1a2e); color: #fff; }
+        .badge-card h5 { font-weight: 700; color: var(--aea-blue); margin-bottom: 12px; }
+        .badge-card ul { list-style: none; padding: 0; text-align: left; font-size: 14px; }
+        .badge-card ul li { padding: 4px 0; border-bottom: 1px solid #f0f0f0; }
+        .badge-card ul li:last-child { border-bottom: none; }
+        .badge-card .coming-soon { color: #999; font-style: italic; font-size: 13px; }
+        .faq-tabs .nav-link { color: var(--aea-text); font-weight: 500; font-size: 14px; border: 1px solid var(--aea-border); border-radius: 4px 4px 0 0; margin-right: 4px; padding: 10px 16px; }
+        .faq-tabs .nav-link.active { background: var(--aea-blue); color: #fff; border-color: var(--aea-blue); }
+        .accordion-button { font-weight: 600; color: var(--aea-blue); font-size: 15px; }
+        .accordion-button:not(.collapsed) { background: rgba(0,51,102,0.04); color: var(--aea-blue); }
+        .testimonial-section { background: var(--aea-blue); color: #fff; padding: 50px 0; text-align: center; }
+        .testimonial-section blockquote { font-size: 1.2rem; font-style: italic; max-width: 700px; margin: 0 auto 20px; line-height: 1.8; opacity: 0.95; }
+        .testimonial-section cite { font-size: 14px; opacity: 0.75; font-style: normal; }
+        .testimonial-section .quote-mark { font-size: 4rem; color: var(--aea-gold); line-height: 1; margin-bottom: 10px; }
+        .contact-section { background: #fff; border-top: 1px solid var(--aea-border); padding: 50px 0; }
+        .contact-photo { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--aea-gray), #ccc); display: flex; align-items: center; justify-content: center; font-size: 48px; color: #999; margin: 0 auto 16px; }
+        .cta-banner { background: var(--aea-blue); color: #fff; padding: 40px 0; text-align: center; }
+        .cta-banner h2 { color: #fff; font-size: 1.6rem; margin-bottom: 8px; }
+        .cta-banner p { opacity: 0.8; margin-bottom: 20px; }
+        .cta-banner .btn-aea { background: var(--aea-gold); color: var(--aea-blue); }
+        .cta-banner .btn-aea:hover { background: #d4b45c; }
+        .aea-footer { background: #1a1a2e; color: rgba(255,255,255,0.6); padding: 40px 0 20px; font-size: 13px; }
+        .aea-footer h6 { color: #fff; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; margin-bottom: 14px; }
+        .aea-footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+        .aea-footer a:hover { color: #fff; }
+        .aea-footer ul { list-style: none; padding: 0; }
+        .aea-footer ul li { padding: 3px 0; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px; margin-top: 30px; text-align: center; font-size: 12px; }
+        .mockup-notice { background: #fff3cd; border-bottom: 2px solid #ffc107; padding: 10px; text-align: center; font-size: 13px; font-weight: 600; color: #856404; position: sticky; top: 0; z-index: 9999; }
+        .apprentice-callout { background: linear-gradient(135deg, #eef6ff, #e8f0fe); border: 2px solid var(--aea-blue-accent); border-radius: 10px; padding: 30px; }
+    </style>
+</head>
+<body>
+<div class="mockup-notice"><i class="fas fa-drafting-compass"></i> &nbsp; MOCKUP — CAET-Advanced Page for aea.net/CAET-Advanced &nbsp;|&nbsp; Prepared for March 10, 2026 planning meeting</div>
+<div class="aea-topbar"><div class="container d-flex justify-content-end"><a href="#">Login</a><a href="#">Find Member</a></div></div>
+<div class="aea-header"><div class="container d-flex align-items-center justify-content-between"><div><svg width="165" height="50" viewBox="0 0 165 50"><rect width="165" height="50" rx="4" fill="#003366"/><text x="82" y="30" text-anchor="middle" fill="white" font-family="Arial" font-size="13" font-weight="bold">AEA LOGO</text></svg></div><div class="d-none d-md-block" style="font-size:13px;color:#666;">816-347-8400 &nbsp;|&nbsp; info@aea.net</div></div></div>
+<nav class="aea-nav"><div class="container"><div class="d-flex flex-wrap"><a class="nav-link" href="#">About</a><a class="nav-link" href="#">Join</a><a class="nav-link" href="#">Members</a><a class="nav-link" href="#">Jobs</a><a class="nav-link" href="#">Events</a><a class="nav-link" href="#" style="background:var(--aea-blue-light)">Training</a><a class="nav-link" href="#">Publications</a><a class="nav-link" href="#">News</a></div></div></nav>
+<div class="breadcrumb-bar"><div class="container"><a href="#">Home</a> &rsaquo; <a href="/caet/">CAET</a> &rsaquo; <strong>CAET-Advanced</strong></div></div>
+
+<!-- HERO -->
+<section class="hero-section">
+    <div class="container"><div class="row align-items-center">
+        <div class="col-lg-7">
+            <span class="hero-badge-label">Level 2 Certification</span>
+            <h1>CAET-Advanced</h1>
+            <p>Prove you can do the work. CAET-Advanced validates hands-on competency through practical demonstration, a written exam, and an oral board — the same approach the military uses to qualify technicians on real systems.</p>
+            <div class="mt-4"><a href="#three-part" class="btn-aea me-3">How It Works</a><a href="#categories" class="btn-aea-outline" style="border-color:#fff;color:#fff;">View Skill Categories</a></div>
+        </div>
+        <div class="col-lg-5 text-center mt-4 mt-lg-0">
+            <div class="badge-placeholder badge-advanced mx-auto" style="width:220px;height:220px;font-size:16px;">CAET<br>Advanced<br>Badge</div>
+            <div style="color:rgba(255,255,255,0.5);font-size:12px;margin-top:8px;">/images/caet/CAET_Advanced_480.png</div>
+        </div>
+    </div></div>
+</section>
+
+<!-- WHAT IS CAET-ADVANCED -->
+<section class="section">
+    <div class="container"><div class="row">
+        <div class="col-lg-8">
+            <h2>What is CAET-Advanced?</h2>
+            <p>CAET-Advanced is the second level of the Certified Aircraft Electronics Technician program. Unlike the base CAET — which validates foundational knowledge through a written exam — CAET-Advanced requires technicians to <strong>demonstrate competency through a three-part assessment</strong>: a hands-on practical qualification (PQS), a written exam, and an oral board.</p>
+            <p>The certification covers 65 practical tasks across 8 system categories, from wire harness fabrication to flight management systems. It aligns with <strong>Level 2 of the ASTM standard</strong> for aircraft electronics technicians and is built for techs who are actively working in Part 145 repair stations, enrolled in apprenticeship programs, or transitioning from military avionics roles.</p>
+        </div>
+        <div class="col-lg-4">
+            <div class="info-box">
+                <h5 style="color:var(--aea-blue);font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">Quick Facts</h5>
+                <div style="font-size:14px;line-height:2;"><strong>Level:</strong> 2 of 3 (ASTM Std.)<br><strong>Prerequisite:</strong> CAET Certified<br><strong>Assessment:</strong> PQS + Written + Oral<br><strong>Tasks:</strong> 65 across 8 categories<br><strong>Renewal:</strong> Every 3 years</div>
+            </div>
+        </div>
+    </div></div>
+</section>
+
+<!-- THREE-PART ASSESSMENT -->
+<section class="section section-alt" id="three-part">
+    <div class="container">
+        <h2 class="text-center mb-2">Three-Part Assessment</h2>
+        <p class="text-center text-muted mb-4" style="max-width:650px;margin-left:auto;margin-right:auto;">CAET-Advanced doesn't just test what you know — it proves what you can do. Candidates complete all three components in sequence.</p>
+        <div class="assessment-pathway">
+            <div class="assessment-step">
+                <div class="step-number">1</div>
+                <div class="step-icon"><i class="fas fa-wrench"></i></div>
+                <h4>PQS Practical Qualification</h4>
+                <p>Demonstrate hands-on competency across 65 tasks. Each task is observed and signed off by an authorized evaluator at your shop or training site.</p>
+            </div>
+            <div class="assessment-arrow"><i class="fas fa-chevron-right"></i></div>
+            <div class="assessment-step">
+                <div class="step-number">2</div>
+                <div class="step-icon"><i class="fas fa-file-pen"></i></div>
+                <h4>Written Examination</h4>
+                <p>A proctored exam covering the technical knowledge behind the systems you've demonstrated on. Tests theory, standards, and procedures across all 8 categories.</p>
+            </div>
+            <div class="assessment-arrow"><i class="fas fa-chevron-right"></i></div>
+            <div class="assessment-step">
+                <div class="step-number">3</div>
+                <div class="step-icon"><i class="fas fa-comments"></i></div>
+                <h4>Oral Board</h4>
+                <p>A panel-style oral examination where you explain your work, defend your troubleshooting approach, and demonstrate professional technical communication.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 8 SKILL CATEGORIES -->
+<section class="section" id="categories">
+    <div class="container">
+        <h2 class="text-center mb-2">8 Skill Categories — 65 Tasks</h2>
+        <p class="text-center text-muted mb-4" style="max-width:650px;margin-left:auto;margin-right:auto;">The PQS practical qualification covers these system areas. Each category contains specific tasks that technicians must demonstrate to an authorized evaluator.</p>
+        <div class="row g-3">
+            <div class="col-md-6 col-lg-3"><div class="cat-card"><div class="cat-icon" style="color:var(--aea-gold);"><i class="fas fa-compass"></i></div><h5>Attitude, Heading &amp; Air Data Systems</h5><p>AHRS, compass systems, pitot-static, smart probes, ADCs, and RVSM compliance.</p></div></div>
+            <div class="col-md-6 col-lg-3"><div class="cat-card"><div class="cat-icon" style="color:var(--aea-gold);"><i class="fas fa-route"></i></div><h5>Flight Management &amp; Navigation</h5><p>FMS operation, database loading, navigation system integration, and GPS/WAAS.</p></div></div>
+            <div class="col-md-6 col-lg-3"><div class="cat-card"><div class="cat-icon" style="color:var(--aea-gold);"><i class="fas fa-sliders"></i></div><h5>Autopilot &amp; Flight Control Systems</h5><p>Autopilot, flight director, yaw damper, servo systems, and AFCS integration.</p></div></div>
+            <div class="col-md-6 col-lg-3"><div class="cat-card"><div class="cat-icon" style="color:var(--aea-gold);"><i class="fas fa-diagram-project"></i></div><h5>Avionics Systems Integration</h5><p>Cabin management, connectivity (WiFi/Satcom/cellular), and system-level integration.</p></div></div>
+            <div class="col-md-6 col-lg-3"><div class="cat-card"><div class="cat-icon" style="color:var(--aea-gold);"><i class="fas fa-plug"></i></div><h5>Wire Harness Fabrication &amp; Installation</h5><p>Harness assembly, connector termination, wire routing, lacing, shielding, and bonding.</p></div></div>
+            <div class="col-md-6 col-lg-3"><div class="cat-card"><div class="cat-icon" style="color:var(--aea-gold);"><i class="fas fa-headset"></i></div><h5>Audio &amp; Communication Systems</h5><p>Audio panels, intercom, VHF/HF comm, NAV receivers, and antenna systems.</p></div></div>
+            <div class="col-md-6 col-lg-3"><div class="cat-card"><div class="cat-icon" style="color:var(--aea-gold);"><i class="fas fa-file-code"></i></div><h5>Software, Documentation &amp; Configuration</h5><p>Software loading, configuration management, technical documentation, and record keeping.</p></div></div>
+            <div class="col-md-6 col-lg-3"><div class="cat-card"><div class="cat-icon" style="color:var(--aea-gold);"><i class="fas fa-satellite-dish"></i></div><h5>Surveillance Systems</h5><p>Transponders, ADS-B, TCAS/ACAS, FANS/CPDLC, and datalink systems.</p></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- EVALUATOR SIGN-OFF -->
+<section class="section section-alt">
+    <div class="container"><div class="row align-items-start">
+        <div class="col-lg-5 mb-4 mb-lg-0">
+            <h2>How the PQS Sign-Off Works</h2>
+            <p>The PQS practical qualification uses the same task-based sign-off approach proven by the U.S. military's Personnel Qualification Standards. Each task must be observed and verified by an authorized evaluator.</p>
+            <p style="font-size:14px;color:#666;">This isn't a one-day test — it's an ongoing demonstration of competency built into daily work at your shop or training program.</p>
+        </div>
+        <div class="col-lg-7">
+            <div class="evaluator-section">
+                <div class="eval-step"><div class="eval-num">1</div><div><strong>Candidate performs the task</strong><div style="font-size:14px;color:#555;">The technician performs a specific task (e.g., fabricating a wire harness, running a pitot-static check) during normal shop operations or structured training.</div></div></div>
+                <div class="eval-step"><div class="eval-num">2</div><div><strong>Evaluator observes and verifies</strong><div style="font-size:14px;color:#555;">An authorized evaluator — a senior technician, inspector, or training lead at the candidate's shop — watches the work and confirms it meets the standard.</div></div></div>
+                <div class="eval-step"><div class="eval-num">3</div><div><strong>Task is signed off on the qualification record</strong><div style="font-size:14px;color:#555;">The evaluator signs and dates the specific task on the candidate's PQS qualification card, creating a documented trail of demonstrated competency.</div></div></div>
+                <div class="eval-step"><div class="eval-num">4</div><div><strong>All 65 tasks completed → move to written exam</strong><div style="font-size:14px;color:#555;">Once every task across all 8 categories is signed off, the candidate is eligible to sit for the written examination, followed by the oral board.</div></div></div>
+            </div>
+        </div>
+    </div></div>
+</section>
+
+<!-- APPRENTICESHIP CONNECTION -->
+<section class="section">
+    <div class="container">
+        <div class="apprentice-callout"><div class="row align-items-center">
+            <div class="col-lg-8">
+                <h3><i class="fas fa-graduation-cap" style="color:var(--aea-blue-accent);"></i> &nbsp;Built for Apprenticeship Programs</h3>
+                <p>CAET-Advanced is designed to integrate directly with the <strong>AEA Registered Apprenticeship Program</strong>. The PQS task categories align with apprenticeship on-the-job training (OJT) requirements, giving employers a structured way to track technician development and meet Department of Labor standards.</p>
+                <p style="font-size:14px;color:#555;">Repair stations enrolled in the AEA apprenticeship program can use CAET-Advanced as a milestone marker — when an apprentice earns their Advanced certification, it documents real, measurable progress toward journey-level competency.</p>
+                <a href="/apprentice/" class="btn-aea-outline mt-2">Learn About AEA Apprenticeship →</a>
+            </div>
+            <div class="col-lg-4 text-center mt-4 mt-lg-0">
+                <div style="font-size:4rem;color:var(--aea-blue-accent);"><i class="fas fa-people-arrows"></i></div>
+                <p style="font-size:13px;color:#666;margin-top:8px;">PQS tasks map to apprenticeship OJT hours</p>
+            </div>
+        </div></div>
+    </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="section section-alt">
+    <div class="container">
+        <h2 class="text-center mb-4">Why CAET-Advanced?</h2>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4"><div class="benefit-card"><div class="benefit-icon"><i class="fas fa-hands"></i></div><h4>Proves Hands-On Competency</h4><p>Unlike a multiple-choice-only certification, CAET-Advanced requires demonstrated performance. When a tech holds this cert, employers know they can work independently.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="benefit-card"><div class="benefit-icon"><i class="fas fa-chart-line"></i></div><h4>Career Advancement</h4><p>Positions you for lead technician and bench specialist roles. Shows employers you're not just learning — you've been evaluated and signed off on real systems.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="benefit-card"><div class="benefit-icon"><i class="fas fa-jet-fighter"></i></div><h4>Military Transition Credibility</h4><p>The PQS model mirrors military qualification processes. For transitioning service members, CAET-Advanced translates existing skills into a civilian credential.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="benefit-card"><div class="benefit-icon"><i class="fas fa-certificate"></i></div><h4>ASTM Standard Alignment</h4><p>Maps to Level 2 of the ASTM standard for aircraft electronics technicians, giving the credential industry-wide weight.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="benefit-card"><div class="benefit-icon"><i class="fas fa-people-group"></i></div><h4>Workforce Development Tool</h4><p>For shop managers, CAET-Advanced provides a measurable benchmark for technician progression — documented task-by-task with evaluator sign-offs.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="benefit-card"><div class="benefit-icon"><i class="fas fa-stairs"></i></div><h4>Pathway to CAET-Pro</h4><p>CAET-Advanced is the stepping stone to CAET-Pro — the highest level covering human factors, safety management, and professional leadership.</p></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- BADGE COMPARISON -->
+<section class="section">
+    <div class="container">
+        <h2 class="text-center mb-2">Certification Levels</h2>
+        <p class="text-center text-muted mb-4">Three tiers aligned with the ASTM standard for aircraft electronics technicians</p>
+        <div class="badge-cards">
+            <div class="badge-card"><div class="badge-placeholder badge-caet">CAET</div><h5><a href="/caet/" style="color:var(--aea-blue);text-decoration:none;">CAET</a></h5><ul><li><strong>Assessment:</strong> Written exam</li><li>Regulations &amp; safety</li><li>AC/DC theory &amp; aircraft electrical</li><li>CNS systems</li><li>Flight instruments</li><li>Wiring fundamentals</li><li><strong>Level 1 of ASTM Std.</strong></li></ul></div>
+            <div class="badge-card active"><div class="badge-placeholder badge-advanced">CAET<br>Advanced</div><h5>CAET-Advanced</h5><ul><li><strong>Assessment:</strong> PQS + Written + Oral</li><li>8 system categories</li><li>65 hands-on tasks</li><li>Evaluator sign-off required</li><li>Oral board examination</li><li><strong>Level 2 of ASTM Std.</strong></li></ul></div>
+            <div class="badge-card"><div class="badge-placeholder badge-pro">CAET<br>Pro</div><h5>CAET-Pro</h5><p class="coming-soon">Available in 2026</p><ul><li>Human factors</li><li>Safety management</li><li>Professional skills</li><li><strong>Level 3 of ASTM Std.</strong></li></ul></div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial-section">
+    <div class="container">
+        <div class="quote-mark">&ldquo;</div>
+        <blockquote>The CAET is more than just a certification — it's a commitment to professional, technical, and industry readiness. For repair stations and technicians alike, it's a game-changer in workforce development.</blockquote>
+        <cite>Danny Santiago, Banyan Air</cite>
+    </div>
+</section>
+
+<!-- NEW TO CAET -->
+<section class="section">
+    <div class="container text-center" style="max-width:700px;">
+        <h2>New to CAET? Start Here</h2>
+        <p>CAET-Advanced requires the base CAET certification. If you haven't earned your CAET yet, that's where your journey begins — a written exam covering the foundational knowledge every avionics technician needs.</p>
+        <a href="/caet/" class="btn-aea-outline mt-2">Learn About CAET Certification →</a>
+    </div>
+</section>
+
+<!-- FAQs -->
+<section class="section section-alt">
+    <div class="container">
+        <h2 class="text-center mb-4">Frequently Asked Questions</h2>
+        <ul class="nav nav-tabs faq-tabs mb-3" role="tablist">
+            <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#faq-general">General</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#faq-pqs">PQS Practical</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#faq-exams">Written &amp; Oral</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#faq-employers">For Employers</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#faq-recert">Recertification</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#faq-support">Support</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="faq-general">
+                <div class="accordion" id="faqGeneral">
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fg1">What is CAET-Advanced?</button></h2><div id="fg1" class="accordion-collapse collapse show" data-bs-parent="#faqGeneral"><div class="accordion-body">CAET-Advanced is the second level of the Certified Aircraft Electronics Technician program. It validates hands-on competency through a three-part assessment: a PQS practical qualification (65 tasks across 8 system categories), a written examination, and an oral board. It maps to Level 2 of the ASTM standard.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fg2">How is CAET-Advanced different from the base CAET?</button></h2><div id="fg2" class="accordion-collapse collapse" data-bs-parent="#faqGeneral"><div class="accordion-body">The base CAET is a knowledge-based written exam covering foundational avionics topics. CAET-Advanced requires demonstrated hands-on performance — you must complete 65 practical tasks observed by an evaluator, pass a written exam, and then pass an oral board. It proves what you can <em>do</em>, not just what you know.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fg3">Do I need to hold my CAET before taking CAET-Advanced?</button></h2><div id="fg3" class="accordion-collapse collapse" data-bs-parent="#faqGeneral"><div class="accordion-body">Yes. The base CAET certification is a prerequisite. If you haven't earned it yet, <a href="/caet/">start here</a>.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fg4">Who is CAET-Advanced designed for?</button></h2><div id="fg4" class="accordion-collapse collapse" data-bs-parent="#faqGeneral"><div class="accordion-body">Working avionics technicians in Part 145 repair stations, apprentices in the AEA Registered Apprenticeship Program, and military avionics technicians transitioning to civilian roles. It's for techs who have been on the bench and are ready to document their competency.</div></div></div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="faq-pqs">
+                <div class="accordion" id="faqPQS">
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fp1">What is the PQS practical qualification?</button></h2><div id="fp1" class="accordion-collapse collapse show" data-bs-parent="#faqPQS"><div class="accordion-body">The PQS (Personnel Qualification Standard) is a task-based, hands-on assessment. Candidates must demonstrate competency on 65 specific tasks across 8 system categories. Each task is observed and signed off by an authorized evaluator — typically a senior technician, inspector, or training lead at the candidate's shop.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fp2">Who can serve as an evaluator?</button></h2><div id="fp2" class="accordion-collapse collapse" data-bs-parent="#faqPQS"><div class="accordion-body">Authorized evaluators are experienced avionics professionals — senior technicians, inspectors, or training leads — who are qualified to assess the tasks being performed. Evaluators register their credentials on the candidate's qualification record before signing off tasks.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fp3">How long does the PQS take to complete?</button></h2><div id="fp3" class="accordion-collapse collapse" data-bs-parent="#faqPQS"><div class="accordion-body">The PQS is not a timed test — it's completed through demonstrated work at your shop or training program. The pace depends on your role, the variety of work available, and how quickly you encounter opportunities to perform each task.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fp4">What are the 8 system categories?</button></h2><div id="fp4" class="accordion-collapse collapse" data-bs-parent="#faqPQS"><div class="accordion-body"><ol><li>Attitude, Heading &amp; Air Data Systems</li><li>Flight Management &amp; Navigation</li><li>Autopilot &amp; Flight Control Systems</li><li>Avionics Systems Integration</li><li>Wire Harness Fabrication &amp; Installation</li><li>Audio &amp; Communication Systems</li><li>Software, Documentation &amp; Configuration</li><li>Surveillance Systems</li></ol></div></div></div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="faq-exams">
+                <div class="accordion" id="faqExams">
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fe1">What does the written exam cover?</button></h2><div id="fe1" class="accordion-collapse collapse show" data-bs-parent="#faqExams"><div class="accordion-body">The written exam covers the technical knowledge behind all 8 system categories. It tests understanding of theory, standards, procedures, and troubleshooting approaches. You must complete the PQS practical qualification before sitting for the written exam.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fe2">What is the oral board?</button></h2><div id="fe2" class="accordion-collapse collapse" data-bs-parent="#faqExams"><div class="accordion-body">The oral board is a panel-style examination where you explain your work, walk through troubleshooting scenarios, and demonstrate professional-level technical communication. It's the final step after completing the PQS and written exam.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fe3">What is the passing score for the written exam?</button></h2><div id="fe3" class="accordion-collapse collapse" data-bs-parent="#faqExams"><div class="accordion-body">70%, consistent with the base CAET standard.</div></div></div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="faq-employers">
+                <div class="accordion" id="faqEmployers">
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fem1">How can my shop use CAET-Advanced?</button></h2><div id="fem1" class="accordion-collapse collapse show" data-bs-parent="#faqEmployers"><div class="accordion-body">CAET-Advanced gives repair station managers a documented, task-level benchmark for technician progression. The PQS sign-off process integrates with daily shop operations — evaluators observe and verify tasks during normal work, creating measurable development records.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fem2">Does CAET-Advanced align with the AEA apprenticeship program?</button></h2><div id="fem2" class="accordion-collapse collapse" data-bs-parent="#faqEmployers"><div class="accordion-body">Yes. The PQS task categories map directly to apprenticeship on-the-job training (OJT) requirements. Shops enrolled in the AEA Registered Apprenticeship Program can use CAET-Advanced as a milestone within their apprentice development plan.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fem3">Who qualifies as an evaluator at my shop?</button></h2><div id="fem3" class="accordion-collapse collapse" data-bs-parent="#faqEmployers"><div class="accordion-body">Senior technicians, inspectors, and training leads who have the experience and authority to assess the specific tasks being performed. Evaluators register their credentials on each candidate's qualification record.</div></div></div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="faq-recert">
+                <div class="accordion" id="faqRecert">
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fr1">Does CAET-Advanced expire?</button></h2><div id="fr1" class="accordion-collapse collapse show" data-bs-parent="#faqRecert"><div class="accordion-body">Yes, recertification is required every 3 years. You can recertify through AEA continuing education events and training courses, or by earning your CAET-Pro certification.</div></div></div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="faq-support">
+                <div class="accordion" id="faqSupport">
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fs1">Who do I contact with questions?</button></h2><div id="fs1" class="accordion-collapse collapse show" data-bs-parent="#faqSupport"><div class="accordion-body">Contact Nick Brown, Director of Workforce Development, at <a href="tel:816-366-5102">816-366-5102</a> or <a href="mailto:nickb@aea.net">nickb@aea.net</a></div></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section">
+    <div class="container text-center" style="max-width:500px;">
+        <h2>Have questions about CAET-Advanced?</h2>
+        <div class="contact-photo"><i class="fas fa-user"></i></div>
+        <h4 style="margin-bottom:4px;">Nick Brown</h4>
+        <p class="text-muted">Director of Workforce Development</p>
+        <div class="mt-3"><a href="tel:816-366-5102" class="btn-aea me-2">Call</a><a href="mailto:nickb@aea.net" class="btn-aea-outline">Contact</a></div>
+    </div>
+</section>
+
+<section class="cta-banner"><div class="container"><h2>Become an AEA Member today!</h2><p>Waste no more time</p><a href="/joinaea.asp" class="btn-aea">Join Now!</a></div></section>
+
+<footer class="aea-footer"><div class="container"><div class="row">
+    <div class="col-md-4"><div style="margin-bottom:16px;"><svg width="120" height="36" viewBox="0 0 120 36"><rect width="120" height="36" rx="4" fill="#003366"/><text x="60" y="22" text-anchor="middle" fill="white" font-family="Arial" font-size="10" font-weight="bold">AEA LOGO</text></svg></div><p style="font-size:12px;line-height:1.7;">The mission of the Aircraft Electronics Association is to educate, communicate, and advocate for aviation businesses around the world.</p><p style="font-size:12px;">3570 NE Ralph Powell Road<br>Lee's Summit, MO USA 64064<br>816-347-8400</p></div>
+    <div class="col-md-4"><h6>AEA</h6><ul><li><a href="#">Staff</a></li><li><a href="#">Board of Directors</a></li><li><a href="#">Committees</a></li><li><a href="#">Member Directory</a></li><li><a href="#">Educational Foundation</a></li></ul></div>
+    <div class="col-md-4"><h6>Site Map</h6><ul><li><a href="#">About</a></li><li><a href="#">Join</a></li><li><a href="#">Members</a></li><li><a href="#">Jobs</a></li><li><a href="#">Training</a></li></ul></div>
+</div><div class="footer-bottom">Copyright &copy; 2026 Aircraft Electronics Association. All Rights Reserved</div></div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
