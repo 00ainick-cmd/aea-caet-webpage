@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAET | Certified Aircraft Electronics Technician | Aircraft Electronics Association</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --aea-blue: #003366;
+            --aea-blue-light: #004d99;
+            --aea-blue-accent: #0066cc;
+            --aea-gold: #c8a84e;
+            --aea-gray: #f5f5f5;
+            --aea-text: #333;
+            --aea-border: #ddd;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--aea-text); line-height: 1.6; margin: 0; }
+
+        /* === HEADER / NAV === */
+        .aea-topbar { background: var(--aea-blue); padding: 8px 0; font-size: 13px; }
+        .aea-topbar a { color: rgba(255,255,255,0.7); text-decoration: none; margin-left: 16px; }
+        .aea-topbar a:hover { color: #fff; }
+        .aea-header { background: #fff; border-bottom: 3px solid var(--aea-blue); padding: 12px 0; }
+        .aea-nav { background: var(--aea-blue); padding: 0; }
+        .aea-nav .nav-link { color: #fff !important; font-size: 14px; font-weight: 500; padding: 12px 18px; text-transform: uppercase; letter-spacing: 0.3px; }
+        .aea-nav .nav-link:hover { background: var(--aea-blue-light); }
+        .breadcrumb-bar { background: var(--aea-gray); border-bottom: 1px solid var(--aea-border); padding: 10px 0; font-size: 13px; }
+        .breadcrumb-bar a { color: var(--aea-blue-accent); text-decoration: none; }
+
+        /* === HERO === */
+        .hero-section { background: linear-gradient(135deg, var(--aea-blue) 0%, #001a33 100%); color: #fff; padding: 60px 0; position: relative; overflow: hidden; }
+        .hero-section::after { content: ''; position: absolute; top: -50%; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(200,168,78,0.08) 0%, transparent 70%); border-radius: 50%; }
+        .hero-section h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 16px; }
+        .hero-section p { font-size: 1.1rem; opacity: 0.9; max-width: 700px; line-height: 1.7; }
+        .hero-badge-label { display: inline-block; background: var(--aea-gold); color: var(--aea-blue); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 4px 12px; border-radius: 3px; margin-bottom: 16px; }
+
+        /* === SECTIONS === */
+        .section { padding: 50px 0; }
+        .section-alt { background: var(--aea-gray); }
+        .section h2 { font-size: 1.6rem; font-weight: 700; color: var(--aea-blue); margin-bottom: 20px; }
+        .section h3 { font-size: 1.3rem; font-weight: 600; color: var(--aea-blue); margin-bottom: 14px; }
+
+        /* === BUTTONS === */
+        .btn-aea { background: var(--aea-blue); color: #fff; border: none; padding: 12px 30px; font-weight: 600; border-radius: 4px; text-transform: uppercase; font-size: 14px; letter-spacing: 0.5px; text-decoration: none; display: inline-block; }
+        .btn-aea:hover { background: var(--aea-blue-light); color: #fff; }
+        .btn-aea-outline { border: 2px solid var(--aea-blue); color: var(--aea-blue); background: transparent; padding: 10px 28px; font-weight: 600; border-radius: 4px; text-transform: uppercase; font-size: 14px; letter-spacing: 0.5px; text-decoration: none; display: inline-block; }
+        .btn-aea-outline:hover { background: var(--aea-blue); color: #fff; }
+
+        /* === INFO BOX === */
+        .info-box { background: #fff; border-left: 4px solid var(--aea-gold); padding: 24px 28px; border-radius: 0 6px 6px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin: 20px 0; }
+
+        /* === EXAM TOPICS === */
+        .topic-list { list-style: none; padding: 0; margin: 0; }
+        .topic-list li { padding: 10px 16px; border-bottom: 1px solid var(--aea-border); display: flex; align-items: center; gap: 12px; font-size: 15px; }
+        .topic-list li:last-child { border-bottom: none; }
+        .topic-num { background: var(--aea-blue); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+
+        /* === THREE-TIER PATHWAY === */
+        .pathway { display: flex; gap: 0; justify-content: center; flex-wrap: wrap; margin: 30px 0; }
+        .pathway-step { background: #fff; border: 2px solid var(--aea-border); border-radius: 10px; padding: 30px 24px; text-align: center; width: 300px; transition: box-shadow 0.2s; }
+        .pathway-step:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .pathway-step.current { border-color: var(--aea-gold); box-shadow: 0 4px 20px rgba(200,168,78,0.15); }
+        .pathway-step .tier-label { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 3px; margin-bottom: 12px; }
+        .tier-1 { background: #d4edda; color: #155724; }
+        .tier-2 { background: #fff3cd; color: #856404; }
+        .tier-3 { background: #e2e3e5; color: #383d41; }
+        .pathway-step h4 { font-size: 1.1rem; font-weight: 700; color: var(--aea-blue); margin-bottom: 8px; }
+        .pathway-step p { font-size: 14px; color: #555; margin-bottom: 12px; }
+        .pathway-step .assess-type { font-size: 13px; color: #666; font-weight: 600; }
+        .pathway-arrow { display: flex; align-items: center; color: var(--aea-gold); font-size: 1.6rem; padding: 0 8px; }
+        @media (max-width: 992px) { .pathway-arrow { transform: rotate(90deg); padding: 8px 0; } .pathway { flex-direction: column; align-items: center; } }
+
+        /* === BRIDGE EXAM === */
+        .bridge-callout { background: linear-gradient(135deg, #f0f7ee, #e8f5e1); border: 2px solid #5a9e3f; border-radius: 10px; padding: 30px; }
+        .bridge-callout h3 { color: #2d6a1e; }
+
+        /* === BENEFITS === */
+        .benefit-card { background: #fff; border: 1px solid var(--aea-border); border-radius: 6px; padding: 28px 24px; height: 100%; transition: box-shadow 0.2s; }
+        .benefit-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .benefit-card h4 { font-size: 1rem; font-weight: 700; color: var(--aea-blue); margin-bottom: 10px; }
+        .benefit-card p { font-size: 14px; color: #555; margin-bottom: 0; }
+        .benefit-icon { color: var(--aea-gold); font-size: 1.6rem; margin-bottom: 14px; }
+
+        /* === BADGE CARDS === */
+        .badge-cards { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+        .badge-card { background: #fff; border: 1px solid var(--aea-border); border-radius: 8px; padding: 30px 24px; text-align: center; width: 280px; transition: box-shadow 0.2s; }
+        .badge-card.active { border: 2px solid var(--aea-gold); box-shadow: 0 4px 20px rgba(200,168,78,0.15); }
+        .badge-placeholder { width: 160px; height: 160px; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        .badge-caet { background: linear-gradient(135deg, #003366, #004d99); color: #fff; }
+        .badge-advanced { background: linear-gradient(135deg, #003366, #b8860b); color: #fff; }
+        .badge-pro { background: linear-gradient(135deg, #003366, #1a1a2e); color: #fff; }
+        .badge-card h5 { font-weight: 700; color: var(--aea-blue); margin-bottom: 12px; }
+        .badge-card ul { list-style: none; padding: 0; text-align: left; font-size: 14px; }
+        .badge-card ul li { padding: 4px 0; border-bottom: 1px solid #f0f0f0; }
+        .badge-card ul li:last-child { border-bottom: none; }
+        .badge-card .coming-soon { color: #999; font-style: italic; font-size: 13px; }
+
+        /* === STEP TABS === */
+        .step-tabs .nav-link { color: var(--aea-text); font-weight: 600; border: none; border-bottom: 3px solid transparent; padding: 12px 20px; font-size: 15px; }
+        .step-tabs .nav-link.active { color: var(--aea-blue); border-bottom-color: var(--aea-gold); background: transparent; }
+        .step-content { padding: 30px 0; }
+        .img-placeholder { background: linear-gradient(135deg, #e8e8e8, #d0d0d0); border-radius: 6px; min-height: 260px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 14px; font-style: italic; }
+
+        /* === FAQ === */
+        .faq-tabs .nav-link { color: var(--aea-text); font-weight: 500; font-size: 14px; border: 1px solid var(--aea-border); border-radius: 4px 4px 0 0; margin-right: 4px; padding: 10px 16px; }
+        .faq-tabs .nav-link.active { background: var(--aea-blue); color: #fff; border-color: var(--aea-blue); }
+        .accordion-button { font-weight: 600; color: var(--aea-blue); font-size: 15px; }
+        .accordion-button:not(.collapsed) { background: rgba(0,51,102,0.04); color: var(--aea-blue); }
+
+        /* === TESTIMONIAL === */
+        .testimonial-section { background: var(--aea-blue); color: #fff; padding: 50px 0; text-align: center; }
+        .testimonial-section blockquote { font-size: 1.2rem; font-style: italic; max-width: 700px; margin: 0 auto 20px; line-height: 1.8; opacity: 0.95; }
+        .testimonial-section cite { font-size: 14px; opacity: 0.75; font-style: normal; }
+        .testimonial-section .quote-mark { font-size: 4rem; color: var(--aea-gold); line-height: 1; margin-bottom: 10px; }
+
+        /* === CONTACT === */
+        .contact-section { background: #fff; border-top: 1px solid var(--aea-border); padding: 50px 0; }
+        .contact-photo { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--aea-gray), #ccc); display: flex; align-items: center; justify-content: center; font-size: 48px; color: #999; margin: 0 auto 16px; }
+
+        /* === CTA === */
+        .cta-banner { background: var(--aea-blue); color: #fff; padding: 40px 0; text-align: center; }
+        .cta-banner h2 { color: #fff; font-size: 1.6rem; margin-bottom: 8px; }
+        .cta-banner p { opacity: 0.8; margin-bottom: 20px; }
+        .cta-banner .btn-aea { background: var(--aea-gold); color: var(--aea-blue); }
+        .cta-banner .btn-aea:hover { background: #d4b45c; }
+
+        /* === FOOTER === */
+        .aea-footer { background: #1a1a2e; color: rgba(255,255,255,0.6); padding: 40px 0 20px; font-size: 13px; }
+        .aea-footer h6 { color: #fff; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; margin-bottom: 14px; }
+        .aea-footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+        .aea-footer a:hover { color: #fff; }
+        .aea-footer ul { list-style: none; padding: 0; }
+        .aea-footer ul li { padding: 3px 0; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px; margin-top: 30px; text-align: center; font-size: 12px; }
+
+        .mockup-notice { background: #d4edda; border-bottom: 2px solid #28a745; padding: 10px; text-align: center; font-size: 13px; font-weight: 600; color: #155724; position: sticky; top: 0; z-index: 9999; }
+    </style>
+</head>
+<body>
+<div class="mockup-notice"><i class="fas fa-drafting-compass"></i> &nbsp; NEW MOCKUP — Redesigned CAET Page for aea.net/caet &nbsp;|&nbsp; Compare side-by-side with <a href="https://aea.net/caet/" target="_blank" style="color:#155724;text-decoration:underline;">current live page</a></div>
+
+<!-- HEADER -->
+<div class="aea-topbar"><div class="container d-flex justify-content-end"><a href="#">Login</a><a href="#">Find Member</a></div></div>
+<div class="aea-header"><div class="container d-flex align-items-center justify-content-between"><div><svg width="165" height="50" viewBox="0 0 165 50"><rect width="165" height="50" rx="4" fill="#003366"/><text x="82" y="30" text-anchor="middle" fill="white" font-family="Arial" font-size="13" font-weight="bold">AEA LOGO</text></svg></div><div class="d-none d-md-block" style="font-size:13px;color:#666;">816-347-8400 &nbsp;|&nbsp; info@aea.net</div></div></div>
+<nav class="aea-nav"><div class="container"><div class="d-flex flex-wrap"><a class="nav-link" href="#">About</a><a class="nav-link" href="#">Join</a><a class="nav-link" href="#">Members</a><a class="nav-link" href="#">Jobs</a><a class="nav-link" href="#">Events</a><a class="nav-link" href="#" style="background:var(--aea-blue-light)">Training</a><a class="nav-link" href="#">Publications</a><a class="nav-link" href="#">News</a></div></div></nav>
+<div class="breadcrumb-bar"><div class="container"><a href="#">Home</a> &rsaquo; <strong>Certified Aircraft Electronics Technician (CAET)</strong></div></div>
+
+<!-- ======== HERO ======== -->
+<section class="hero-section">
+    <div class="container"><div class="row align-items-center">
+        <div class="col-lg-7">
+            <span class="hero-badge-label">Industry Certification</span>
+            <h1>Become a Certified Aircraft Electronics Technician</h1>
+            <p>The CAET is the industry standard certification for avionics technicians in business and general aviation. Developed by AEA with input from leading repair stations, it validates the foundational knowledge every technician needs.</p>
+            <div class="mt-4">
+                <a href="#exam" class="btn-aea me-3">Take the Exam</a>
+                <a href="#pathway" class="btn-aea-outline" style="border-color:#fff;color:#fff;">View Certification Pathway</a>
+            </div>
+        </div>
+        <div class="col-lg-5 text-center mt-4 mt-lg-0">
+            <div class="badge-placeholder badge-caet mx-auto" style="width:220px;height:220px;font-size:16px;">CAET<br>Certified<br>Badge</div>
+            <div style="color:rgba(255,255,255,0.5);font-size:12px;margin-top:8px;">/images/caet/CAET_CERTIFIED_480.png</div>
+        </div>
+    </div></div>
+</section>
+
+<!-- ======== WHAT IS CAET ======== -->
+<section class="section">
+    <div class="container"><div class="row">
+        <div class="col-lg-8">
+            <h2>What is a Certified Aircraft Electronics Technician?</h2>
+            <p>A CAET is a technician specializing in the installation, maintenance, and repair of aircraft electronic systems. These systems are crucial for modern aircraft operations and include navigation, communication, surveillance, flight control, and entertainment systems.</p>
+            <p>CAET certification validates a technician's knowledge against an industry-developed <strong>ASTM standard</strong>. It demonstrates an understanding of key avionics theories and practices as identified and developed by experienced technicians from organizations including Duncan Aviation, Mid-Continent Instruments and Avionics, Park Rapids Avionics, Columbia Air Services, Cirrus Aircraft, Tramper Avionics, and Banyan Air Services.</p>
+        </div>
+        <div class="col-lg-4">
+            <div class="info-box">
+                <h5 style="color:var(--aea-blue);font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">Quick Facts</h5>
+                <div style="font-size:14px;line-height:2;">
+                    <strong>Level:</strong> 1 of 3 (ASTM Std.)<br>
+                    <strong>Prerequisites:</strong> None<br>
+                    <strong>Format:</strong> 100 multiple-choice questions<br>
+                    <strong>Time Limit:</strong> 90 minutes<br>
+                    <strong>Passing Score:</strong> 70%<br>
+                    <strong>Delivery:</strong> Remote proctored online<br>
+                    <strong>Renewal:</strong> Every 3 years
+                </div>
+            </div>
+        </div>
+    </div></div>
+</section>
+
+<!-- ======== THREE-TIER PATHWAY ======== -->
+<section class="section section-alt" id="pathway">
+    <div class="container">
+        <h2 class="text-center mb-2">Certification Pathway</h2>
+        <p class="text-center text-muted mb-4" style="max-width:650px;margin-left:auto;margin-right:auto;">Three stackable certifications aligned with the ASTM standard for aircraft electronics technicians. Start with CAET and build from there.</p>
+        <div class="pathway">
+            <div class="pathway-step current">
+                <span class="tier-label tier-1">You Are Here</span>
+                <h4>CAET</h4>
+                <p>Foundational knowledge for entry-level technicians. Covers electrical theory, regulations, CNS, flight instruments, wiring, and safety.</p>
+                <div class="assess-type"><i class="fas fa-file-pen"></i> &nbsp;Written Exam</div>
+            </div>
+            <div class="pathway-arrow"><i class="fas fa-chevron-right"></i></div>
+            <div class="pathway-step">
+                <span class="tier-label tier-2">Level 2</span>
+                <h4><a href="../caet-advanced/index.html" style="color:var(--aea-blue);text-decoration:none;">CAET-Advanced</a></h4>
+                <p>Hands-on competency across 65 tasks in 8 system categories. Proves you can do the work, not just understand it.</p>
+                <div class="assess-type"><i class="fas fa-wrench"></i> PQS &nbsp;<i class="fas fa-file-pen"></i> Written &nbsp;<i class="fas fa-comments"></i> Oral</div>
+            </div>
+            <div class="pathway-arrow"><i class="fas fa-chevron-right"></i></div>
+            <div class="pathway-step">
+                <span class="tier-label tier-3">Level 3</span>
+                <h4>CAET-Pro</h4>
+                <p>Professional leadership, human factors, and safety management for experienced technicians and avionics managers.</p>
+                <div class="assess-type" style="color:#999;font-style:italic;">Coming 2026</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ======== TAKE THE EXAM ======== -->
+<section class="section" id="exam">
+    <div class="container"><div class="row align-items-center">
+        <div class="col-lg-7">
+            <h2>Take the CAET Exam</h2>
+            <p>The CAET exam is a remote proctored online exam. There are 100 multiple-choice questions with a 90-minute time limit. The passing score is 70%. Up to 3 attempts are included with your purchase.</p>
+            <ul class="topic-list">
+                <li><span class="topic-num">1</span> Maintenance Procedures &amp; Regulatory Requirements</li>
+                <li><span class="topic-num">2</span> Basic Electrical Theory &amp; Systems</li>
+                <li><span class="topic-num">3</span> CNS — Communication, Navigation &amp; Surveillance Systems</li>
+                <li><span class="topic-num">4</span> Flight Instrument &amp; Pitot-Static Systems</li>
+                <li><span class="topic-num">5</span> Digital Databus Systems</li>
+                <li><span class="topic-num">6</span> Aircraft Wiring, Hardware &amp; Installation</li>
+                <li><span class="topic-num">7</span> Tools, Test Equipment &amp; Measurement Techniques</li>
+                <li><span class="topic-num">8</span> Safety, Housekeeping &amp; Best Practices</li>
+            </ul>
+            <div class="mt-4">
+                <a href="https://learn.flyusi.org/visitor_catalog_class/show/1743229" class="btn-aea" target="_blank">CAET Exam</a>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="img-placeholder"><span>Exam / Testing Image<br><small>/images/training/KeyboardHands_1140.jpg</small></span></div>
+        </div>
+    </div></div>
+</section>
+
+<!-- ======== PREPARE FOR THE EXAM ======== -->
+<section class="section section-alt">
+    <div class="container"><div class="row align-items-center">
+        <div class="col-lg-5 mb-4 mb-lg-0">
+            <div class="img-placeholder"><span>Training / Study Image<br><small>/images/training/Training_CAET_1_1140.jpg</small></span></div>
+        </div>
+        <div class="col-lg-7">
+            <h2>Prepare for the Exam</h2>
+            <p>AEA offers the online CAET Prep Course, designed for self-paced learners who prefer to study independently. The online course includes approximately 150 hours of material, allowing participants to learn at their own convenience.</p>
+            <div style="margin-top:16px;">
+                <p style="margin-bottom:8px;"><strong>Self-Study Option</strong> — One year of access to comprehensive online content.</p>
+                <a href="https://aero.aea.net/courses/caet-prep" class="btn-aea me-2" target="_blank">AEA Members — AERO</a>
+                <a href="https://www.aeroacademy.net/courses/caet-prep" class="btn-aea-outline" target="_blank">Non Members — AERO Academy</a>
+            </div>
+            <div style="margin-top:20px;">
+                <p style="margin-bottom:8px;"><strong>Virtual Class Option</strong> — Includes one-day instructor-led virtual class plus one year of online content access. Ideal for learners who prefer real-time interaction.</p>
+                <p style="font-size:14px;color:#666;">Course dates TBA.</p>
+            </div>
+        </div>
+    </div></div>
+</section>
+
+<!-- ======== AET → CAET BRIDGE EXAM ======== -->
+<section class="section" id="bridge-exam">
+    <div class="container">
+        <div class="bridge-callout">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h3><i class="fas fa-bridge" style="color:#2d6a1e;"></i> &nbsp;Already Hold Your AET? Bridge to CAET</h3>
+                    <p>If you hold the legacy NCATT Aircraft Electronics Technician (AET) certification, you don't need to take the full CAET exam. The <strong>AET-to-CAET Bridge Exam</strong> is a separate, targeted exam that covers only the gap between the AET content and the current CAET standard.</p>
+                    <p>This gives experienced AET-certified technicians a streamlined path to the current industry credential without re-testing on material they've already demonstrated.</p>
+                    <div style="background:#fff;border-radius:6px;padding:20px;margin-top:16px;border:1px solid #5a9e3f;">
+                        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+                            <div style="flex:1;min-width:200px;">
+                                <p style="margin:0;font-weight:600;color:var(--aea-blue);">AET-to-CAET Bridge Exam</p>
+                                <p style="margin:4px 0 0;font-size:14px;color:#555;">Covers only the gap between AET and CAET content</p>
+                            </div>
+                            <div>
+                                <span style="display:inline-block;background:#d4edda;color:#155724;font-size:12px;font-weight:600;padding:4px 12px;border-radius:3px;">Details Coming Soon</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center mt-4 mt-lg-0">
+                    <div style="font-size:14px;color:#555;line-height:2.2;">
+                        <div style="display:inline-block;background:#e2e3e5;padding:8px 20px;border-radius:6px;font-weight:600;color:#383d41;">NCATT AET</div>
+                        <div style="color:var(--aea-gold);font-size:1.4rem;margin:6px 0;"><i class="fas fa-arrow-down"></i></div>
+                        <div style="display:inline-block;background:#d4edda;padding:4px 10px;border-radius:4px;font-size:12px;font-weight:600;color:#155724;">Bridge Exam</div>
+                        <div style="color:var(--aea-gold);font-size:1.4rem;margin:6px 0;"><i class="fas fa-arrow-down"></i></div>
+                        <div style="display:inline-block;background:var(--aea-blue);padding:8px 20px;border-radius:6px;font-weight:600;color:#fff;">CAET Certified</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ======== BENEFITS ======== -->
+<section class="section section-alt">
+    <div class="container">
+        <h2 class="text-center mb-4">Benefits of CAET Certification</h2>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4"><div class="benefit-card"><div class="benefit-icon"><i class="fas fa-shield-halved"></i></div><h4>Enhanced Credibility</h4><p>Certification serves as an independent validation of your knowledge, instantly boosting your credibility with employers, colleagues, and clients. It measures against the latest ASTM standards for aircraft electronics technicians.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="benefit-card"><div class="benefit-icon"><i class="fas fa-dollar-sign"></i></div><h4>Increased Earning Potential</h4><p>Certified technicians often command higher salaries than their non-certified counterparts. Employers recognize the value of certified professionals and compensate accordingly.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="benefit-card"><div class="benefit-icon"><i class="fas fa-door-open"></i></div><h4>Improved Job Opportunities</h4><p>Many employers prefer or require certification for certain positions. Holding this credential opens doors to a wider range of job opportunities and career advancement.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="benefit-card"><div class="benefit-icon"><i class="fas fa-award"></i></div><h4>Professional Recognition</h4><p>CAET certification is a recognized credential within the aviation industry. It signifies your expertise and dedication to the profession.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="benefit-card"><div class="benefit-icon"><i class="fas fa-stairs"></i></div><h4>Foundation for Growth</h4><p>CAET is the first step in a stackable certification pathway. It unlocks access to CAET-Advanced and eventually CAET-Pro, building your career over time.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="benefit-card"><div class="benefit-icon"><i class="fas fa-users"></i></div><h4>Industry Network</h4><p>Becoming a CAET connects you with other certified professionals and AEA member organizations, creating valuable networking and collaboration opportunities.</p></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ======== BADGE COMPARISON ======== -->
+<section class="section">
+    <div class="container">
+        <h2 class="text-center mb-2">Certification Levels</h2>
+        <p class="text-center text-muted mb-4">Three tiers aligned with the ASTM standard for aircraft electronics technicians</p>
+        <div class="badge-cards">
+            <div class="badge-card active">
+                <div class="badge-placeholder badge-caet">CAET</div>
+                <h5>CAET</h5>
+                <ul>
+                    <li><strong>Assessment:</strong> Written exam</li>
+                    <li>Regulations &amp; safety</li>
+                    <li>AC/DC theory &amp; aircraft electrical</li>
+                    <li>CNS systems</li>
+                    <li>Flight instruments &amp; pitot-static</li>
+                    <li>Digital databus systems</li>
+                    <li>Wiring, hardware &amp; installation</li>
+                    <li>Tools &amp; test equipment</li>
+                    <li><strong>Level 1 of ASTM Std.</strong></li>
+                </ul>
+            </div>
+            <div class="badge-card">
+                <a href="../caet-advanced/index.html" style="text-decoration:none;">
+                    <div class="badge-placeholder badge-advanced">CAET<br>Advanced</div>
+                    <h5 style="color:var(--aea-blue);">CAET-Advanced</h5>
+                </a>
+                <ul>
+                    <li><strong>Assessment:</strong> PQS + Written + Oral</li>
+                    <li>8 system categories</li>
+                    <li>65 hands-on tasks</li>
+                    <li>Evaluator sign-off required</li>
+                    <li>Oral board examination</li>
+                    <li><strong>Level 2 of ASTM Std.</strong></li>
+                </ul>
+            </div>
+            <div class="badge-card">
+                <div class="badge-placeholder badge-pro">CAET<br>Pro</div>
+                <h5>CAET-Pro</h5>
+                <p class="coming-soon">Coming 2026</p>
+                <ul>
+                    <li>Human factors</li>
+                    <li>Safety management</li>
+                    <li>Professional skills</li>
+                    <li><strong>Level 3 of ASTM Std.</strong></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ======== TESTIMONIAL ======== -->
+<section class="testimonial-section">
+    <div class="container">
+        <div class="quote-mark">&ldquo;</div>
+        <blockquote>The CAET is more than just a certification — it's a commitment to professional, technical, and industry readiness. For repair stations and technicians alike, it's a game-changer in workforce development.</blockquote>
+        <cite>Danny Santiago, Banyan Air</cite>
+    </div>
+</section>
+
+<!-- ======== CERTIFICATION PROCESS ======== -->
+<section class="section">
+    <div class="container">
+        <h2 class="text-center mb-4">The CAET Certification Process</h2>
+        <ul class="nav nav-tabs step-tabs justify-content-center mb-0" role="tablist">
+            <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#step1">Step 1</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#step2">Step 2</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#step3">Step 3</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#step4">Step 4</a></li>
+        </ul>
+        <div class="tab-content step-content">
+            <div class="tab-pane fade show active" id="step1"><div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h3>Are You Ready?</h3>
+                    <p>CAET is designed for entry-level avionics technicians and has no formal prerequisites. If you're comfortable with basic electricity and have some exposure to aircraft electronics, you're a good fit. Candidates come from many paths:</p>
+                    <p style="font-size:14px;color:#555;">Aviation high school or CTE programs, Part 147 or technical school, military avionics, on-the-job learning in a repair station, or focused self-study with AEA materials.</p>
+                </div>
+                <div class="col-lg-5"><div class="img-placeholder"><span>Technician at bench<br><small>/images/training/Training_AET_2_1140.jpg</small></span></div></div>
+            </div></div>
+            <div class="tab-pane fade" id="step2"><div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h3>Prepare for the Exam</h3>
+                    <p>Thorough preparation is essential. AEA offers the online CAET Prep Course with approximately 150 hours of self-paced material, plus an optional one-day virtual instructor-led class.</p>
+                    <p><a href="https://aero.aea.net/courses/caet-prep" target="_blank">AEA Members — CAET Prep on AERO</a><br><a href="https://www.aeroacademy.net/courses/caet-prep" target="_blank">Non Members — CAET Prep on AERO Academy</a></p>
+                </div>
+                <div class="col-lg-5"><div class="img-placeholder"><span>Study / preparation<br><small>/images/training/Training_CAET_1_1140.jpg</small></span></div></div>
+            </div></div>
+            <div class="tab-pane fade" id="step3"><div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h3>Take the Exam</h3>
+                    <p>Score at least 70% on the 100-question multiple-choice exam. Up to 3 attempts are included with your purchase. 24-hour waiting period between first and second attempt, 2-week waiting period between second and third attempt.</p>
+                    <a href="https://learn.flyusi.org/visitor_catalog_class/show/1743229" class="btn-aea mt-2" target="_blank">Take the Exam</a>
+                </div>
+                <div class="col-lg-5"><div class="img-placeholder"><span>Testing / keyboard<br><small>/images/training/KeyboardHands_1140.jpg</small></span></div></div>
+            </div></div>
+            <div class="tab-pane fade" id="step4"><div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h3>Maintain Your Certification</h3>
+                    <p>CAET certification requires renewal every 3 years to ensure technicians stay current with the latest technologies and best practices. Recertification can be completed through AEA events and training courses, or by earning your CAET-Advanced certification.</p>
+                    <a href="/caet/pdf/CAET_Recertification_Policy.pdf" class="btn-aea-outline mt-2">CAET Recertification Policy</a>
+                </div>
+                <div class="col-lg-5"><div class="img-placeholder"><span>Training / continuing ed<br><small>/images/training/Training_CAET_3_1140.jpg</small></span></div></div>
+            </div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ======== FAQs ======== -->
+<section class="section section-alt">
+    <div class="container">
+        <h2 class="text-center mb-4">Frequently Asked Questions</h2>
+        <ul class="nav nav-tabs faq-tabs mb-3" role="tablist">
+            <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#faq-general">General</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#faq-process">Certification Process</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#faq-bridge">AET Bridge Exam</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#faq-cost">Cost &amp; Value</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#faq-prep">Preparation</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#faq-recert">Recertification</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#faq-support">Support</a></li>
+        </ul>
+        <div class="tab-content">
+            <!-- GENERAL -->
+            <div class="tab-pane fade show active" id="faq-general">
+                <div class="accordion" id="faqGeneral">
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fg1">What is the CAET certification?</button></h2><div id="fg1" class="accordion-collapse collapse show" data-bs-parent="#faqGeneral"><div class="accordion-body">The CAET (Certified Aircraft Electronics Technician) is an industry certification created by the Aircraft Electronics Association (AEA). It validates the foundational knowledge and skills required for entry-level avionics technicians working in business and general aviation.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fg2">Who is eligible to take the CAET?</button></h2><div id="fg2" class="accordion-collapse collapse" data-bs-parent="#faqGeneral"><div class="accordion-body">Anyone can sit for the CAET exam. The primary audience is entry-level avionics technicians. Candidates come from aviation high schools, technical schools, military avionics, Part 145 repair stations, and self-study backgrounds.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fg3">How does CAET differ from other avionics certifications?</button></h2><div id="fg3" class="accordion-collapse collapse" data-bs-parent="#faqGeneral"><div class="accordion-body">Unlike general certifications, the CAET focuses specifically on the needs of business and general aviation maintenance organizations. It aligns with their training goals and industry expectations for entry-level technicians, and is the first step in a stackable pathway that includes CAET-Advanced and CAET-Pro.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fg4">Why was the CAET created?</button></h2><div id="fg4" class="accordion-collapse collapse" data-bs-parent="#faqGeneral"><div class="accordion-body">It was developed to address the increasing demand for skilled avionics technicians and to standardize entry-level training across the industry. The certification was created with support from Duncan Aviation, Mid-Continent Instruments and Avionics, Park Rapids Avionics, Columbia Air Services, Cirrus Aircraft, Tramper Avionics, and Banyan Air Services.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fg5">Is CAET recognized across the aviation industry?</button></h2><div id="fg5" class="accordion-collapse collapse" data-bs-parent="#faqGeneral"><div class="accordion-body">The certification is recognized by AEA member organizations and is setting the standard for entry-level avionics training. Industry recognition continues to grow as adoption increases.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fg6">How does CAET align with FAA regulations?</button></h2><div id="fg6" class="accordion-collapse collapse" data-bs-parent="#faqGeneral"><div class="accordion-body">The certification is designed to align with industry best practices and FAA-approved procedures for avionics installation, maintenance, and repair.</div></div></div>
+                </div>
+            </div>
+            <!-- PROCESS -->
+            <div class="tab-pane fade" id="faq-process">
+                <div class="accordion" id="faqProcess">
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fp1">How do I take the CAET exam?</button></h2><div id="fp1" class="accordion-collapse collapse show" data-bs-parent="#faqProcess"><div class="accordion-body">The CAET exam is remote proctored online. <a href="https://learn.flyusi.org/visitor_catalog_class/show/1743229" target="_blank">Click here to take the exam.</a></div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fp2">How does virtual proctoring work?</button></h2><div id="fp2" class="accordion-collapse collapse" data-bs-parent="#faqProcess"><div class="accordion-body">The exam is delivered and proctored online through GMetrix. Before the exam, candidates verify their identity with a government-issued photo ID, complete a room scan, and confirm their webcam and microphone are working. During the exam, candidates are monitored in real-time through webcam and screen sharing. A secure browser prevents unauthorized access to outside resources. If you have questions about proctoring, contact support@flyusi.org.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fp3">What is the exam structure?</button></h2><div id="fp3" class="accordion-collapse collapse" data-bs-parent="#faqProcess"><div class="accordion-body">100 multiple-choice questions with a 90-minute time limit and a 70% passing score.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fp4">Can I retake the exam?</button></h2><div id="fp4" class="accordion-collapse collapse" data-bs-parent="#faqProcess"><div class="accordion-body">Yes. Up to 3 attempts per paid exam. 24-hour waiting period between first and second attempt, 2-week waiting period between second and third attempt.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fp5">How do in-person proctored exams work?</button></h2><div id="fp5" class="accordion-collapse collapse" data-bs-parent="#faqProcess"><div class="accordion-body">You test at an AEA-approved site with a trained proctor. The site provides the testing room and follows the CAET Proctor Guide. Bring a government ID and arrive 15 minutes early. The proctor will verify your identity, review rules, and start your exam.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fp6">How do I schedule an in-person exam?</button></h2><div id="fp6" class="accordion-collapse collapse" data-bs-parent="#faqProcess"><div class="accordion-body">Contact an AEA-approved in-person proctor directly to set your appointment. If you don't have a proctor, reach out to the AEA Certification Team and we'll match you with an approved site.</div></div></div>
+                </div>
+            </div>
+            <!-- BRIDGE EXAM -->
+            <div class="tab-pane fade" id="faq-bridge">
+                <div class="accordion" id="faqBridge">
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fb1">What is the AET-to-CAET Bridge Exam?</button></h2><div id="fb1" class="accordion-collapse collapse show" data-bs-parent="#faqBridge"><div class="accordion-body">The bridge exam is a separate, targeted exam designed for technicians who already hold the legacy NCATT Aircraft Electronics Technician (AET) certification. It covers only the gap between the AET content and the current CAET standard, giving experienced technicians a streamlined path to the current industry credential.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fb2">Who is eligible for the bridge exam?</button></h2><div id="fb2" class="accordion-collapse collapse" data-bs-parent="#faqBridge"><div class="accordion-body">Technicians who hold a current or previously-held NCATT AET certification. If you've never held the AET, take the full CAET exam instead.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fb3">How is the bridge exam different from the full CAET exam?</button></h2><div id="fb3" class="accordion-collapse collapse" data-bs-parent="#faqBridge"><div class="accordion-body">The full CAET exam covers all 8 topic areas. The bridge exam covers only the content that is new or different in the CAET standard compared to the legacy AET. You are not re-tested on material you've already demonstrated.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fb4">When will the bridge exam be available?</button></h2><div id="fb4" class="accordion-collapse collapse" data-bs-parent="#faqBridge"><div class="accordion-body">Details on the bridge exam structure, registration, and availability are being finalized. Contact <a href="mailto:nickb@aea.net">nickb@aea.net</a> for updates.</div></div></div>
+                </div>
+            </div>
+            <!-- COST -->
+            <div class="tab-pane fade" id="faq-cost">
+                <div class="accordion" id="faqCost">
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fc1">How much does it cost?</button></h2><div id="fc1" class="accordion-collapse collapse show" data-bs-parent="#faqCost"><div class="accordion-body">The cost of the CAET with virtual proctoring is $119. With a physical proctor, the price is $109.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fc2">Will certification increase my job prospects?</button></h2><div id="fc2" class="accordion-collapse collapse" data-bs-parent="#faqCost"><div class="accordion-body">Yes. The certification is designed to make candidates more competitive in the job market and better prepared for higher-paying roles in avionics.</div></div></div>
+                </div>
+            </div>
+            <!-- PREP -->
+            <div class="tab-pane fade" id="faq-prep">
+                <div class="accordion" id="faqPrep">
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fpr1">Are there training courses or study guides?</button></h2><div id="fpr1" class="accordion-collapse collapse show" data-bs-parent="#faqPrep"><div class="accordion-body">Yes. AEA offers a self-study option with one year of access to approximately 150 hours of online content, plus a virtual class option with instructor-led training. AEA Members access the prep course on <a href="https://aero.aea.net/courses/caet-prep" target="_blank">AERO</a>. Non-members use <a href="https://www.aeroacademy.net/courses/caet-prep" target="_blank">AERO Academy</a>.</div></div></div>
+                </div>
+            </div>
+            <!-- RECERT -->
+            <div class="tab-pane fade" id="faq-recert">
+                <div class="accordion" id="faqRecert">
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fr1">Does the CAET expire?</button></h2><div id="fr1" class="accordion-collapse collapse show" data-bs-parent="#faqRecert"><div class="accordion-body">Yes, recertification is required every 3 years. You can recertify by completing <a href="/caet/pdf/CAET_Recertification_Policy.pdf">Continuing Education Units (CEU)</a> or by earning your CAET-Advanced certification.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fr2">What is the recertification process?</button></h2><div id="fr2" class="accordion-collapse collapse" data-bs-parent="#faqRecert"><div class="accordion-body">Recertification can be completed through AEA events and training courses. Details are in the <a href="/caet/pdf/CAET_Recertification_Policy.pdf">CAET Recertification Policy</a>.</div></div></div>
+                </div>
+            </div>
+            <!-- SUPPORT -->
+            <div class="tab-pane fade" id="faq-support">
+                <div class="accordion" id="faqSupport">
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fs1">Who do I contact with questions?</button></h2><div id="fs1" class="accordion-collapse collapse show" data-bs-parent="#faqSupport"><div class="accordion-body">Contact Nick Brown, Director of Workforce Development, at <a href="tel:816-366-5102">816-366-5102</a> or <a href="mailto:nickb@aea.net">nickb@aea.net</a></div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fs2">How does the appeals process work?</button></h2><div id="fs2" class="accordion-collapse collapse" data-bs-parent="#faqSupport"><div class="accordion-body">Candidates who wish to appeal an exam result must submit an appeal in writing to <a href="mailto:nickb@aea.net">nickb@aea.net</a> within 30 days of receiving the decision. The appeal must include the decision being challenged, the reason for the appeal, and any supporting documentation. Appeals are reviewed by an independent panel within the AEA Workforce Development Committee. A written decision will be provided within 30 business days.</div></div></div>
+                    <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fs3">How does the complaint process work?</button></h2><div id="fs3" class="accordion-collapse collapse" data-bs-parent="#faqSupport"><div class="accordion-body">Complaints must be submitted in writing to <a href="mailto:nickb@aea.net">nickb@aea.net</a> within 10 business days of the incident. The AEA Workforce Development Committee reviews complaints and provides a written response within 20 business days. All complaints are confidential, and filing a complaint will not affect certification eligibility.</div></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ======== CONTACT ======== -->
+<section class="contact-section">
+    <div class="container text-center" style="max-width:500px;">
+        <h2>Have questions about AEA Certifications?</h2>
+        <div class="contact-photo"><i class="fas fa-user"></i></div>
+        <h4 style="margin-bottom:4px;">Nick Brown</h4>
+        <p class="text-muted">Director of Workforce Development</p>
+        <div class="mt-3"><a href="tel:816-366-5102" class="btn-aea me-2">Call</a><a href="mailto:nickb@aea.net" class="btn-aea-outline">Contact</a></div>
+    </div>
+</section>
+
+<section class="cta-banner"><div class="container"><h2>Become an AEA Member today!</h2><p>Waste no more time</p><a href="/joinaea.asp" class="btn-aea">Join Now!</a></div></section>
+
+<footer class="aea-footer"><div class="container"><div class="row">
+    <div class="col-md-4"><div style="margin-bottom:16px;"><svg width="120" height="36" viewBox="0 0 120 36"><rect width="120" height="36" rx="4" fill="#003366"/><text x="60" y="22" text-anchor="middle" fill="white" font-family="Arial" font-size="10" font-weight="bold">AEA LOGO</text></svg></div><p style="font-size:12px;line-height:1.7;">The mission of the Aircraft Electronics Association is to educate, communicate, and advocate for aviation businesses around the world.</p><p style="font-size:12px;">3570 NE Ralph Powell Road<br>Lee's Summit, MO USA 64064<br>816-347-8400</p></div>
+    <div class="col-md-4"><h6>AEA</h6><ul><li><a href="#">Staff</a></li><li><a href="#">Board of Directors</a></li><li><a href="#">Committees</a></li><li><a href="#">Member Directory</a></li><li><a href="#">Educational Foundation</a></li></ul></div>
+    <div class="col-md-4"><h6>Site Map</h6><ul><li><a href="#">About</a></li><li><a href="#">Join</a></li><li><a href="#">Members</a></li><li><a href="#">Jobs</a></li><li><a href="#">Training</a></li></ul></div>
+</div><div class="footer-bottom">Copyright &copy; 2026 Aircraft Electronics Association. All Rights Reserved</div></div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
