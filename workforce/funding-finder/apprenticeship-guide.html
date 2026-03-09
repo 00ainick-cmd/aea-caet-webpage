@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEA/Fastport Apprenticeship — Requirements Guide</title>
+    <style>
+        :root {
+            --blue: #003366;
+            --blue-light: #004080;
+            --gold: #C5960C;
+            --gold-light: #f5e6b8;
+            --bg: #f7f8fa;
+            --card: #ffffff;
+            --text: #1a1a2e;
+            --text-light: #5a5a7a;
+            --green: #28a745;
+            --yellow: #e6a817;
+            --border: #e2e5ea;
+            --radius: 10px;
+            --shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+        /* Header */
+        .hero {
+            background: linear-gradient(135deg, var(--blue) 0%, #001a33 100%);
+            color: white;
+            padding: 3rem 2rem 2.5rem;
+            text-align: center;
+        }
+        .logo-placeholder {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.1);
+            border: 2px dashed var(--gold);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: var(--gold);
+            text-align: center;
+            padding: 0.5rem;
+            margin: 0 auto 1.5rem;
+        }
+        .hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.25rem; }
+        .hero h1 span { color: var(--gold); }
+        .hero .subtitle { font-size: 1.15rem; opacity: 0.8; margin-bottom: 1.5rem; }
+        .hero-stats {
+            display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+        }
+        .hero-stat {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: var(--radius);
+            padding: 1rem 1.5rem;
+            min-width: 140px;
+        }
+        .hero-stat .num { font-size: 1.8rem; font-weight: 800; color: var(--gold); }
+        .hero-stat .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.7; }
+
+        /* Nav tabs */
+        .tab-bar {
+            background: white;
+            border-bottom: 2px solid var(--border);
+            padding: 0 2rem;
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .tab {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            transition: 0.2s;
+        }
+        .tab:hover { color: var(--blue); }
+        .tab.active { color: var(--blue); border-bottom-color: var(--gold); }
+
+        /* Main content */
+        .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .panel { display: none; }
+        .panel.active { display: block; }
+
+        /* Section headers */
+        .section-intro { margin-bottom: 2rem; }
+        .section-intro h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .section-intro p { color: var(--text-light); font-size: 1rem; }
+
+        /* Domain cards */
+        .domain {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+            overflow: hidden;
+            border-left: 4px solid var(--blue);
+        }
+        .domain-header {
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+        .domain-header:hover { background: #fafbfc; }
+        .domain-title { font-size: 1.1rem; font-weight: 700; }
+        .domain-meta {
+            display: flex; gap: 1rem; align-items: center;
+        }
+        .domain-count {
+            font-size: 0.8rem;
+            background: var(--bg);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        .domain-arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+            color: var(--text-light);
+        }
+        .domain.open .domain-arrow { transform: rotate(180deg); }
+        .domain-body {
+            display: none;
+            padding: 0 1.5rem 1.5rem;
+        }
+        .domain.open .domain-body { display: block; }
+
+        /* Competency rows */
+        .competency {
+            padding: 1rem 0;
+            border-top: 1px solid var(--border);
+        }
+        .competency:first-child { border-top: none; }
+        .comp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            cursor: pointer;
+        }
+        .comp-id {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--blue);
+            background: #e8f0fa;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        .comp-name { font-weight: 600; font-size: 0.95rem; flex: 1; }
+        .comp-type {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .comp-type.ojt { background: #d4edda; color: #155724; }
+        .comp-type.rti { background: #cce5ff; color: #004085; }
+        .comp-type.both { background: #fff3cd; color: #856404; }
+
+        .comp-detail {
+            display: none;
+            margin-top: 0.75rem;
+            padding: 1rem;
+            background: #f8f9fb;
+            border-radius: 8px;
+        }
+        .competency.open .comp-detail { display: block; }
+
+        .example-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.35rem;
+        }
+        .example-list {
+            list-style: none;
+            padding: 0;
+        }
+        .example-list li {
+            padding: 0.4rem 0 0.4rem 1.5rem;
+            position: relative;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+        .example-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-weight: 700;
+        }
+        .training-link {
+            display: inline-block;
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: var(--blue);
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 1px dashed var(--blue);
+        }
+
+        /* RTI Phase cards */
+        .phase-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.25rem;
+            overflow: hidden;
+        }
+        .phase-header {
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--gold);
+        }
+        .phase-header:hover { background: #fafbfc; }
+        .phase-num {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: white;
+            background: var(--blue);
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            margin-right: 1rem;
+        }
+        .phase-title { font-weight: 700; font-size: 1.05rem; flex: 1; }
+        .phase-hours {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--gold);
+            background: var(--gold-light);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+        .phase-arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+            color: var(--text-light);
+            margin-left: 1rem;
+        }
+        .phase-card.open .phase-arrow { transform: rotate(180deg); }
+        .phase-body {
+            display: none;
+            padding: 0 1.5rem 1.5rem;
+        }
+        .phase-card.open .phase-body { display: block; }
+
+        .topic-group { margin-bottom: 1.25rem; }
+        .topic-group h4 {
+            font-size: 0.9rem;
+            color: var(--blue);
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.35rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .topic-list { list-style: none; padding: 0; }
+        .topic-list li {
+            padding: 0.35rem 0 0.35rem 1.5rem;
+            position: relative;
+            font-size: 0.9rem;
+        }
+        .topic-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: 700;
+        }
+        .phase-objective {
+            background: #f0f7ff;
+            border-left: 3px solid var(--blue);
+            padding: 0.75rem 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        .phase-objective strong { color: var(--blue); }
+
+        /* Wage schedule */
+        .wage-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+        .wage-table th {
+            background: var(--blue);
+            color: white;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .wage-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .wage-table tr:hover { background: #f8f9fb; }
+        .wage-table .wage-amount { font-weight: 700; color: var(--green); font-size: 1.1rem; }
+
+        /* Info boxes */
+        .info-box {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+        .info-box h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .info-box p { color: var(--text-light); font-size: 0.95rem; }
+        .info-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Rating scale */
+        .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .rating-score {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        .rating-label { font-weight: 600; font-size: 0.95rem; }
+        .rating-desc { font-size: 0.8rem; color: var(--text-light); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+        footer a { color: var(--blue); }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.5rem; }
+            .hero-stats { gap: 0.75rem; }
+            .hero-stat { min-width: 100px; padding: 0.75rem; }
+            .tab { padding: 0.75rem 1rem; font-size: 0.8rem; }
+            .container { padding: 1.5rem 1rem; }
+            .domain-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <img src="AEA%20corporate%20logo%20-%20transparent%20-%20white.png" alt="AEA" style="height:45px;width:auto;">
+    <h1>Avionics Technician <span>Registered Apprenticeship</span></h1>
+    <p class="subtitle">AEA / Fastport — National Program Standards</p>
+    <div class="hero-stats">
+        <div class="hero-stat">
+            <div class="num">43</div>
+            <div class="label">OJT Competencies</div>
+        </div>
+        <div class="hero-stat">
+            <div class="num">586</div>
+            <div class="label">RTI Hours</div>
+        </div>
+        <div class="hero-stat">
+            <div class="num">4</div>
+            <div class="label">Training Phases</div>
+        </div>
+        <div class="hero-stat">
+            <div class="num">~4 yr</div>
+            <div class="label">Program Length</div>
+        </div>
+    </div>
+</div>
+
+<div class="tab-bar">
+    <div class="tab active" data-tab="overview">Overview</div>
+    <div class="tab" data-tab="ojt">OJT Competencies</div>
+    <div class="tab" data-tab="rti">RTI Courses</div>
+    <div class="tab" data-tab="wages">Wages & Progression</div>
+    <div class="tab" data-tab="rating">Rating System</div>
+    <div class="tab" data-tab="faq">FAQ</div>
+</div>
+
+<!-- OVERVIEW PANEL -->
+<div class="container">
+<div class="panel active" id="overview">
+    <div class="section-intro">
+        <h2>About This Program</h2>
+    </div>
+
+    <div class="info-box" style="background: linear-gradient(135deg, #f0f7ff, #fff8e8); border-left: 4px solid var(--blue); padding: 2rem;">
+        <h3 style="color: var(--blue); margin-bottom: 1rem;">What Is a Registered Apprenticeship Program?</h3>
+        <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">A registered apprenticeship is a structured, work-based training model that combines paid, on-the-job learning with defined technical instruction. It follows federal standards, includes progressive skill development and wage increases, and results in a nationally recognized credential issued by the U.S. Department of Labor.</p>
+        <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">In short, it formalizes what many avionics repair stations are already doing — training technicians — but does so within a recognized, compliant, and fundable framework.</p>
+
+        <h3 style="color: var(--blue); margin: 1.5rem 0 1rem;">Why AEA's Program</h3>
+        <p style="font-size: 1.05rem; margin-bottom: 1.5rem;"><strong>A nationally registered apprenticeship program for avionics technicians</strong>, approved by the U.S. Department of Labor under 29 CFR Part 29. This is the real deal — not a certificate program, not an industry credential — a DOL-registered apprenticeship recognized in all 50 states.</p>
+        
+        <p style="margin-bottom: 1rem;"><strong>The partnership:</strong> AEA (Aircraft Electronics Association) partnered with Fastport — a DOL-recognized Standards Recognition Entity — to create a <em>national program</em> so individual shops don't have to spend 12+ months getting their own apprenticeship approved. You sign one page. Fastport handles DOL compliance. AEA provides the training. You train your people the way you already do.</p>
+
+        <h3 style="color: var(--blue); margin: 1.5rem 0 1rem;">Why an AEA Shop Owner Should Care</h3>
+        <ul style="margin-left: 1.5rem; line-height: 1.8;">
+            <li><strong>Unlock federal and state funding you can't access any other way.</strong> Tax credits, wage reimbursements, veteran benefits — registered apprenticeship is the key that opens those doors. Use the <a href="index.html" style="color: var(--blue); font-weight: 600;">Funding Finder</a> to see what's available in your state.</li>
+            <li><strong>Attract veterans.</strong> GI Bill pays them $1,500–$3,000+/month <em>on top of</em> wages. SkillBridge gives you 180 days of free labor. Your job offer becomes 40% more valuable than the shop down the street.</li>
+            <li><strong>Structure you probably already need.</strong> If you're training people informally anyway, this formalizes it with a clear checklist, milestones, and documentation — making training repeatable and scalable.</li>
+            <li><strong>DOL credential for your apprentice.</strong> When they finish, they get a nationally recognized Certificate of Completion. That's retention insurance — they're more likely to stay when they've invested 4 years and earned a credential.</li>
+            <li><strong>Pipeline for A&P certification.</strong> The program aligns with FAA A&P requirements. Your apprentice gains practical experience, structured training, and a clear path to FAA certification.</li>
+        </ul>
+
+        <h3 style="color: var(--blue); margin: 1.5rem 0 1rem;">How to Get Started (Simple 3-Step Process)</h3>
+        <ol style="margin-left: 1.5rem; line-height: 1.8; font-size: 1.05rem;">
+            <li><strong>Sign the Employer Acceptance Agreement</strong> — One page. Fastport sends it to you. Sign it. You're now a participating employer under the national program. No separate DOL application needed.</li>
+            <li><strong>Hire or enroll an apprentice</strong> — Could be someone you're hiring new, or a current employee you want to formalize training for. Veterans qualify for Direct Entry (they skip the line). Fastport provides the apprentice agreement form (ETA-671).</li>
+            <li><strong>Train them and track progress</strong> — You handle OJT (the bench work — 43 competencies your shop already teaches). AEA handles RTI (the classroom/online training — 586 hours through CAET). The tracking system makes documentation simple.</li>
+        </ol>
+
+        <p style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.7); border-radius: 8px;"><strong>💡 Bottom line:</strong> This is what every shop owner who's been in business 10+ years wishes they'd set up on Day 1. Structured training, federal money, veteran pipeline, DOL-backed credentials. It's the framework you need to scale your operation without losing quality.</p>
+    </div>
+
+    <div class="section-intro" style="margin-top: 3rem;">
+        <h2>How the Program Works</h2>
+        <p>A competency-based registered apprenticeship with two components: On-the-Job Training (OJT) and Related Technical Instruction (RTI). Here's what each one means and who handles it.</p>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-box">
+            <div class="info-icon">🔧</div>
+            <h3>OJT — On-the-Job Training</h3>
+            <p><strong>Who handles it:</strong> Your shop.</p>
+            <p>43 competencies across 8 skill domains. The apprentice works alongside a journeyworker learning by doing — the same way you already train people. The apprenticeship just formalizes it with a checklist and sign-offs.</p>
+        </div>
+        <div class="info-box">
+            <div class="info-icon">📚</div>
+            <h3>RTI — Related Technical Instruction</h3>
+            <p><strong>Who handles it:</strong> AEA.</p>
+            <p>586 hours of structured classroom/online training across 4 phases. This is the theory, the regulations, the systems knowledge. AEA provides this through CAET training — your shop doesn't have to build a curriculum.</p>
+        </div>
+        <div class="info-box">
+            <div class="info-icon">📋</div>
+            <h3>Fastport — Compliance</h3>
+            <p><strong>Who handles it:</strong> Fastport.</p>
+            <p>All DOL registration, EEO compliance, reporting, and administrative paperwork. Your shop signs one page — the Employer Acceptance Agreement — and Fastport handles the rest.</p>
+        </div>
+        <div class="info-box">
+            <div class="info-icon">🎯</div>
+            <h3>Competency-Based</h3>
+            <p><strong>What it means:</strong> Advancement is based on demonstrated skill, not just time served.</p>
+            <p>Each competency is rated 0-5 by a qualified evaluator. The apprentice advances when they can DO the work, not when a calendar says so. Faster learners can finish faster.</p>
+        </div>
+    </div>
+
+    <div class="info-box" style="margin-top:1.5rem; border-left: 4px solid var(--gold);">
+        <h3>🎖️ Veterans & Military</h3>
+        <p><strong>Direct entry.</strong> Veterans and Job Corps graduates can bypass standard selection procedures. Military avionics training counts — credit for previous experience reduces your program term. GI Bill pays the apprentice $1,500–$3,000+/month on top of wages. COOL pays up to $4,000/year for certifications. SkillBridge provides up to 180 days of free labor during transition.</p>
+    </div>
+
+    <div class="info-box" style="border-left: 4px solid var(--green);">
+        <h3>📊 Program at a Glance</h3>
+        <table class="wage-table">
+            <tr><td><strong>Occupation</strong></td><td>Avionics Technician (Aircraft Mechanic, Electrical)</td></tr>
+            <tr><td><strong>O*NET Code</strong></td><td>49-2091.00</td></tr>
+            <tr><td><strong>RAPIDS Code</strong></td><td>0003CB</td></tr>
+            <tr><td><strong>Approach</strong></td><td>Competency-Based</td></tr>
+            <tr><td><strong>Term</strong></td><td>Approximately 4 years</td></tr>
+            <tr><td><strong>Ratio</strong></td><td>1 Apprentice : 1 Journeyworker</td></tr>
+            <tr><td><strong>Probation</strong></td><td>12 weeks</td></tr>
+            <tr><td><strong>RTI Provider</strong></td><td>Aircraft Electronics Association (AEA)</td></tr>
+            <tr><td><strong>Sponsor</strong></td><td>AEA / Fastport</td></tr>
+            <tr><td><strong>Compliance</strong></td><td>29 CFR Parts 29 & 30</td></tr>
+        </table>
+    </div>
+</div>
+
+<!-- OJT PANEL -->
+<div class="panel" id="ojt">
+    <div class="section-intro">
+        <h2>On-the-Job Training — 43 Competencies</h2>
+        <p>These are the skills your apprentice demonstrates on the shop floor. Click any domain to expand, then click a competency to see real-world examples of how to train and evaluate it.</p>
+    </div>
+
+    <div class="domain" id="d1">
+        <div class="domain-header" onclick="toggleDomain('d1')">
+            <span class="domain-title">1. Aircraft Ground Operations & Servicing</span>
+            <div class="domain-meta">
+                <span class="domain-count">8 competencies</span>
+                <span class="domain-arrow">▼</span>
+            </div>
+        </div>
+        <div class="domain-body">
+            <div class="competency" id="c1a"><div class="comp-header" onclick="toggleComp('c1a')"><span class="comp-id">1A</span><span class="comp-name">Identifies typical ground operation hazards</span><span class="comp-type ojt">OJT</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Walk the ramp with the apprentice identifying prop arcs, jet blast zones, and FOD risks</li><li>Review shop-specific hazard map and emergency procedures</li><li>Practice PPE selection for different ground operations</li><li>Identify electrical hazards around aircraft with live systems</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice conducts a solo ramp walk and identifies all hazards before starting work</li><li>Verbal quiz on emergency procedures for fuel spill, fire, electrical shock</li></ul></div></div>
+
+            <div class="competency" id="c1b"><div class="comp-header" onclick="toggleComp('c1b')"><span class="comp-id">1B</span><span class="comp-name">Conducts preliminary visual aircraft inspection</span><span class="comp-type ojt">OJT</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Shadow a journeyworker through a pre-work visual inspection</li><li>Use a checklist to inspect antenna condition, pitot tubes, static ports, and external wiring</li><li>Identify and document visible damage, corrosion, or missing hardware</li><li>Practice taking photos and writing squawk descriptions</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice completes a full visual inspection independently using shop checklist</li><li>Correctly identifies 3+ intentionally placed discrepancies on a training aircraft</li></ul></div></div>
+
+            <div class="competency" id="c1c"><div class="comp-header" onclick="toggleComp('c1c')"><span class="comp-id">1C</span><span class="comp-name">Services the electrical systems</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Connect and disconnect GPU (Ground Power Unit) to aircraft</li><li>Check battery voltage and condition, perform load test</li><li>Service aircraft lighting systems — nav lights, strobes, landing lights</li><li>Verify proper voltage at bus bars after power application</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice safely connects GPU, verifies voltage, powers up aircraft systems</li><li>Demonstrates battery removal, inspection, and reinstallation</li></ul></div></div>
+
+            <div class="competency" id="c1d"><div class="comp-header" onclick="toggleComp('c1d')"><span class="comp-id">1D</span><span class="comp-name">Marshals and secures the aircraft</span><span class="comp-type ojt">OJT</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Learn standard hand signals for marshaling aircraft on the ramp</li><li>Practice guiding a tow tractor into position on a parked aircraft</li><li>Secure aircraft with chocks, tie-downs, and control locks</li><li>Practice wing-walking during taxi operations</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice marshals an aircraft from hangar to ramp position using correct hand signals</li><li>Properly secures aircraft for overnight — chocks, tie-downs, pitot covers, control locks</li></ul></div></div>
+
+            <div class="competency" id="c1e"><div class="comp-header" onclick="toggleComp('c1e')"><span class="comp-id">1E</span><span class="comp-name">Starts and operates the aircraft</span><span class="comp-type ojt">OJT</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Review aircraft POH engine start procedures under supervision</li><li>Practice pre-start checklist — fuel, oil, master switch sequence</li><li>Observe and then perform supervised engine start</li><li>Monitor engine instruments during ground run for normal indications</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice performs a supervised engine start following POH procedures</li><li>Identifies all normal and abnormal instrument readings during ground run</li></ul></div></div>
+
+            <div class="competency" id="c1f"><div class="comp-header" onclick="toggleComp('c1f')"><span class="comp-id">1F</span><span class="comp-name">Taxis the aircraft</span><span class="comp-type ojt">OJT</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Practice nosewheel steering and differential braking on a training aircraft</li><li>Learn taxi speed control and turning radius awareness</li><li>Review airport signage and taxi markings (if applicable to your facility)</li><li>Practice communication with wing walkers during tight-space taxi</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice taxis aircraft from hangar to designated ramp position safely</li><li>Demonstrates proper speed control, braking, and obstacle awareness</li></ul></div></div>
+
+            <div class="competency" id="c1g"><div class="comp-header" onclick="toggleComp('c1g')"><span class="comp-id">1G</span><span class="comp-name">Uses tie-down procedures</span><span class="comp-type ojt">OJT</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Practice proper tie-down knots and chain/cable attachment points</li><li>Review aircraft-specific tie-down procedures from manufacturer data</li><li>Secure aircraft for different weather conditions (normal vs. high wind)</li><li>Inspect tie-down anchors and hardware for serviceability</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice secures aircraft with correct tie-down configuration for conditions</li><li>Demonstrates knowledge of when to hangar vs. tie-down based on weather</li></ul></div></div>
+
+            <div class="competency" id="c1h"><div class="comp-header" onclick="toggleComp('c1h')"><span class="comp-id">1H</span><span class="comp-name">Sets up and operates ground support and test equipment</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Set up and operate a pitot-static test set for altimeter/airspeed checks</li><li>Configure and use an avionics test set (IFR-4000, IFR-6000, or equivalent)</li><li>Set up ramp test equipment for transponder/ADS-B checks per 91.413</li><li>Operate an oscilloscope for signal verification on installed equipment</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice independently sets up pitot-static test equipment and performs a leak check</li><li>Configures avionics test set and runs a transponder certification check per 91.413</li></ul></div></div>
+        </div>
+    </div>
+
+    <div class="domain" id="d2">
+        <div class="domain-header" onclick="toggleDomain('d2')">
+            <span class="domain-title">2. Tools & Test Equipment</span>
+            <div class="domain-meta">
+                <span class="domain-count">4 competencies</span>
+                <span class="domain-arrow">▼</span>
+            </div>
+        </div>
+        <div class="domain-body">
+            <div class="competency" id="c2a"><div class="comp-header" onclick="toggleComp('c2a')"><span class="comp-id">2A</span><span class="comp-name">Uses common hand tools for avionics installation and aircraft maintenance</span><span class="comp-type ojt">OJT</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Practice proper torque wrench calibration and use on avionics mounting hardware</li><li>Strip and crimp wire terminals using calibrated tools — D-sub pins, Molex, ring terminals</li><li>Use hole saws, step drills, and deburring tools for panel cutouts</li><li>Practice tool control — FOD prevention, shadow board inventory at shift start/end</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice completes a wire harness termination using correct crimp tools with zero defects</li><li>Demonstrates tool inventory procedure and FOD walk-down</li></ul></div></div>
+
+            <div class="competency" id="c2b"><div class="comp-header" onclick="toggleComp('c2b')"><span class="comp-id">2B</span><span class="comp-name">Uses specialty tools for avionics installation and aircraft maintenance</span><span class="comp-type ojt">OJT</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Practice using a TDR (Time Domain Reflectometer) for coax cable testing</li><li>Use a backshell torque wrench on D-sub connectors</li><li>Operate a pin insertion/extraction tool set for mil-spec connectors</li><li>Use a fiber optic inspection scope and cleaning tools</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice correctly uses pin insertion tools on a mil-spec connector without damage</li><li>Demonstrates TDR operation and interprets results for coax integrity</li></ul></div></div>
+
+            <div class="competency" id="c2c"><div class="comp-header" onclick="toggleComp('c2c')"><span class="comp-id">2C</span><span class="comp-name">Uses test equipment for avionics systems (air data, VOR, ILS, GPS, transponder)</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Configure and operate VIAVI AVX-10K or equivalent for VOR/ILS/GPS simulation</li><li>Perform a full pitot-static certification test per FAR 91.411</li><li>Run a transponder certification test per FAR 91.413</li><li>Use a signal generator to simulate NAV/COM frequencies for receiver checks</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice independently performs 91.411 and 91.413 tests with correct documentation</li><li>Explains test results and identifies out-of-tolerance conditions</li></ul></div></div>
+
+            <div class="competency" id="c2d"><div class="comp-header" onclick="toggleComp('c2d')"><span class="comp-id">2D</span><span class="comp-name">Tests and troubleshoots using circuit testers and multimeters</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Measure voltage, current, and resistance in live aircraft circuits</li><li>Perform continuity checks on wire harnesses before installation</li><li>Use a clamp-on ammeter to verify current draw on avionics buses</li><li>Troubleshoot an intermittent connection using voltage drop method</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice diagnoses a simulated wiring fault using only a multimeter — identifies the failed component</li><li>Correctly measures bus voltage and compares to aircraft maintenance manual specs</li></ul></div></div>
+        </div>
+    </div>
+
+    <div class="domain" id="d3">
+        <div class="domain-header" onclick="toggleDomain('d3')">
+            <span class="domain-title">3. Electrical System Calculations & Analysis</span>
+            <div class="domain-meta">
+                <span class="domain-count">2 competencies</span>
+                <span class="domain-arrow">▼</span>
+            </div>
+        </div>
+        <div class="domain-body">
+            <div class="competency" id="c3a"><div class="comp-header" onclick="toggleComp('c3a')"><span class="comp-id">3A</span><span class="comp-name">Performs calculations and analysis of basic circuit performance</span><span class="comp-type rti">RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Calculate total load on an avionics bus to verify wire gauge and circuit breaker sizing</li><li>Use Ohm's Law to predict voltage drop across a wire run</li><li>Analyze a series-parallel circuit to determine current at each branch</li><li>Calculate power dissipation in a resistive load</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Given an avionics installation load sheet, apprentice correctly calculates total bus draw and recommends wire gauge</li><li>Solves 5 circuit analysis problems with 80%+ accuracy</li></ul></div></div>
+
+            <div class="competency" id="c3b"><div class="comp-header" onclick="toggleComp('c3b')"><span class="comp-id">3B</span><span class="comp-name">Troubleshoots basic circuits</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Follow a wiring diagram to isolate a failed component in a lighting circuit</li><li>Use half-split troubleshooting method on a multi-component system</li><li>Diagnose an open, short, or ground fault using systematic approach</li><li>Trace a circuit from breaker to component using aircraft wiring diagrams</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice is given a faulted training board and must identify and explain the failure within 15 minutes</li><li>Correctly traces a circuit path on an unfamiliar wiring diagram</li></ul></div></div>
+        </div>
+    </div>
+
+    <div class="domain" id="d4">
+        <div class="domain-header" onclick="toggleDomain('d4')">
+            <span class="domain-title">4. Wiring Harnesses, Components & Instruments</span>
+            <div class="domain-meta">
+                <span class="domain-count">5 competencies</span>
+                <span class="domain-arrow">▼</span>
+            </div>
+        </div>
+        <div class="domain-body">
+            <div class="competency" id="c4a"><div class="comp-header" onclick="toggleComp('c4a')"><span class="comp-id">4A</span><span class="comp-name">Fabricates, installs, and maintains electrical wiring harnesses</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Build a complete wire harness on a harness board from an installation drawing</li><li>Select correct wire type (Tefzel, mil-spec) and gauge for the application</li><li>Lace, bundle, and route harness through aircraft structure with proper clamping</li><li>Terminate connectors — solder, crimp, D-sub, mil-circular</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice builds a 15+ wire harness from drawing to installed product with zero defects</li><li>Passes pull-test on all crimped terminals</li></ul></div></div>
+
+            <div class="competency" id="c4b"><div class="comp-header" onclick="toggleComp('c4b')"><span class="comp-id">4B</span><span class="comp-name">Installs, maintains, and troubleshoots instruments</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Remove and replace a flight instrument (attitude indicator, altimeter, airspeed)</li><li>Connect pitot-static plumbing and verify leak-free installation</li><li>Troubleshoot an erratic instrument reading — distinguish instrument vs. system fault</li><li>Calibrate an EGT/CHT gauge installation</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice R&Rs an altimeter and performs a post-installation leak check to tolerances</li><li>Diagnoses the cause of an intentionally introduced instrument discrepancy</li></ul></div></div>
+
+            <div class="competency" id="c4c"><div class="comp-header" onclick="toggleComp('c4c')"><span class="comp-id">4C</span><span class="comp-name">Interprets electrical schematics for system operation</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Read a Garmin G500 interconnect wiring diagram and identify each signal path</li><li>Trace power distribution from battery bus through breakers to avionics units</li><li>Interpret symbols — relays, diodes, transistors, shielded wire, coax</li><li>Cross-reference OEM wiring diagram with aircraft wiring diagram</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Given an unfamiliar wiring diagram, apprentice correctly identifies power, ground, and signal paths</li><li>Draws a simplified schematic from an installed system</li></ul></div></div>
+
+            <div class="competency" id="c4d"><div class="comp-header" onclick="toggleComp('c4d')"><span class="comp-id">4D</span><span class="comp-name">Measures voltage, current, and resistance to verify system operation</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Verify bus voltage at the avionics rack matches aircraft manual specifications</li><li>Measure current draw of a newly installed unit and compare to installation manual</li><li>Check wire resistance on a long run to verify it's within acceptable limits</li><li>Perform a voltage drop test across a suspect connection</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice measures and records voltage at 5 different test points and identifies any out-of-spec readings</li><li>Correctly interprets whether a measured value indicates a problem or normal operation</li></ul></div></div>
+
+            <div class="competency" id="c4e"><div class="comp-header" onclick="toggleComp('c4e')"><span class="comp-id">4E</span><span class="comp-name">Selects, installs, and tests circuit protection devices</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Size a circuit breaker for a new avionics installation based on wire gauge and load</li><li>Install a new breaker in the panel — correct amperage, labeling, and location</li><li>Test fuse and breaker integrity — verify trip point is within tolerance</li><li>Explain why you'd choose a breaker vs. fuse for different applications</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Given an installation scenario, apprentice selects the correct breaker size and wire gauge</li><li>Installs a circuit breaker with proper labeling and tests the circuit</li></ul></div></div>
+        </div>
+    </div>
+
+    <div class="domain" id="d5">
+        <div class="domain-header" onclick="toggleDomain('d5')">
+            <span class="domain-title">5. Aircraft Structures — Fabrication, Modification & Repair</span>
+            <div class="domain-meta">
+                <span class="domain-count">7 competencies</span>
+                <span class="domain-arrow">▼</span>
+            </div>
+        </div>
+        <div class="domain-body">
+            <div class="competency" id="c5a"><div class="comp-header" onclick="toggleComp('c5a')"><span class="comp-id">5A</span><span class="comp-name">Identifies and selects aircraft hardware and materials</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Identify AN, MS, and NAS hardware by part number — bolts, nuts, washers, screws</li><li>Select correct hardware material (steel, aluminum, stainless) for the application</li><li>Read a parts catalog to find correct replacement hardware</li><li>Explain why you can't substitute hardware grades in structural applications</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice correctly identifies 10 hardware items by type, material, and application from a bin</li><li>Selects correct hardware for an avionics mounting bracket installation</li></ul></div></div>
+
+            <div class="competency" id="c5b"><div class="comp-header" onclick="toggleComp('c5b')"><span class="comp-id">5B</span><span class="comp-name">Selects, installs, and removes fasteners including rivets</span><span class="comp-type ojt">OJT</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Practice drilling, deburring, and setting solid rivets on a practice panel</li><li>Install blind rivets (Cherry, pop) for non-structural avionics mounting</li><li>Remove rivets without damaging surrounding structure</li><li>Select correct rivet type and size for doubler installation</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice sets 20 rivets on a practice piece with zero rejects (proper shop head, no damage)</li><li>Removes 5 rivets cleanly without elongating holes</li></ul></div></div>
+
+            <div class="competency" id="c5c"><div class="comp-header" onclick="toggleComp('c5c')"><span class="comp-id">5C</span><span class="comp-name">Forms layout and bends sheet metal</span><span class="comp-type ojt">OJT</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Lay out and cut an equipment shelf from aluminum sheet using a template</li><li>Calculate bend allowance and setback for a bracket</li><li>Use a hand brake to form 90° bends with correct radius</li><li>File, deburr, and finish edges to prevent wire chafing</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice fabricates a simple equipment shelf from drawing — correct dimensions, clean bends, deburred edges</li><li>Finished part fits the intended installation location</li></ul></div></div>
+
+            <div class="competency" id="c5d"><div class="comp-header" onclick="toggleComp('c5d')"><span class="comp-id">5D</span><span class="comp-name">Inspects and repairs composite and nonmetallic structures</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Identify composite construction types — fiberglass, carbon fiber, Kevlar, honeycomb</li><li>Perform a tap test and visual inspection for delamination</li><li>Prep and sand a composite surface for antenna mounting</li><li>Understand why you drill composites differently than aluminum</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice correctly identifies composite type on 3 different aircraft panels</li><li>Performs a tap test and correctly identifies a delaminated area on a practice piece</li></ul></div></div>
+
+            <div class="competency" id="c5e"><div class="comp-header" onclick="toggleComp('c5e')"><span class="comp-id">5E</span><span class="comp-name">Applies bonding techniques on metallic and nonmetallic structures</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Measure and verify electrical bonding resistance between components (< 0.003 ohms typical)</li><li>Install bonding straps/jumpers on avionics equipment racks</li><li>Prep surfaces for bonding — clean, abrade, treat</li><li>Understand why bonding matters for lightning protection and EMI</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice measures bonding resistance at 5 locations and identifies any out-of-spec readings</li><li>Installs a bonding jumper that passes resistance check</li></ul></div></div>
+
+            <div class="competency" id="c5f"><div class="comp-header" onclick="toggleComp('c5f')"><span class="comp-id">5F</span><span class="comp-name">Fabricates and installs doublers, shelves, brackets, and support</span><span class="comp-type ojt">OJT</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Fabricate a doubler for a new antenna installation per STC drawing</li><li>Build and install an equipment mounting tray from provided dimensions</li><li>Install nutplates for removable access panels</li><li>Add structural support bracing for heavy avionics units</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice fabricates a doubler from drawing, drills mounting holes, and installs with correct fasteners</li><li>Finished installation passes inspection — proper edge distance, no cracks, correct rivet pattern</li></ul></div></div>
+
+            <div class="competency" id="c5g"><div class="comp-header" onclick="toggleComp('c5g')"><span class="comp-id">5G</span><span class="comp-name">Installs antennas using proper techniques, bonding, and cable routing</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Install a COM antenna — drill, countersink, seat gasket, torque, bond</li><li>Route and terminate coax cable with proper bend radius and connector installation</li><li>Perform a VSWR check on installed antenna to verify performance</li><li>Select correct antenna location per installation manual and STC</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice performs a complete antenna installation from start to VSWR check</li><li>Installation passes visual inspection and VSWR is within manufacturer specifications</li></ul></div></div>
+        </div>
+    </div>
+
+    <div class="domain" id="d6">
+        <div class="domain-header" onclick="toggleDomain('d6')">
+            <span class="domain-title">6. Operational Checks of Aircraft Systems</span>
+            <div class="domain-meta">
+                <span class="domain-count">4 competencies</span>
+                <span class="domain-arrow">▼</span>
+            </div>
+        </div>
+        <div class="domain-body">
+            <div class="competency" id="c6a"><div class="comp-header" onclick="toggleComp('c6a')"><span class="comp-id">6A</span><span class="comp-name">Applies external power to aircraft and systems</span><span class="comp-type ojt">OJT</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Connect GPU — verify voltage and polarity before application</li><li>Power up aircraft in correct sequence per manufacturer procedures</li><li>Monitor for abnormal current draw or system behavior during power-up</li><li>Know when to use 14V vs 28V power sources</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice performs a full power-up sequence safely and identifies proper/improper indications</li></ul></div></div>
+
+            <div class="competency" id="c6b"><div class="comp-header" onclick="toggleComp('c6b')"><span class="comp-id">6B</span><span class="comp-name">Identifies and operates specialty test equipment for avionics</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Operate ramp test equipment for NAV, COM, transponder, ADS-B verification</li><li>Use a spectrum analyzer to check for EMI/RFI issues</li><li>Configure autopilot test equipment for roll/pitch servo checks</li><li>Set up and interpret results from an audio panel test set</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice selects correct test equipment for a given system and performs a functional check</li><li>Correctly interprets pass/fail results</li></ul></div></div>
+
+            <div class="competency" id="c6c"><div class="comp-header" onclick="toggleComp('c6c')"><span class="comp-id">6C</span><span class="comp-name">Knows regulatory requirements for operational testing (FAR 91.411 & 91.413)</span><span class="comp-type rti">RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Study FAR 91.411 — altimeter system and altitude reporting equipment tests (24-month cycle)</li><li>Study FAR 91.413 — ATC transponder tests and inspections (24-month cycle)</li><li>Review what's required in the test documentation — who can sign, what's recorded</li><li>Understand the difference between a certification test and a functional check</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice explains the requirements of 91.411 and 91.413 including intervals, who can perform, and documentation</li><li>Reviews a completed test record and identifies if it meets regulatory requirements</li></ul></div></div>
+
+            <div class="competency" id="c6d"><div class="comp-header" onclick="toggleComp('c6d')"><span class="comp-id">6D</span><span class="comp-name">Follows operational checkout procedures in equipment installation manual</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Locate the operational checkout section in a Garmin installation manual</li><li>Perform a step-by-step functional test following the manufacturer's procedure</li><li>Document results and note any discrepancies requiring further troubleshooting</li><li>Understand what constitutes a satisfactory vs. unsatisfactory test result</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice independently performs a post-installation checkout using only the installation manual</li><li>Documents results in a format suitable for the work order</li></ul></div></div>
+        </div>
+    </div>
+
+    <div class="domain" id="d7">
+        <div class="domain-header" onclick="toggleDomain('d7')">
+            <span class="domain-title">7. Avionics & Instrument Systems Integration</span>
+            <div class="domain-meta">
+                <span class="domain-count">9 competencies</span>
+                <span class="domain-arrow">▼</span>
+            </div>
+        </div>
+        <div class="domain-body">
+            <div class="competency" id="c7a"><div class="comp-header" onclick="toggleComp('c7a')"><span class="comp-id">7A</span><span class="comp-name">Knows common avionics systems (communications, navigation, surveillance)</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Identify all CNS components in a typical GA aircraft — COM, NAV, XPDR, ADS-B, GPS, audio panel</li><li>Explain the function and signal flow of each system</li><li>Understand frequency ranges and modulation types for each system</li><li>Trace signal path from antenna to display for a navigation system</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice identifies all CNS components in an aircraft and explains each system's function</li><li>Draws a block diagram showing signal flow for a complete avionics suite</li></ul></div></div>
+
+            <div class="competency" id="c7b"><div class="comp-header" onclick="toggleComp('c7b')"><span class="comp-id">7B</span><span class="comp-name">Knows common flight instrument systems</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Explain pitot-static system — how altimeter, airspeed, and VSI work</li><li>Understand gyroscopic instruments — attitude, heading, turn coordinator</li><li>Explain glass cockpit ADAHRS (Air Data, Attitude, Heading Reference System)</li><li>Identify failure modes — stuck instruments, erroneous readings, flag conditions</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice explains pitot-static system operation and identifies 3 common failure modes</li><li>Correctly troubleshoots a simulated instrument discrepancy</li></ul></div></div>
+
+            <div class="competency" id="c7c"><div class="comp-header" onclick="toggleComp('c7c')"><span class="comp-id">7C</span><span class="comp-name">Knows digital databus systems</span><span class="comp-type rti">RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Explain ARINC 429 — unidirectional, twisted pair, word format</li><li>Understand RS-232/422 serial communication in avionics</li><li>Introduction to AFDX/ARINC 664 in modern transport aircraft</li><li>Use a databus analyzer to monitor ARINC 429 labels</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice explains the difference between ARINC 429 and RS-232 and where each is used</li><li>Identifies correct databus type from a wiring diagram</li></ul></div></div>
+
+            <div class="competency" id="c7d"><div class="comp-header" onclick="toggleComp('c7d')"><span class="comp-id">7D</span><span class="comp-name">Integrates engine monitoring systems</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Install and wire engine monitor probes — EGT, CHT, oil temp, oil pressure</li><li>Configure an engine monitor display (JPI, EI, Garmin) for the specific engine</li><li>Troubleshoot an erratic engine indication — probe vs. wiring vs. display</li><li>Understand thermocouple and resistive sensor principles</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice installs an EGT probe, routes wiring, and verifies correct reading on display</li><li>Diagnoses the cause of a simulated erratic CHT indication</li></ul></div></div>
+
+            <div class="competency" id="c7e"><div class="comp-header" onclick="toggleComp('c7e')"><span class="comp-id">7E</span><span class="comp-name">Identifies current avionics systems configuration</span><span class="comp-type ojt">OJT</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Survey an aircraft's installed avionics — make, model, part number, software version of every unit</li><li>Document current configuration as baseline before beginning an upgrade</li><li>Identify what's installed vs. what's required for the aircraft's intended operations (IFR, RVSM, ADS-B)</li><li>Read equipment nameplates and cross-reference with 337 forms</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice produces a complete avionics inventory of an aircraft with all P/N, S/N, and software versions</li></ul></div></div>
+
+            <div class="competency" id="c7f"><div class="comp-header" onclick="toggleComp('c7f')"><span class="comp-id">7F</span><span class="comp-name">Interprets manuals and installation guidance (OEM, STC, aircraft manufacturer)</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Read and follow a complete STC installation manual for a Garmin upgrade</li><li>Cross-reference OEM installation manual with aircraft-specific instructions</li><li>Find applicable airworthiness directives and service bulletins for installed equipment</li><li>Navigate FAA.gov to research type certificate data sheets</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice plans an installation using only the STC and OEM manuals — identifies all required steps, parts, and tools</li><li>Locates and interprets a relevant AD for installed equipment</li></ul></div></div>
+
+            <div class="competency" id="c7g"><div class="comp-header" onclick="toggleComp('c7g')"><span class="comp-id">7G</span><span class="comp-name">Specifies equipment required for types of aircraft operations</span><span class="comp-type rti">RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Determine minimum equipment for VFR day, VFR night, IFR operations</li><li>Understand RVSM equipment requirements</li><li>Know ADS-B Out mandate requirements (FAR 91.225/91.227)</li><li>Explain MEL (Minimum Equipment List) and how it affects dispatch</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Given an aircraft mission profile, apprentice lists all required avionics equipment with regulatory references</li></ul></div></div>
+
+            <div class="competency" id="c7h"><div class="comp-header" onclick="toggleComp('c7h')"><span class="comp-id">7H</span><span class="comp-name">Determines wiring interface and circuit protection for avionics installations</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Read an interconnect diagram and identify every wire, pin, and connection point</li><li>Determine correct wire gauge based on current draw, length, and voltage drop limits</li><li>Size circuit breakers per AC 43.13-1B guidelines</li><li>Plan wire routing to avoid EMI sources and high-temperature areas</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice creates a wiring plan for a new installation — wire list, gauge selection, breaker sizing, routing plan</li></ul></div></div>
+
+            <div class="competency" id="c7i"><div class="comp-header" onclick="toggleComp('c7i')"><span class="comp-id">7I</span><span class="comp-name">Maintains knowledge of installation techniques for instruments, radios, antennas, and displays</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Install a panel-mount GPS/NAV/COM — mechanical mounting, wiring, antenna, configuration</li><li>Install a remote-mount unit (transponder, WAAS GPS) with proper tray mounting and cooling</li><li>Mount and wire a multi-function display in an existing panel cutout</li><li>Install an annunciator panel with correct dimming and test functions</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice performs a complete unit installation from unpacking to operational checkout</li><li>Installation passes shop inspection on first attempt</li></ul></div></div>
+        </div>
+    </div>
+
+    <div class="domain" id="d8">
+        <div class="domain-header" onclick="toggleDomain('d8')">
+            <span class="domain-title">8. Avionics Software & Database Configuration</span>
+            <div class="domain-meta">
+                <span class="domain-count">4 competencies</span>
+                <span class="domain-arrow">▼</span>
+            </div>
+        </div>
+        <div class="domain-body">
+            <div class="competency" id="c8a"><div class="comp-header" onclick="toggleComp('c8a')"><span class="comp-id">8A</span><span class="comp-name">Identifies configuration software and database requirements</span><span class="comp-type rti">RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Determine which software version and nav database are current for a given unit</li><li>Identify configuration tools needed — Garmin G3X configurator, Avidyne configuration utility</li><li>Check for software updates and service bulletins requiring database changes</li><li>Understand database subscription cycles (28-day nav data updates)</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice identifies current software/database requirements for 3 different installed units</li></ul></div></div>
+
+            <div class="competency" id="c8b"><div class="comp-header" onclick="toggleComp('c8b')"><span class="comp-id">8B</span><span class="comp-name">Configures equipment per manufacturer data and customer preferences</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Configure a Garmin GTN 650/750 for a specific aircraft — fuel flow, engine parameters, alert settings</li><li>Set up autopilot configuration per STC requirements — gains, limits, reversals</li><li>Program customer-requested display settings, waypoints, and alert thresholds</li><li>Document all configuration settings for the work order</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice configures a newly installed unit per installation manual requirements with zero errors</li></ul></div></div>
+
+            <div class="competency" id="c8c"><div class="comp-header" onclick="toggleComp('c8c')"><span class="comp-id">8C</span><span class="comp-name">Connects configuration device to aircraft equipment</span><span class="comp-type ojt">OJT</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Connect a laptop to avionics via RS-232, USB, or Ethernet for configuration</li><li>Set up communication parameters — baud rate, port settings</li><li>Troubleshoot connection issues — drivers, cable, port selection</li><li>Use SD cards and USB drives for data transfer where applicable</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice establishes a configuration connection on first attempt and verifies communication</li></ul></div></div>
+
+            <div class="competency" id="c8d"><div class="comp-header" onclick="toggleComp('c8d')"><span class="comp-id">8D</span><span class="comp-name">Loads and manages software and databases</span><span class="comp-type both">OJT + RTI</span></div><div class="comp-detail"><p class="example-label">Training Examples</p><ul class="example-list"><li>Update navigation database on a GPS unit using Jeppesen or Garmin tools</li><li>Load a software update following manufacturer procedures — backup, update, verify</li><li>Verify software part number matches STC requirements after update</li><li>Troubleshoot a failed software update — recovery procedures</li></ul><p class="example-label">How to Evaluate</p><ul class="example-list"><li>Apprentice performs a complete database update cycle — backup, load, verify, document</li><li>Verifies installed software P/N matches requirements and documents in work order</li></ul></div></div>
+        </div>
+    </div>
+</div>
+
+<!-- RTI PANEL -->
+<div class="panel" id="rti">
+    <div class="section-intro">
+        <h2>Related Technical Instruction — 586 Hours</h2>
+        <p>Four phases of classroom/online training provided by AEA. Click each phase to see topics covered and what the apprentice will learn.</p>
+    </div>
+
+    <div class="info-box" style="background: linear-gradient(135deg, #f0f7ff, #fff8e8); border-left: 4px solid var(--gold); margin-bottom: 2rem;">
+        <h3 style="color: var(--blue); margin-bottom: 1rem;">📚 RTI Training Mapping — What's Available Now</h3>
+        <p style="margin-bottom: 1rem;">AEA provides RTI through existing CAET training plus new apprenticeship-specific courses. Here's how current AEA training maps to each RTI phase:</p>
+        
+        <div style="background: white; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem;">
+            <h4 style="color: var(--blue); margin-bottom: 0.75rem;">Phase 1: Fundamentals (150 hrs)</h4>
+            <table class="wage-table" style="margin-top: 0.5rem;">
+                <thead><tr><th>RTI Requirement</th><th>Available Training</th><th>Status</th></tr></thead>
+                <tbody>
+                    <tr><td>Safety, Tool Control, ESD</td><td>CAET Prep Course (virtual-live)</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                    <tr><td>Electrical Theory (DC/AC)</td><td>CAET Prep Course (covers fundamentals)</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                    <tr><td>Wiring Fundamentals</td><td>Basic Wiring & Avionics Installation (3-day, in-person)</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                    <tr><td>CNS Systems Overview</td><td>CAET Prep Course + Aircraft Instrument Systems (virtual-live)</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                    <tr><td>Pitot-Static Systems</td><td>Basic Pitot-Static & Transponder (2-day, in-person)</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                    <tr><td>Digital Databus Theory</td><td>Digital Databus Theory & Analysis (virtual-live)</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="background: white; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem;">
+            <h4 style="color: var(--blue); margin-bottom: 0.75rem;">Phase 2: Airframe Integration (150 hrs)</h4>
+            <table class="wage-table" style="margin-top: 0.5rem;">
+                <thead><tr><th>RTI Requirement</th><th>Available Training</th><th>Status</th></tr></thead>
+                <tbody>
+                    <tr><td>Advanced Wiring & Harness Fabrication</td><td>Basic Wiring & Avionics Installation (hands-on harness construction)</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                    <tr><td>STC Documentation & Form 337</td><td>Certified Repair Station Training (5-day, in-person)</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                    <tr><td>Advanced Installations</td><td>Advanced Avionics Installation & Configuration (3-day, in-person)</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                    <tr><td>Project Management</td><td>CAET Advanced module (in development)</td><td style="color: var(--yellow); font-weight: 700;">⚠ In Development</td></tr>
+                    <tr><td>Airframe Systems Integration</td><td>Integrated into Advanced Installation course</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="background: white; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem;">
+            <h4 style="color: var(--blue); margin-bottom: 0.75rem;">Phase 3: Powerplant & Regulatory (100 hrs)</h4>
+            <table class="wage-table" style="margin-top: 0.5rem;">
+                <thead><tr><th>RTI Requirement</th><th>Available Training</th><th>Status</th></tr></thead>
+                <tbody>
+                    <tr><td>Engine Monitoring Systems</td><td>Aircraft Instrument Systems (virtual-live)</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                    <tr><td>Part 145 Repair Station Requirements</td><td>Certified Repair Station Training (comprehensive)</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                    <tr><td>Part 43 Maintenance & Alterations</td><td>Covered in CRS Training</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                    <tr><td>A&P Certification Prep</td><td>CAET Advanced + supplemental A&P resources</td><td style="color: var(--yellow); font-weight: 700;">⚠ In Development</td></tr>
+                    <tr><td>Deep Regulatory Dive</td><td>Certified Repair Station Training (deep dive into regs)</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="background: white; border-radius: 8px; padding: 1.5rem;">
+            <h4 style="color: var(--blue); margin-bottom: 0.75rem;">Phase 4: Leadership & QA (100 hrs)</h4>
+            <table class="wage-table" style="margin-top: 0.5rem;">
+                <thead><tr><th>RTI Requirement</th><th>Available Training</th><th>Status</th></tr></thead>
+                <tbody>
+                    <tr><td>Customer Interface & Communication</td><td>CAET Advanced module (in development)</td><td style="color: var(--yellow); font-weight: 700;">⚠ In Development</td></tr>
+                    <tr><td>Mentorship & Supervision</td><td>CAET Advanced module (in development)</td><td style="color: var(--yellow); font-weight: 700;">⚠ In Development</td></tr>
+                    <tr><td>Quality Assurance & RTS</td><td>Certified Repair Station Training (QA systems & procedures)</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                    <tr><td>Safety Management Systems (SMS)</td><td>Safety Management System Coordinator Training (virtual-live)</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                    <tr><td>Advanced Troubleshooting</td><td>Avionics Service and Testing Fundamentals (3-day bench course)</td><td style="color: var(--green); font-weight: 700;">✓ Available</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="background: rgba(40, 167, 69, 0.1); border: 2px solid var(--green); border-radius: 8px; padding: 1rem; margin-top: 1rem;">
+            <p style="margin: 0;"><strong>✅ Current Status:</strong> Approximately <strong>80% of RTI content is already available</strong> through existing AEA training courses. The remaining 20% (primarily Phase 4 soft skills and advanced leadership modules) is currently in active development.</p>
+        </div>
+
+        <div style="background: rgba(197, 150, 12, 0.1); border: 2px solid var(--gold); border-radius: 8px; padding: 1rem; margin-top: 1rem;">
+            <p style="margin: 0;"><strong>📋 Note:</strong> AEA members receive member pricing on all RTI courses. Some courses (like Certified Repair Station Training and Advanced Installation) have been part of AEA's training catalog for years and are already proven. Apprenticeship-specific sequencing and bundling is being finalized now.</p>
+        </div>
+
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">Training schedule and availability: Visit <a href="https://aea.net/training" target="_blank" style="color: var(--blue); font-weight: 600;">aea.net/training</a> for current course dates and registration.</p>
+    </div>
+
+    <div class="phase-card" id="p1">
+        <div class="phase-header" onclick="togglePhase('p1')">
+            <span class="phase-num">1</span>
+            <span class="phase-title">Fundamentals of Avionics & Electrical Systems</span>
+            <span class="phase-hours">150 hrs</span>
+            <span class="phase-arrow">▼</span>
+        </div>
+        <div class="phase-body">
+            <div class="topic-group">
+                <h4>Safety & Regulations</h4>
+                <ul class="topic-list">
+                    <li>OSHA workplace safety requirements for aviation environments</li>
+                    <li>Hazardous materials handling and Safety Data Sheets (SDS)</li>
+                    <li>Human Factors — error chains, fatigue management, CRM basics</li>
+                    <li>Airport Operational Area (AOA) security procedures</li>
+                    <li>ESD (Electrostatic Discharge) protection and prevention</li>
+                </ul>
+            </div>
+            <div class="topic-group">
+                <h4>Basic Skills</h4>
+                <ul class="topic-list">
+                    <li>Tool control and FOD prevention programs</li>
+                    <li>Measurement techniques — precision instruments, tolerances</li>
+                    <li>Shop housekeeping and organization standards</li>
+                </ul>
+            </div>
+            <div class="topic-group">
+                <h4>Electrical Theory</h4>
+                <ul class="topic-list">
+                    <li>DC fundamentals — Ohm's Law, Kirchhoff's Laws, power calculations</li>
+                    <li>AC fundamentals — frequency, impedance, reactance, resonance</li>
+                    <li>Wiring fundamentals — wire types, gauges, termination methods</li>
+                    <li>Hardware identification and installation practices</li>
+                </ul>
+            </div>
+            <div class="topic-group">
+                <h4>Systems Overview</h4>
+                <ul class="topic-list">
+                    <li>Introduction to Communication, Navigation, & Surveillance (CNS) systems</li>
+                    <li>Pitot-Static systems — principles, components, testing</li>
+                    <li>Digital databus theory — ARINC 429, RS-232/422</li>
+                </ul>
+            </div>
+            <div class="phase-objective">
+                <strong>🎯 Phase 1 Objective:</strong> Prepare apprentice for initial Repairman's Certificate eligibility. Apprentice can safely work in the shop, use basic tools and test equipment, and understand fundamental avionics concepts.
+            </div>
+        </div>
+    </div>
+
+    <div class="phase-card" id="p2">
+        <div class="phase-header" onclick="togglePhase('p2')">
+            <span class="phase-num">2</span>
+            <span class="phase-title">Fundamentals of Airframe & Avionics Integration</span>
+            <span class="phase-hours">150 hrs</span>
+            <span class="phase-arrow">▼</span>
+        </div>
+        <div class="phase-body">
+            <div class="topic-group">
+                <h4>Documentation</h4>
+                <ul class="topic-list">
+                    <li>Advanced logbook entries — what to write, how to write it, legal requirements</li>
+                    <li>Reading and understanding Supplemental Type Certificates (STCs)</li>
+                    <li>Researching specific airframe/engine data on FAA.gov</li>
+                    <li>Form 337 preparation and submission</li>
+                </ul>
+            </div>
+            <div class="topic-group">
+                <h4>Project Management</h4>
+                <ul class="topic-list">
+                    <li>Parts inventory tracking and ordering</li>
+                    <li>Job quoting — estimating labor, parts, and timeline</li>
+                    <li>Maintenance administration — work orders, job tracking</li>
+                </ul>
+            </div>
+            <div class="topic-group">
+                <h4>Technical Skills</h4>
+                <ul class="topic-list">
+                    <li>Advanced wiring diagram familiarization — OEM and aircraft-specific</li>
+                    <li>Wire harness fabrication — design, build, test, install</li>
+                    <li>Airframe systems integration (Airframe ACS alignment)</li>
+                    <li>Structural modification basics — doublers, shelves, brackets</li>
+                </ul>
+            </div>
+            <div class="phase-objective">
+                <strong>🎯 Phase 2 Objective:</strong> Apprentice can plan and execute an avionics installation from STC to completion. Understands documentation requirements and can fabricate and install wire harnesses.
+            </div>
+        </div>
+    </div>
+
+    <div class="phase-card" id="p3">
+        <div class="phase-header" onclick="togglePhase('p3')">
+            <span class="phase-num">3</span>
+            <span class="phase-title">Powerplant Systems & Regulatory Privileges</span>
+            <span class="phase-hours">100 hrs</span>
+            <span class="phase-arrow">▼</span>
+        </div>
+        <div class="phase-body">
+            <div class="topic-group">
+                <h4>Powerplant Theory</h4>
+                <ul class="topic-list">
+                    <li>Integration of electrical systems with aircraft powerplants</li>
+                    <li>Engine monitoring systems — sensors, displays, data recording</li>
+                    <li>Powerplant ACS alignment — electrical interfaces with engine systems</li>
+                </ul>
+            </div>
+            <div class="topic-group">
+                <h4>Regulatory Knowledge</h4>
+                <ul class="topic-list">
+                    <li>Deep dive into FAA Privileges and Limitations</li>
+                    <li>Understanding contract maintenance and work-away procedures</li>
+                    <li>Part 145 repair station requirements and quality systems</li>
+                    <li>Part 43 maintenance, preventive maintenance, and alterations</li>
+                </ul>
+            </div>
+            <div class="topic-group">
+                <h4>Certification Prep</h4>
+                <ul class="topic-list">
+                    <li>Preparation for A&P certification eligibility</li>
+                    <li>Comprehensive regulatory review for FAA knowledge tests</li>
+                    <li>Practical test preparation strategies</li>
+                </ul>
+            </div>
+            <div class="phase-objective">
+                <strong>🎯 Phase 3 Objective:</strong> Apprentice understands the regulatory framework, can work independently on complex installations, and is preparing for FAA A&P certification.
+            </div>
+        </div>
+    </div>
+
+    <div class="phase-card" id="p4">
+        <div class="phase-header" onclick="togglePhase('p4')">
+            <span class="phase-num">4</span>
+            <span class="phase-title">Leadership, Quality Assurance & Return to Service</span>
+            <span class="phase-hours">100 hrs</span>
+            <span class="phase-arrow">▼</span>
+        </div>
+        <div class="phase-body">
+            <div class="topic-group">
+                <h4>Professional Standards</h4>
+                <ul class="topic-list">
+                    <li>Customer interface — communicating technical issues to non-technical owners</li>
+                    <li>Scheduling maintenance — prioritization, resource management</li>
+                    <li>Professional ethics and responsibility in aviation maintenance</li>
+                </ul>
+            </div>
+            <div class="topic-group">
+                <h4>Mentorship</h4>
+                <ul class="topic-list">
+                    <li>Techniques for mentoring new apprentices</li>
+                    <li>Supervising work — quality checks, safety oversight</li>
+                    <li>Building a culture of continuous improvement</li>
+                </ul>
+            </div>
+            <div class="topic-group">
+                <h4>Quality Assurance</h4>
+                <ul class="topic-list">
+                    <li>Finalizing work orders — documentation, sign-offs, record keeping</li>
+                    <li>Signing off maintenance releases — legal requirements and responsibilities</li>
+                    <li>Advanced troubleshooting logic — systematic fault isolation</li>
+                    <li>Return-to-service procedures and requirements</li>
+                </ul>
+            </div>
+            <div class="phase-objective">
+                <strong>🎯 Phase 4 Objective:</strong> Preparation for FAA Inspection Authorization (IA) and journeyman-level autonomy. Apprentice can lead projects, mentor others, and take full responsibility for work quality.
+            </div>
+        </div>
+    </div>
+
+    <div class="phase-card" id="p5">
+        <div class="phase-header" onclick="togglePhase('p5')" style="border-left-color: var(--text-light);">
+            <span class="phase-num" style="background: var(--text-light);">+</span>
+            <span class="phase-title">Employer-Provided Related Instruction</span>
+            <span class="phase-hours">86 hrs</span>
+            <span class="phase-arrow">▼</span>
+        </div>
+        <div class="phase-body">
+            <div class="topic-group">
+                <h4>Shop-Specific Training</h4>
+                <ul class="topic-list">
+                    <li>Your shop's specific aircraft types, equipment, and procedures</li>
+                    <li>OEM training on equipment your shop sells and installs</li>
+                    <li>Vendor training sessions and product-specific certifications</li>
+                    <li>Shop quality manual procedures and internal standards</li>
+                </ul>
+            </div>
+            <div class="phase-objective">
+                <strong>🎯 Note:</strong> These 86 hours are flexible — your shop decides the content based on your specific aircraft types, OEM partnerships, and business focus. This is where you customize the program for your operation.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- WAGES PANEL -->
+<div class="panel" id="wages">
+    <div class="section-intro">
+        <h2>Wage Progression</h2>
+        <p>Competency-based wage increases. The apprentice advances when they demonstrate skill, not when a calendar says so.</p>
+    </div>
+
+    <div class="info-box">
+        <table class="wage-table">
+            <thead>
+                <tr>
+                    <th>Phase</th>
+                    <th>Competencies</th>
+                    <th>Hourly Wage</th>
+                    <th>% of Journeyworker</th>
+                    <th>Annual (est.)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Phase 1</strong></td>
+                    <td>1 – 10</td>
+                    <td class="wage-amount">$23.00</td>
+                    <td>77%</td>
+                    <td>$47,840</td>
+                </tr>
+                <tr>
+                    <td><strong>Phase 2</strong></td>
+                    <td>11 – 20</td>
+                    <td class="wage-amount">$24.00</td>
+                    <td>80%</td>
+                    <td>$49,920</td>
+                </tr>
+                <tr>
+                    <td><strong>Phase 3</strong></td>
+                    <td>21 – 30</td>
+                    <td class="wage-amount">$25.00</td>
+                    <td>83%</td>
+                    <td>$52,000</td>
+                </tr>
+                <tr>
+                    <td><strong>Phase 4</strong></td>
+                    <td>31 – 43</td>
+                    <td class="wage-amount">$26.00</td>
+                    <td>87%</td>
+                    <td>$54,080</td>
+                </tr>
+                <tr style="background: #f0f7ff;">
+                    <td><strong>Journeyworker</strong></td>
+                    <td>Complete</td>
+                    <td class="wage-amount" style="font-size:1.3rem;">$30.00</td>
+                    <td>100%</td>
+                    <td><strong>$62,400</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-box">
+            <h3>💡 These Are Minimums</h3>
+            <p>The wage schedule above is the DOL-registered <strong>minimum</strong>. Your shop can — and should — pay more based on your local market. Many shops will start higher. The key is that wages must <em>progress</em> as competencies are demonstrated.</p>
+        </div>
+        <div class="info-box">
+            <h3>🎖️ Veterans Stack Benefits</h3>
+            <p>A veteran apprentice earning $23/hr also receives GI Bill housing allowance ($1,500–$3,000+/month depending on ZIP). That's effectively <strong>$32–$41/hr total compensation</strong> in Phase 1 — at no cost to the shop.</p>
+        </div>
+        <div class="info-box">
+            <h3>📋 Employer Flexibility</h3>
+            <p>Shops can modify the wage scale when they sign the Employer Acceptance Agreement. If your journeyworker rate is $40/hr, adjust the progression accordingly. The percentages stay the same.</p>
+        </div>
+    </div>
+</div>
+
+<!-- RATING PANEL -->
+<div class="panel" id="rating">
+    <div class="section-intro">
+        <h2>Competency Rating System</h2>
+        <p>Each OJT competency is rated on a 0–5 scale by a qualified evaluator. Here's what each rating means.</p>
+    </div>
+
+    <div class="info-box">
+        <div class="rating-row">
+            <div class="rating-score" style="background: #28a745;">5</div>
+            <div><div class="rating-label">Exceeds All Expectations</div><div class="rating-desc">Consistently exceeds performance standards. Achieves results above and beyond what is required. Goes beyond their role to deliver exceptional results.</div></div>
+        </div>
+        <div class="rating-row">
+            <div class="rating-score" style="background: #5cb85c;">4</div>
+            <div><div class="rating-label">Meets & Exceeds Some Expectations</div><div class="rating-desc">Meets all expectations in a fully satisfactory way and exceeds some objectives. Solid performer with areas of excellence.</div></div>
+        </div>
+        <div class="rating-row">
+            <div class="rating-score" style="background: #f0ad4e;">3</div>
+            <div><div class="rating-label">Meets Expectations</div><div class="rating-desc">Consistently meets performance standards. Handles routine tasks and some unexpected situations with usual supervision. Can continue to develop with coaching and experience.</div></div>
+        </div>
+        <div class="rating-row">
+            <div class="rating-score" style="background: #e6a817;">2</div>
+            <div><div class="rating-label">Meets Some Expectations</div><div class="rating-desc">Occasionally meets some objectives but not all in a satisfactory way. Generally indicates need for additional coaching, training, or performance improvement plan.</div></div>
+        </div>
+        <div class="rating-row">
+            <div class="rating-score" style="background: #d9534f;">1</div>
+            <div><div class="rating-label">Does Not Meet / Meets Some Expectations</div><div class="rating-desc">Does not consistently meet performance standards. Requires basic training, coaching, or experience to improve. Additional follow-up necessary.</div></div>
+        </div>
+        <div class="rating-row">
+            <div class="rating-score" style="background: #333;">0</div>
+            <div><div class="rating-label">Does Not Meet Expectations</div><div class="rating-desc">Clearly and repeatedly fails to meet performance standards. Specific suggestions for improvement mandatory. Additional follow-up required.</div></div>
+        </div>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-box">
+            <h3>Who Evaluates?</h3>
+            <p>A qualified journeyworker who has worked directly with the apprentice on the competency being evaluated. The evaluator signs off with date, rating, and initials.</p>
+        </div>
+        <div class="info-box">
+            <h3>When to Evaluate?</h3>
+            <p>Evaluate when the apprentice has had sufficient practice and training on a competency. Don't rush it. A rating of 3 (Meets Expectations) is the minimum for sign-off. Below 3 means more training is needed.</p>
+        </div>
+        <div class="info-box">
+            <h3>Probationary Period</h3>
+            <p><strong>12 weeks.</strong> During probation, either party can cancel the apprenticeship with written notice. After probation, cancellation requires good cause, due notice, and opportunity for corrective action.</p>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ PANEL -->
+<div class="panel" id="faq">
+    <div class="section-intro">
+        <h2>Frequently Asked Questions</h2>
+        <p>Common questions about funding, paperwork, and program mechanics. For the full FAQ, visit <a href="faq.html" style="color: var(--blue); font-weight: 600;">faq.html</a>.</p>
+    </div>
+
+    <div class="info-box" style="border-left: 4px solid var(--gold);">
+        <h3 style="color: var(--blue);">How does my shop receive funding payments?</h3>
+        <p style="margin-top: 0.5rem;">Each funding stream has its own process. <strong>Registered apprenticeship is a "ticket to the dance"</strong> — it qualifies you for funding, but each source has different triggers and timelines.</p>
+        <ul style="margin: 0.75rem 0 0 1.5rem; line-height: 1.7;">
+            <li><strong>State tax credits:</strong> You claim them on your annual state tax return. The credit reduces what you owe (or in some states like Colorado, you get a refund even if you owe zero).</li>
+            <li><strong>WIOA/workforce board funds:</strong> Reimbursement payments after you submit proof of wages paid and training completed. Your local American Job Center administers this.</li>
+            <li><strong>VA benefits (GI Bill):</strong> Paid directly to the veteran apprentice by the VA. $0 hits your books — it's supplemental income for them.</li>
+            <li><strong>Federal tax credits (WOTC):</strong> Claimed on your federal income tax return after filing IRS Form 8850 within 28 days of hire.</li>
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <h3 style="color: var(--blue);">What triggers the actual funding?</h3>
+        <p style="margin-top: 0.5rem;">It varies by source:</p>
+        <ul style="margin: 0.75rem 0 0 1.5rem; line-height: 1.7;">
+            <li><strong>State tax credits:</strong> Trigger automatically once you have a registered apprentice. You claim it when you file taxes. Fastport provides the documentation you need.</li>
+            <li><strong>WIOA funds:</strong> Require coordination with your local American Job Center. You sign an OJT agreement with them before hiring. They reimburse based on milestones (usually monthly or quarterly).</li>
+            <li><strong>VA benefits:</strong> Flow directly to the veteran once your shop is VA-approved and the veteran applies. Fastport provides technical assistance navigating VA approval.</li>
+        </ul>
+        <p style="margin-top: 0.75rem;"><strong>Fastport provides technical assistance and coaching throughout all of this.</strong> You're not navigating it alone.</p>
+    </div>
+
+    <div class="info-box">
+        <h3 style="color: var(--blue);">What does Fastport do to help with VA approval?</h3>
+        <p style="margin-top: 0.5rem;">Fastport's subject matter experts provide <strong>technical assistance around becoming VA-approved</strong>, connecting you with State Approving Agencies (SAA), and navigating the approval process. This is critical if you want to hire veterans who will use GI Bill benefits.</p>
+        <p style="margin-top: 0.5rem;">The SAA reviews your training program, ensures it meets VA standards, and issues approval. Once approved, any veteran you hire can apply for GI Bill housing allowance ($1,500–$3,000+/month) while working for you.</p>
+    </div>
+
+    <div class="info-box">
+        <h3 style="color: var(--blue);">Do I need to work with my local workforce board?</h3>
+        <p style="margin-top: 0.5rem;"><strong>Yes, for local WIOA/workforce development funds.</strong> Your local American Job Center (part of the workforce board system) administers WIOA On-the-Job Training (OJT) reimbursement — which can reimburse up to 50% of wages during training.</p>
+        <p style="margin-top: 0.5rem;">Fastport provides assistance and coaching to help you connect with and navigate your local workforce board requirements. Each board operates slightly differently, so local guidance matters.</p>
+    </div>
+
+    <div class="info-box">
+        <h3 style="color: var(--blue);">What internal commitments are required for state programs?</h3>
+        <p style="margin-top: 0.5rem;">This varies by state. The <strong>National Program Standard provides some reciprocity</strong>, but each state and local workforce board may have their own requirements:</p>
+        <ul style="margin: 0.75rem 0 0 1.5rem; line-height: 1.7;">
+            <li>Some states require annual reporting (Fastport handles this)</li>
+            <li>Some workforce boards require pre-approval before hiring (sign OJT agreement first)</li>
+            <li>Some states have specific documentation requirements for tax credit claims (Fastport provides templates)</li>
+        </ul>
+        <p style="margin-top: 0.75rem;">Fastport provides <strong>guides during onboarding training and continuous technical assistance</strong> specific to your state and local requirements.</p>
+    </div>
+
+    <div class="info-box">
+        <h3 style="color: var(--blue);">What paperwork is needed when I approve a new apprentice?</h3>
+        <p style="margin-top: 0.5rem;">You'll need the <strong>ETA-671 (Apprentice Agreement)</strong> and <strong>Voluntary Disability Disclosure Forms</strong>. Successful employers incorporate these into their existing onboarding process — same packet as W-4, I-9, and direct deposit forms.</p>
+        <p style="margin-top: 0.5rem;">The forms are individualized (pre-filled with your shop info and apprentice info) and available after Fastport's onboarding training, which covers exactly how to complete and submit them.</p>
+    </div>
+
+    <div class="info-box">
+        <h3 style="color: var(--blue);">Who is responsible for submitting apprentice paperwork?</h3>
+        <p style="margin-top: 0.5rem;"><strong>You (the employer):</strong></p>
+        <ul style="margin: 0.5rem 0 0 1.5rem; line-height: 1.7;">
+            <li>Hire the apprentice</li>
+            <li>Verify previous training/experience (for credit toward competencies)</li>
+            <li>Support RTI completion (ensure apprentice attends training)</li>
+            <li>Provide qualified mentors and OJT supervision</li>
+            <li>Assess competencies and provide ratings</li>
+            <li>Advise Fastport of status changes: cancelled, suspended, or completed</li>
+        </ul>
+        <p style="margin-top: 0.75rem;"><strong>Fastport:</strong></p>
+        <ul style="margin: 0.5rem 0 0 1.5rem; line-height: 1.7;">
+            <li>Handles all DOL submissions</li>
+            <li>Manages compliance reporting</li>
+            <li>EEO data collection and reporting</li>
+            <li>DOL registration and deregistration</li>
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <h3 style="color: var(--blue);">What records do I need to keep?</h3>
+        <p style="margin-top: 0.5rem;">Employers retain all apprentice documents including:</p>
+        <ul style="margin: 0.75rem 0 0 1.5rem; line-height: 1.7;">
+            <li>Hiring records (application, interview notes, selection justification)</li>
+            <li>Signed apprenticeship agreement (ETA-671)</li>
+            <li>Related training documentation (RTI attendance, test scores, completion certificates)</li>
+            <li>OJT records (competency evaluations, supervisor sign-offs, progress tracking)</li>
+            <li>Wage information (pay stubs, wage progression documentation)</li>
+            <li>Competency assessments (ratings, evaluations, milestone completions)</li>
+        </ul>
+        <p style="margin-top: 0.75rem;">The AEA tracking system maintains most of this digitally. You just need to retain copies per your normal business record retention policy (typically 3–7 years depending on state).</p>
+    </div>
+
+    <div class="info-box" style="background: linear-gradient(135deg, #f0f7ff, #fff8e8); border-left: 4px solid var(--green);">
+        <h3 style="color: var(--green);">What funding should I pursue as an employer?</h3>
+        <p style="margin-top: 0.5rem; font-size: 1.05rem;"><strong>Pursue ALL available funding.</strong> Don't leave money on the table. Here's the checklist:</p>
+        <ol style="margin: 0.75rem 0 0 1.5rem; line-height: 1.8; font-weight: 600;">
+            <li><strong>WOTC (Work Opportunity Tax Credit)</strong> — Federal tax credit for hiring from target groups (veterans, SNAP recipients, long-term unemployed). File IRS Form 8850 within 28 days of hire.</li>
+            <li><strong>WIOA funds</strong> — Contact your local American Job Center and set up an OJT agreement BEFORE you hire. They reimburse up to 50% of wages.</li>
+            <li><strong>State tax credits</strong> — Automatic in most states once you have a registered apprentice. Claim on annual state tax return. Check your state in the <a href="index.html" style="color: var(--blue); font-weight: 600;">Funding Finder</a>.</li>
+            <li><strong>VA Benefits (if hiring veteran)</strong> — Work with Fastport to get VA-approved. Veteran applies for GI Bill. They get $1,500–$3,000+/month.</li>
+            <li><strong>Veteran-specific tax credits</strong> — Some states offer additional credits for hiring veterans. Check the Funding Finder.</li>
+            <li><strong>Recently announced incentive funding</strong> — DOL Pay-for-Performance, ABA grants, state-specific programs. Fastport keeps you updated.</li>
+        </ol>
+        <p style="margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.9); border-radius: 8px;"><strong>💡 Pro Tip:</strong> Use the <a href="index.html" style="color: var(--blue); font-weight: 600;">Funding Finder tool</a> to see exactly what's available in your state. It lists every program with step-by-step application instructions and links to official sources.</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: var(--bg); border-radius: var(--radius);">
+        <h3 style="margin-bottom: 1rem;">More Questions?</h3>
+        <p style="margin-bottom: 1rem; color: var(--text-light);">Visit the full FAQ page for detailed answers about program mechanics, compliance, and shop operations.</p>
+        <a href="faq.html" style="display: inline-block; padding: 0.75rem 2rem; background: var(--blue); color: white; text-decoration: none; border-radius: 8px; font-weight: 700;">View Full FAQ →</a>
+    </div>
+</div>
+
+</div><!-- end container -->
+
+<footer>
+    <p>AEA / Fastport Registered Apprenticeship — Avionics Technician (O*NET 49-2091.00)</p>
+    <p>Source: DOL National Program Standards | <a href="https://www.aea.net" target="_blank">Aircraft Electronics Association</a> | <a href="https://fastport.com" target="_blank">Fastport</a></p>
+    <p style="margin-top:0.5rem; font-size: 0.75rem; opacity: 0.6;">Registered with the U.S. Department of Labor, Office of Apprenticeship — 29 CFR Parts 29 & 30</p>
+</footer>
+
+<script>
+// Tab navigation
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+    });
+});
+
+// Toggle domains
+function toggleDomain(id) {
+    document.getElementById(id).classList.toggle('open');
+}
+
+// Toggle competencies
+function toggleComp(id) {
+    document.getElementById(id).classList.toggle('open');
+}
+
+// Toggle phases
+function togglePhase(id) {
+    document.getElementById(id).classList.toggle('open');
+}
+
+// Expand all in a domain on double-click
+document.querySelectorAll('.domain-header').forEach(h => {
+    h.addEventListener('dblclick', () => {
+        const domain = h.parentElement;
+        const comps = domain.querySelectorAll('.competency');
+        const allOpen = [...comps].every(c => c.classList.contains('open'));
+        comps.forEach(c => allOpen ? c.classList.remove('open') : c.classList.add('open'));
+    });
+});
+</script>
+
+</body>
+</html>

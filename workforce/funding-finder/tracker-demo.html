@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEA Apprenticeship Tracking Tool</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--card:rgba(255,255,255,0.05);--card-border:rgba(255,255,255,0.08);--blue:#3b82f6;--blue-glow:rgba(59,130,246,0.3);--green:#10b981;--yellow:#f59e0b;--red:#ef4444;--text:#e2e8f0;--text-dim:#94a3b8;--text-bright:#f8fafc;--gradient:linear-gradient(135deg,#1e3a5f,#0a0e1a);--accent-gradient:linear-gradient(135deg,#3b82f6,#8b5cf6)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.app{max-width:1400px;margin:0 auto;padding:0 16px 40px}
+
+/* Top Nav */
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--card-border);margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.logo{font-size:1.3rem;font-weight:700;background:var(--accent-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo span{font-weight:400;opacity:.7;-webkit-text-fill-color:var(--text-dim)}
+.nav-tabs{display:flex;gap:4px;background:var(--card);border-radius:12px;padding:4px;border:1px solid var(--card-border)}
+.nav-tab{padding:10px 20px;border-radius:10px;cursor:pointer;font-size:.875rem;font-weight:500;color:var(--text-dim);transition:all .3s;white-space:nowrap;user-select:none}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{background:var(--accent-gradient);color:#fff;box-shadow:0 4px 15px var(--blue-glow)}
+
+/* Views */
+.view{display:none;animation:fadeUp .4s ease}
+.view.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Cards */
+.card{background:var(--card);backdrop-filter:blur(20px);border:1px solid var(--card-border);border-radius:16px;padding:24px;margin-bottom:16px;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.card-title{font-size:.75rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:12px;font-weight:600}
+.card-value{font-size:2rem;font-weight:700;color:var(--text-bright)}
+
+/* Grid */
+.grid{display:grid;gap:16px}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.grid-6{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+
+/* Progress ring */
+.progress-ring-wrap{position:relative;width:160px;height:160px;margin:0 auto 16px}
+.progress-ring-wrap svg{transform:rotate(-90deg)}
+.progress-ring-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:10}
+.progress-ring-fg{fill:none;stroke:url(#ringGrad);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.5s ease}
+.progress-ring-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.progress-ring-pct{font-size:2.2rem;font-weight:800;color:var(--text-bright)}
+.progress-ring-label{font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px}
+
+/* Progress bars */
+.progress-bar-wrap{margin:8px 0}
+.progress-bar-label{display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:4px;color:var(--text-dim)}
+.progress-bar{height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
+.progress-bar-fill{height:100%;border-radius:4px;background:var(--accent-gradient);transition:width 1.2s ease;width:0}
+
+/* Badges */
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.badge-green{background:rgba(16,185,129,.15);color:var(--green)}
+.badge-yellow{background:rgba(245,158,11,.15);color:var(--yellow)}
+.badge-red{background:rgba(239,68,68,.15);color:var(--red)}
+.badge-blue{background:rgba(59,130,246,.15);color:var(--blue)}
+
+/* Competency list */
+.comp-group{margin-bottom:20px}
+.comp-group-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--card-border)}
+.comp-group-name{font-weight:600;font-size:.9rem}
+.comp-group-count{font-size:.8rem;color:var(--text-dim)}
+.comp-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;font-size:.85rem;transition:background .2s}
+.comp-item:hover{background:rgba(255,255,255,.03)}
+.comp-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--card-border);display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0;transition:all .3s}
+.comp-check.done{background:var(--green);border-color:var(--green);color:#fff}
+.comp-check.locked{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.05);color:var(--text-dim);font-size:.6rem}
+.comp-name{flex:1}
+.comp-name.locked-text{color:var(--text-dim);font-style:italic}
+.comp-date{font-size:.7rem;color:var(--text-dim)}
+
+/* Activity feed */
+.activity-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--card-border);font-size:.85rem}
+.activity-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.activity-date{color:var(--text-dim);font-size:.75rem;margin-top:2px}
+
+/* Alerts */
+.alert-item{display:flex;gap:12px;padding:12px;border-radius:10px;margin-bottom:8px;font-size:.85rem;align-items:flex-start;background:rgba(255,255,255,.02);border:1px solid var(--card-border)}
+.alert-icon{font-size:1.2rem;flex-shrink:0}
+
+/* Stat cards mini */
+.stat-mini{text-align:center;padding:20px 12px}
+.stat-mini .card-value{font-size:1.8rem}
+.stat-mini .card-title{margin-bottom:8px}
+.stat-mini-sub{font-size:.75rem;color:var(--text-dim);margin-top:4px}
+
+/* Roster */
+.roster-item{display:flex;align-items:center;gap:16px;padding:16px;border-radius:12px;cursor:pointer;transition:all .2s;border:1px solid transparent;margin-bottom:8px;background:rgba(255,255,255,.02)}
+.roster-item:hover{background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.2)}
+.roster-item.selected{background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.3)}
+.roster-avatar{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:#fff;flex-shrink:0}
+.roster-info{flex:1;min-width:0}
+.roster-name{font-weight:600;font-size:.95rem;margin-bottom:2px}
+.roster-meta{font-size:.8rem;color:var(--text-dim)}
+.roster-progress{width:120px;text-align:right}
+.roster-pct{font-size:1.3rem;font-weight:700}
+
+/* Sign-off modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-overlay.show{display:flex}
+.modal{background:#141825;border:1px solid var(--card-border);border-radius:20px;padding:32px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;animation:fadeUp .3s ease}
+.modal h3{margin-bottom:16px;font-size:1.1rem}
+.modal-close{float:right;background:none;border:none;color:var(--text-dim);font-size:1.5rem;cursor:pointer;padding:0 4px;line-height:1}
+
+/* Sign-off button */
+.signoff-btn{padding:8px 16px;border-radius:8px;border:1px solid var(--blue);background:transparent;color:var(--blue);font-size:.8rem;cursor:pointer;transition:all .3s;font-weight:500}
+.signoff-btn:hover{background:var(--blue);color:#fff}
+.signoff-btn.signed{background:var(--green);border-color:var(--green);color:#fff;pointer-events:none}
+.signoff-btn.signed::before{content:'✓ '}
+
+/* Quick actions */
+.quick-btn{padding:12px 20px;border-radius:10px;border:1px solid var(--card-border);background:var(--card);color:var(--text);font-size:.85rem;cursor:pointer;transition:all .2s;font-weight:500}
+.quick-btn:hover{border-color:var(--blue);background:rgba(59,130,246,.1);color:var(--blue)}
+
+/* Table */
+.data-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.data-table th{text-align:left;padding:12px 16px;border-bottom:1px solid var(--card-border);color:var(--text-dim);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;cursor:pointer;user-select:none;white-space:nowrap}
+.data-table th:hover{color:var(--text)}
+.data-table td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.03)}
+.data-table tr:hover td{background:rgba(255,255,255,.02)}
+.sort-arrow{margin-left:4px;font-size:.6rem}
+
+/* Map */
+.us-map-wrap{position:relative;padding:20px}
+.map-dot{position:absolute;border-radius:50%;opacity:.7;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+
+/* Funnel */
+.funnel{display:flex;flex-direction:column;gap:8px;align-items:center;padding:20px 0}
+.funnel-step{display:flex;align-items:center;gap:12px;width:100%}
+.funnel-bar{height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:600;color:#fff;transition:width 1.2s ease;min-width:60px}
+.funnel-label{width:100px;text-align:right;font-size:.8rem;color:var(--text-dim);flex-shrink:0}
+.funnel-count{width:40px;font-size:.85rem;font-weight:600;flex-shrink:0}
+
+/* Milestone card */
+.milestone-card{background:linear-gradient(135deg,rgba(59,130,246,.15),rgba(139,92,246,.1));border:1px solid rgba(59,130,246,.2);border-radius:14px;padding:20px;text-align:center}
+.milestone-card .amount{font-size:1.6rem;font-weight:800;background:var(--accent-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.milestone-card .label{font-size:.8rem;color:var(--text-dim);margin-top:4px}
+
+/* GI Bill */
+.gi-bill-card{background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(59,130,246,.08));border:1px solid rgba(16,185,129,.2);border-radius:14px;padding:20px}
+
+/* Counters animation */
+.counter{display:inline-block}
+
+/* Module bars */
+.module-bar-wrap{margin-bottom:12px}
+.module-bar-label{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px}
+.module-bar{height:28px;background:rgba(255,255,255,.04);border-radius:6px;overflow:hidden;position:relative}
+.module-bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:10px;font-size:.75rem;font-weight:600;color:#fff;transition:width 1.2s ease;width:0}
+
+/* Wage tier visual */
+.tier-track{display:flex;align-items:center;gap:0;margin:16px 0;position:relative}
+.tier-node{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;border:3px solid;z-index:1;position:relative}
+.tier-node.active{border-color:var(--blue);background:rgba(59,130,246,.2);color:var(--blue)}
+.tier-node.completed{border-color:var(--green);background:rgba(16,185,129,.2);color:var(--green)}
+.tier-node.future{border-color:var(--card-border);background:var(--card);color:var(--text-dim)}
+.tier-connector{flex:1;height:3px;background:var(--card-border)}
+.tier-connector.filled{background:var(--green)}
+.tier-label{position:absolute;top:54px;font-size:.65rem;color:var(--text-dim);white-space:nowrap;text-align:center;width:80px;left:50%;transform:translateX(-50%)}
+
+/* Responsive */
+@media(max-width:768px){
+  .grid-2,.grid-3,.grid-4,.grid-6{grid-template-columns:1fr 1fr}
+  .top-bar{flex-direction:column;align-items:stretch}
+  .nav-tabs{overflow-x:auto;justify-content:stretch}
+  .nav-tab{flex:1;text-align:center;padding:10px 12px;font-size:.8rem}
+  .roster-progress{width:auto}
+  .funnel-label{width:70px;font-size:.7rem}
+  .shop-detail-grid{grid-template-columns:1fr!important}
+}
+@media(max-width:480px){
+  .grid-2,.grid-3,.grid-4,.grid-6{grid-template-columns:1fr}
+  .card{padding:16px}
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+
+/* Tooltip */
+.tooltip{position:relative}
+.tooltip::after{content:attr(data-tip);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#1e293b;color:var(--text);padding:4px 10px;border-radius:6px;font-size:.7rem;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+.tooltip:hover::after{opacity:1}
+
+/* Confirmation animation */
+@keyframes checkPop{0%{transform:scale(0)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+.check-pop{animation:checkPop .4s ease}
+
+/* Glow effect on section entry */
+.glow-border{box-shadow:0 0 20px var(--blue-glow)}
+</style>
+</head>
+<body>
+<svg style="position:absolute;width:0;height:0"><defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs></svg>
+
+<div class="app">
+  <div class="top-bar">
+    <div class="logo">AEA <span>Apprenticeship Tracker</span></div>
+    <div class="nav-tabs">
+      <div class="nav-tab active" data-view="apprentice" onclick="switchView('apprentice')">👤 My Progress</div>
+      <div class="nav-tab" data-view="shop" onclick="switchView('shop')">🏭 My Apprentices</div>
+      <div class="nav-tab" data-view="admin" onclick="switchView('admin')">📊 Program Dashboard</div>
+    </div>
+  </div>
+
+  <!-- ==================== APPRENTICE VIEW ==================== -->
+  <div class="view active" id="view-apprentice">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;flex-wrap:wrap">
+      <div style="width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:700;color:#fff">MJ</div>
+      <div>
+        <h2 style="font-size:1.4rem;font-weight:700">Marcus Johnson</h2>
+        <div style="color:var(--text-dim);font-size:.85rem">Eagle Avionics LLC · Wichita, KS · <span class="badge badge-blue">TIER 2</span></div>
+      </div>
+    </div>
+
+    <div class="grid grid-3" style="margin-bottom:16px">
+      <div class="card" style="text-align:center">
+        <div class="progress-ring-wrap">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <circle class="progress-ring-bg" cx="80" cy="80" r="68"/>
+            <circle class="progress-ring-fg" id="mainRing" cx="80" cy="80" r="68" stroke-dasharray="427.3" stroke-dashoffset="427.3"/>
+          </svg>
+          <div class="progress-ring-text">
+            <div class="progress-ring-pct" id="mainPct">0%</div>
+            <div class="progress-ring-label">Complete</div>
+          </div>
+        </div>
+        <div style="font-size:.9rem;font-weight:600">18 of 43 Competencies</div>
+        <div style="font-size:.75rem;color:var(--text-dim);margin-top:4px">On Track · 6 months in</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">RTI Progress (CAET)</div>
+        <div class="card-value" style="font-size:1.5rem">210 <span style="font-size:.9rem;font-weight:400;color:var(--text-dim)">/ 586 hrs</span></div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar"><div class="progress-bar-fill" data-width="35.8"></div></div>
+        </div>
+        <div style="margin-top:12px;font-size:.8rem">
+          <div style="display:flex;justify-content:space-between;padding:4px 0"><span>Module 1: Fundamentals</span><span class="badge badge-green">Complete</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0"><span>Module 2: Core Skills</span><span class="badge badge-green">Complete</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0"><span>Module 3: Advanced</span><span class="badge badge-blue">In Progress</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;opacity:.5"><span>Module 4: Specialization</span><span class="badge" style="opacity:.5">Locked</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="milestone-card" style="margin-bottom:16px">
+          <div class="label">Next Milestone</div>
+          <div class="amount">$27.00/hr</div>
+          <div class="label" style="margin-top:8px">Tier 3 at 22 competencies</div>
+          <div style="font-size:1.1rem;font-weight:700;color:var(--text-bright);margin-top:8px">4 more sign-offs</div>
+        </div>
+        <div class="gi-bill-card">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+            <span style="font-size:1.2rem">🎖️</span>
+            <span style="font-weight:600;font-size:.9rem">GI Bill Benefits</span>
+          </div>
+          <div style="font-size:1.3rem;font-weight:700;color:var(--green)">$2,847<span style="font-size:.8rem;font-weight:400">/mo</span></div>
+          <div style="font-size:.8rem;color:var(--text-dim);margin-top:2px">Housing Allowance · 18 months remaining</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wage Tier Track -->
+    <div class="card">
+      <div class="card-title">Wage Progression</div>
+      <div class="tier-track" style="justify-content:center;padding:10px 20px 40px">
+        <div class="tier-node completed" style="position:relative"><span>T1</span><div class="tier-label">$23.00/hr<br>Entry</div></div>
+        <div class="tier-connector filled"></div>
+        <div class="tier-node active" style="position:relative"><span>T2</span><div class="tier-label">$25.50/hr<br>Current</div></div>
+        <div class="tier-connector"></div>
+        <div class="tier-node future" style="position:relative"><span>T3</span><div class="tier-label">$27.00/hr<br>~6 weeks</div></div>
+        <div class="tier-connector"></div>
+        <div class="tier-node future" style="position:relative"><span>T4</span><div class="tier-label">$30.00/hr<br>Journeyworker</div></div>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <!-- Competency Checklist -->
+      <div class="card" style="max-height:500px;overflow-y:auto">
+        <div class="card-title">Competency Checklist</div>
+        <div id="apprenticeCompetencies"></div>
+      </div>
+
+      <!-- Activity Feed -->
+      <div class="card">
+        <div class="card-title">Recent Activity</div>
+        <div id="activityFeed"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SHOP VIEW ==================== -->
+  <div class="view" id="view-shop">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;flex-wrap:wrap">
+      <div style="width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#10b981,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:1.5rem">🏭</div>
+      <div>
+        <h2 style="font-size:1.4rem;font-weight:700">Eagle Avionics LLC</h2>
+        <div style="color:var(--text-dim);font-size:.85rem">Part 145 Repair Station · Wichita, KS · Mike Torres, Lead Technician</div>
+      </div>
+    </div>
+
+    <!-- Alerts -->
+    <div class="card" style="border-left:3px solid var(--yellow)">
+      <div class="card-title">⚡ Action Required</div>
+      <div class="alert-item"><span class="alert-icon">⚠️</span><div><strong>Sarah Chen:</strong> No competency sign-offs in 21 days. Consider scheduling a review session.</div></div>
+      <div class="alert-item"><span class="alert-icon">💰</span><div><strong>Reminder:</strong> File WOTC tax credit for Marcus Johnson — deadline March 15. Estimated value: $2,400.</div></div>
+      <div class="alert-item"><span class="alert-icon">✅</span><div><strong>David Rodriguez</strong> hit Tier 3 milestone — wage adjustment to $27.00/hr is due.</div></div>
+    </div>
+
+    <div class="grid grid-2" style="grid-template-columns:1fr 1fr">
+      <!-- Roster -->
+      <div class="card">
+        <div class="card-title">Apprentice Roster</div>
+        <div class="roster-item" onclick="selectApprentice(0)" id="roster-0">
+          <div class="roster-avatar" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)">MJ</div>
+          <div class="roster-info">
+            <div class="roster-name">Marcus Johnson</div>
+            <div class="roster-meta">6 months · Tier 2 · <span class="badge badge-green">On Track</span></div>
+          </div>
+          <div class="roster-progress"><div class="roster-pct" style="color:var(--blue)">42%</div></div>
+        </div>
+        <div class="roster-item" onclick="selectApprentice(1)" id="roster-1">
+          <div class="roster-avatar" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">SC</div>
+          <div class="roster-info">
+            <div class="roster-name">Sarah Chen</div>
+            <div class="roster-meta">8 months · Tier 1 · <span class="badge badge-yellow">Behind</span></div>
+          </div>
+          <div class="roster-progress"><div class="roster-pct" style="color:var(--yellow)">28%</div></div>
+        </div>
+        <div class="roster-item" onclick="selectApprentice(2)" id="roster-2">
+          <div class="roster-avatar" style="background:linear-gradient(135deg,#10b981,#3b82f6)">DR</div>
+          <div class="roster-info">
+            <div class="roster-name">David Rodriguez</div>
+            <div class="roster-meta">14 months · Tier 3 · <span class="badge badge-green">Ahead</span></div>
+          </div>
+          <div class="roster-progress"><div class="roster-pct" style="color:var(--green)">65%</div></div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="quick-btn" onclick="document.getElementById('shopSignoffArea').scrollIntoView({behavior:'smooth'})">✍️ Sign Off</button>
+          <button class="quick-btn" onclick="showToast('Hours logging interface would open here')">⏱ Log Hours</button>
+          <button class="quick-btn" onclick="showToast('DOL report generated — 3 apprentices, all compliant')">📄 DOL Report</button>
+        </div>
+      </div>
+
+      <!-- Compliance -->
+      <div class="card">
+        <div class="card-title">Compliance Dashboard</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+          <div style="background:rgba(16,185,129,.08);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:1.4rem;font-weight:700;color:var(--green)">1:2.7</div>
+            <div style="font-size:.7rem;color:var(--text-dim);margin-top:2px">DOL Ratio ✅</div>
+            <div style="font-size:.65rem;color:var(--text-dim)">3 apprentices / 8 journeyworkers</div>
+          </div>
+          <div style="background:rgba(59,130,246,.08);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:1.4rem;font-weight:700;color:var(--blue)">142</div>
+            <div style="font-size:.7rem;color:var(--text-dim);margin-top:2px">Hours This Month</div>
+            <div style="font-size:.65rem;color:var(--text-dim)">On track (target: 160)</div>
+          </div>
+        </div>
+        <div class="card-title" style="margin-top:16px">Wage Projections</div>
+        <div style="font-size:.85rem;padding:8px 0;border-bottom:1px solid var(--card-border)">
+          <strong>Marcus Johnson</strong> → Tier 3 ($27.00/hr) in ~6 weeks
+        </div>
+        <div style="font-size:.85rem;padding:8px 0;border-bottom:1px solid var(--card-border)">
+          <strong>Sarah Chen</strong> → Tier 2 ($25.50/hr) — needs 4 more sign-offs
+        </div>
+        <div style="font-size:.85rem;padding:8px 0">
+          <strong>David Rodriguez</strong> → <span style="color:var(--green)">Tier 3 reached ✓</span> Adjust wage now
+        </div>
+        <div style="margin-top:16px;background:rgba(245,158,11,.08);border-radius:10px;padding:14px">
+          <div style="font-size:.8rem;font-weight:600;color:var(--yellow)">💰 Tax Credits Available</div>
+          <div style="font-size:.75rem;color:var(--text-dim);margin-top:4px">WOTC: Up to $9,600/veteran hire · Marcus qualifies<br>State Credit: $1,000/apprentice/year · All 3 eligible</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sign-off area -->
+    <div class="card" id="shopSignoffArea">
+      <div class="card-title">✍️ Competency Sign-Off — <span id="signoffName">Select an apprentice above</span></div>
+      <div id="signoffList" style="opacity:.5;font-size:.85rem;color:var(--text-dim)">Click on an apprentice to view their competencies and sign off.</div>
+    </div>
+  </div>
+
+  <!-- ==================== ADMIN VIEW ==================== -->
+  <div class="view" id="view-admin">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;flex-wrap:wrap">
+      <div style="width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#8b5cf6,#ec4899);display:flex;align-items:center;justify-content:center;font-size:1.5rem">📊</div>
+      <div>
+        <h2 style="font-size:1.4rem;font-weight:700">AEA Program Dashboard</h2>
+        <div style="color:var(--text-dim);font-size:.85rem">National Apprenticeship Program Overview · Updated Feb 15, 2026</div>
+      </div>
+    </div>
+
+    <!-- KPI cards -->
+    <div class="grid grid-6" style="margin-bottom:16px">
+      <div class="card stat-mini"><div class="card-title">Active Apprentices</div><div class="card-value counter" data-target="147">0</div></div>
+      <div class="card stat-mini"><div class="card-title">Participating Shops</div><div class="card-value counter" data-target="34">0</div></div>
+      <div class="card stat-mini"><div class="card-title">States</div><div class="card-value counter" data-target="23">0</div></div>
+      <div class="card stat-mini"><div class="card-title">Completions</div><div class="card-value counter" data-target="12">0</div><div class="stat-mini-sub">First cohort! 🎉</div></div>
+      <div class="card stat-mini"><div class="card-title">Retention Rate</div><div class="card-value"><span class="counter" data-target="89">0</span>%</div></div>
+      <div class="card stat-mini"><div class="card-title">Funding Claimed</div><div class="card-value" style="font-size:1.4rem">$<span class="counter" data-target="2.4" data-decimals="1">0</span>M</div></div>
+    </div>
+
+    <div class="grid grid-2">
+      <!-- Map -->
+      <div class="card">
+        <div class="card-title">Geographic Distribution</div>
+        <div class="us-map-wrap" style="height:260px;background:rgba(255,255,255,.02);border-radius:12px;position:relative;overflow:hidden">
+          <!-- Simplified US state positions -->
+          <div class="map-dot" style="width:28px;height:28px;background:var(--blue);left:18%;top:58%" title="TX - 28 apprentices"></div>
+          <div class="map-dot" style="width:24px;height:24px;background:var(--blue);left:80%;top:72%" title="FL - 22 apprentices"></div>
+          <div class="map-dot" style="width:22px;height:22px;background:var(--blue);left:8%;top:42%" title="CA - 19 apprentices"></div>
+          <div class="map-dot" style="width:20px;height:20px;background:var(--blue);left:6%;top:18%" title="WA - 16 apprentices"></div>
+          <div class="map-dot" style="width:14px;height:14px;background:rgba(59,130,246,.7);left:14%;top:52%" title="AZ - 9 apprentices"></div>
+          <div class="map-dot" style="width:14px;height:14px;background:rgba(59,130,246,.7);left:74%;top:58%" title="GA - 8 apprentices"></div>
+          <div class="map-dot" style="width:12px;height:12px;background:rgba(59,130,246,.7);left:78%;top:48%" title="NC - 7 apprentices"></div>
+          <div class="map-dot" style="width:12px;height:12px;background:rgba(59,130,246,.7);left:60%;top:38%" title="OH - 6 apprentices"></div>
+          <div class="map-dot" style="width:8px;height:8px;background:rgba(59,130,246,.4);left:38%;top:32%" title="KS - 3"></div>
+          <div class="map-dot" style="width:8px;height:8px;background:rgba(59,130,246,.4);left:50%;top:42%" title="IL - 3"></div>
+          <div class="map-dot" style="width:8px;height:8px;background:rgba(59,130,246,.4);left:66%;top:36%" title="PA - 3"></div>
+          <div class="map-dot" style="width:6px;height:6px;background:rgba(59,130,246,.3);left:10%;top:30%" title="OR - 2"></div>
+          <div class="map-dot" style="width:6px;height:6px;background:rgba(59,130,246,.3);left:20%;top:28%" title="CO - 2"></div>
+          <div class="map-dot" style="width:6px;height:6px;background:rgba(59,130,246,.3);left:44%;top:50%" title="OK - 2"></div>
+          <div style="position:absolute;bottom:8px;right:12px;font-size:.65rem;color:var(--text-dim)">
+            <span style="display:inline-block;width:8px;height:8px;background:var(--blue);border-radius:50%;margin-right:4px"></span>Heavy
+            <span style="display:inline-block;width:6px;height:6px;background:rgba(59,130,246,.6);border-radius:50%;margin:0 4px 0 12px"></span>Medium
+            <span style="display:inline-block;width:4px;height:4px;background:rgba(59,130,246,.3);border-radius:50%;margin:0 4px 0 12px"></span>Light
+          </div>
+          <div style="position:absolute;top:12px;left:16px;font-size:.75rem;color:var(--text-dim)">Top: TX (28) · FL (22) · CA (19) · WA (16)</div>
+        </div>
+      </div>
+
+      <!-- Funnel -->
+      <div class="card">
+        <div class="card-title">Completion Funnel</div>
+        <div class="funnel">
+          <div class="funnel-step"><div class="funnel-label">Enrolled</div><div class="funnel-bar" data-width="100" style="width:0;background:linear-gradient(90deg,#3b82f6,#6366f1)">147</div><div class="funnel-count"></div></div>
+          <div class="funnel-step"><div class="funnel-label">6 Months</div><div class="funnel-bar" data-width="82" style="width:0;background:linear-gradient(90deg,#6366f1,#8b5cf6)">121</div><div class="funnel-count"></div></div>
+          <div class="funnel-step"><div class="funnel-label">12 Months</div><div class="funnel-bar" data-width="56" style="width:0;background:linear-gradient(90deg,#8b5cf6,#a855f7)">82</div><div class="funnel-count"></div></div>
+          <div class="funnel-step"><div class="funnel-label">18 Months</div><div class="funnel-bar" data-width="30" style="width:0;background:linear-gradient(90deg,#a855f7,#c084fc)">44</div><div class="funnel-count"></div></div>
+          <div class="funnel-step"><div class="funnel-label">Journeyworker</div><div class="funnel-bar" data-width="8" style="width:0;background:linear-gradient(90deg,#10b981,#34d399)">12</div><div class="funnel-count"></div></div>
+        </div>
+        <div style="text-align:center;font-size:.8rem;color:var(--text-dim);margin-top:8px">89% retention through 6-month mark · 82% at 12 months</div>
+      </div>
+    </div>
+
+    <!-- CAET RTI Analytics -->
+    <div class="card">
+      <div class="card-title">CAET RTI Module Analytics</div>
+      <div class="grid grid-2">
+        <div>
+          <div class="module-bar-wrap">
+            <div class="module-bar-label"><span>Module 1: Fundamentals</span><span>89%</span></div>
+            <div class="module-bar"><div class="module-bar-fill" data-width="89" style="background:linear-gradient(90deg,#10b981,#34d399)">131 of 147</div></div>
+          </div>
+          <div class="module-bar-wrap">
+            <div class="module-bar-label"><span>Module 2: Core Skills</span><span>72%</span></div>
+            <div class="module-bar"><div class="module-bar-fill" data-width="72" style="background:linear-gradient(90deg,#3b82f6,#6366f1)">106 of 147</div></div>
+          </div>
+          <div class="module-bar-wrap">
+            <div class="module-bar-label"><span>Module 3: Advanced Techniques</span><span>45%</span></div>
+            <div class="module-bar"><div class="module-bar-fill" data-width="45" style="background:linear-gradient(90deg,#8b5cf6,#a855f7)">66 of 147</div></div>
+          </div>
+          <div class="module-bar-wrap">
+            <div class="module-bar-label"><span>Module 4: Specialization</span><span>12%</span></div>
+            <div class="module-bar"><div class="module-bar-fill" data-width="12" style="background:linear-gradient(90deg,#f59e0b,#fbbf24)">18 of 147</div></div>
+          </div>
+        </div>
+        <div>
+          <div style="background:rgba(245,158,11,.08);border-radius:12px;padding:20px;margin-bottom:12px">
+            <div style="font-size:.85rem;font-weight:600;color:var(--yellow)">💰 Funding Opportunity</div>
+            <div style="font-size:2rem;font-weight:800;color:var(--text-bright);margin:8px 0">$1.2M</div>
+            <div style="font-size:.8rem;color:var(--text-dim)">Unclaimed tax credits across eligible shops</div>
+            <div style="font-size:.8rem;color:var(--text-dim);margin-top:4px">Only 34% of eligible shops have filed — follow up with 22 shops</div>
+          </div>
+          <div style="background:rgba(239,68,68,.08);border-radius:12px;padding:20px">
+            <div style="font-size:.85rem;font-weight:600;color:var(--red)">🚨 Intervention Needed</div>
+            <div style="font-size:.8rem;color:var(--text-dim);margin-top:8px">
+              <div style="padding:4px 0">• <strong>3 shops</strong> with stalled apprentices (no activity 30+ days)</div>
+              <div style="padding:4px 0">• <strong>5 shops</strong> not logging hours this month</div>
+              <div style="padding:4px 0">• <strong>2 apprentices</strong> at risk of dropping out (flagged by supervisors)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shop Performance Table -->
+    <div class="card">
+      <div class="card-title">Shop Performance</div>
+      <div style="overflow-x:auto">
+        <table class="data-table" id="shopTable">
+          <thead>
+            <tr>
+              <th onclick="sortTable(0)">Shop Name <span class="sort-arrow">▼</span></th>
+              <th onclick="sortTable(1)">Location</th>
+              <th onclick="sortTable(2)">Apprentices <span class="sort-arrow">▼</span></th>
+              <th onclick="sortTable(3)">Avg Completion <span class="sort-arrow">▼</span></th>
+              <th onclick="sortTable(4)">Last Activity</th>
+              <th onclick="sortTable(5)">Status</th>
+            </tr>
+          </thead>
+          <tbody id="shopTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" style="position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:#1e293b;border:1px solid var(--card-border);color:var(--text);padding:14px 24px;border-radius:12px;font-size:.85rem;z-index:200;transition:transform .3s ease;box-shadow:0 10px 40px rgba(0,0,0,.5)"></div>
+
+<!-- Sign-off confirmation modal -->
+<div class="modal-overlay" id="signoffModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div style="text-align:center;padding:20px 0">
+      <div id="modalIcon" style="font-size:3rem;margin-bottom:16px">✅</div>
+      <h3 id="modalTitle">Competency Signed Off!</h3>
+      <p id="modalMsg" style="color:var(--text-dim);font-size:.9rem"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- DATA ----
+const competencyData = [
+  {group:'Safety & Compliance', done:5, total:6, items:[
+    {name:'OSHA General Safety',done:true,date:'Nov 8, 2025'},{name:'ESD Procedures',done:true,date:'Nov 15, 2025'},
+    {name:'Chemical Handling',done:true,date:'Dec 3, 2025'},{name:'FOD Prevention',done:true,date:'Dec 18, 2025'},
+    {name:'Lockout/Tagout',done:true,date:'Jan 10, 2026'},{name:'Hazardous Materials Shipping',done:false}
+  ]},
+  {group:'Soldering & Termination', done:4, total:5, items:[
+    {name:'Through-Hole Soldering',done:true,date:'Nov 22, 2025'},{name:'SMD Rework',done:true,date:'Dec 12, 2025'},
+    {name:'Wire Crimping & Termination',done:true,date:'Jan 5, 2026'},{name:'Connector Assembly',done:true,date:'Jan 20, 2026'},
+    {name:'BGA Rework',done:false}
+  ]},
+  {group:'Test Equipment', done:3, total:6, items:[
+    {name:'DMM Operation',done:true,date:'Dec 5, 2025'},{name:'Oscilloscope Basics',done:true,date:'Jan 14, 2026'},
+    {name:'DMM Calibration Verification',done:true,date:'Feb 12, 2026'},{name:'Spectrum Analyzer',done:false},
+    {name:'Hipot Testing',done:false},{name:'TDR Operation',done:false}
+  ]},
+  {group:'Wire Harness', done:2, total:4, items:[
+    {name:'Harness Blueprint Reading',done:true,date:'Jan 8, 2026'},{name:'Cable Routing & Lacing',done:true,date:'Feb 1, 2026'},
+    {name:'Harness Fabrication',done:false},{name:'Shielding & Grounding',done:false}
+  ]},
+  {group:'Component Repair', done:2, total:8, items:[
+    {name:'Component Identification',done:true,date:'Dec 20, 2025'},{name:'Basic Board Repair',done:true,date:'Jan 25, 2026'},
+    {name:'Conformal Coating',done:false},{name:'Pad Repair',done:false},{name:'Trace Repair',done:false},
+    {name:'Laminate Repair',done:false},{name:'Plated Hole Repair',done:false},{name:'BGA Pad Repair',done:false}
+  ]},
+  {group:'Documentation', done:1, total:5, items:[
+    {name:'Work Order Processing',done:true,date:'Nov 30, 2025'},{name:'8130-3 Tag Completion',done:false},
+    {name:'Repair Station Manual',done:false},{name:'Quality Escapes',done:false},{name:'FAA Form 337',done:false}
+  ]},
+  {group:'Inspection', done:1, total:5, items:[
+    {name:'Visual Inspection (IPC-A-610)',done:true,date:'Jan 18, 2026'},{name:'X-Ray Interpretation',done:false},
+    {name:'Incoming Inspection',done:false},{name:'In-Process Inspection',done:false},{name:'Final Inspection',done:false}
+  ]},
+  {group:'Leadership', done:0, total:4, locked:true, items:[
+    {name:'Mentoring New Apprentices',done:false,locked:true},{name:'Process Improvement',done:false,locked:true},
+    {name:'Training Delivery',done:false,locked:true},{name:'Shift Lead Competency',done:false,locked:true}
+  ]}
+];
+
+const activityData = [
+  {date:'Feb 12',text:'DMM Calibration Verification signed off by Mike Torres',color:'var(--green)'},
+  {date:'Feb 8',text:'CAET Module 2 Exam: 94% — Passed ✓',color:'var(--blue)'},
+  {date:'Feb 5',text:'40 OJT hours logged this week',color:'var(--text-dim)'},
+  {date:'Feb 1',text:'Cable Routing & Lacing signed off by Mike Torres',color:'var(--green)'},
+  {date:'Jan 25',text:'Basic Board Repair signed off by Mike Torres',color:'var(--green)'},
+  {date:'Jan 20',text:'Connector Assembly signed off by Mike Torres',color:'var(--green)'},
+  {date:'Jan 18',text:'Visual Inspection (IPC-A-610) signed off by Lisa Park',color:'var(--green)'},
+  {date:'Jan 14',text:'Oscilloscope Basics signed off by Mike Torres',color:'var(--green)'},
+  {date:'Jan 10',text:'CAET Module 2 started',color:'var(--blue)'},
+  {date:'Jan 8',text:'Harness Blueprint Reading signed off by Mike Torres',color:'var(--green)'},
+];
+
+const shopData = [
+  ['Eagle Avionics LLC','Wichita, KS',3,45,'Feb 15, 2026','On Track'],
+  ['Pacific Aero Tech','Seattle, WA',8,52,'Feb 14, 2026','On Track'],
+  ['SunBelt Aviation Services','Dallas, TX',12,38,'Feb 15, 2026','On Track'],
+  ['Atlantic Avionics Group','Atlanta, GA',6,61,'Feb 13, 2026','On Track'],
+  ['Sierra Components Inc','Phoenix, AZ',4,33,'Feb 10, 2026','Needs Attention'],
+  ['Coastal Electronics','Miami, FL',7,47,'Feb 12, 2026','On Track'],
+  ['Heartland Repair Station','Tulsa, OK',3,28,'Jan 28, 2026','Needs Attention'],
+  ['NorthStar Avionics','Minneapolis, MN',2,72,'Feb 14, 2026','On Track'],
+  ['Golden State Aero','San Jose, CA',9,41,'Feb 11, 2026','On Track'],
+  ['Blue Ridge Aviation','Charlotte, NC',5,55,'Feb 9, 2026','On Track'],
+  ['Lone Star Instruments','Houston, TX',6,36,'Jan 15, 2026','Needs Attention'],
+  ['Evergreen Avionics','Portland, OR',2,68,'Feb 13, 2026','On Track'],
+  ['Great Lakes Aero Repair','Cleveland, OH',4,44,'Feb 8, 2026','On Track'],
+  ['Palmetto Electronics','Charleston, SC',3,22,'Dec 20, 2025','Inactive'],
+  ['Desert Sky Aviation','Tucson, AZ',2,58,'Feb 7, 2026','On Track'],
+];
+
+const apprenticeShopData = [
+  {name:'Marcus Johnson',initials:'MJ',grad:'linear-gradient(135deg,#3b82f6,#8b5cf6)',pct:42,tier:'Tier 2',status:'On Track',comps:competencyData},
+  {name:'Sarah Chen',initials:'SC',grad:'linear-gradient(135deg,#f59e0b,#ef4444)',pct:28,tier:'Tier 1',status:'Behind',comps:[
+    {group:'Safety & Compliance',done:4,total:6,items:[{name:'OSHA General Safety',done:true,date:'Oct 5, 2025'},{name:'ESD Procedures',done:true,date:'Oct 18, 2025'},{name:'Chemical Handling',done:true,date:'Nov 2, 2025'},{name:'FOD Prevention',done:true,date:'Nov 20, 2025'},{name:'Lockout/Tagout',done:false},{name:'Hazardous Materials Shipping',done:false}]},
+    {group:'Soldering & Termination',done:3,total:5,items:[{name:'Through-Hole Soldering',done:true,date:'Nov 10, 2025'},{name:'SMD Rework',done:true,date:'Dec 1, 2025'},{name:'Wire Crimping & Termination',done:true,date:'Dec 15, 2025'},{name:'Connector Assembly',done:false},{name:'BGA Rework',done:false}]},
+    {group:'Test Equipment',done:2,total:6,items:[{name:'DMM Operation',done:true,date:'Nov 28, 2025'},{name:'Oscilloscope Basics',done:true,date:'Jan 3, 2026'},{name:'DMM Calibration Verification',done:false},{name:'Spectrum Analyzer',done:false},{name:'Hipot Testing',done:false},{name:'TDR Operation',done:false}]},
+    {group:'Wire Harness',done:1,total:4,items:[{name:'Harness Blueprint Reading',done:true,date:'Dec 22, 2025'},{name:'Cable Routing & Lacing',done:false},{name:'Harness Fabrication',done:false},{name:'Shielding & Grounding',done:false}]},
+    {group:'Component Repair',done:1,total:8,items:[{name:'Component Identification',done:true,date:'Jan 8, 2026'},{name:'Basic Board Repair',done:false},{name:'Conformal Coating',done:false},{name:'Pad Repair',done:false},{name:'Trace Repair',done:false},{name:'Laminate Repair',done:false},{name:'Plated Hole Repair',done:false},{name:'BGA Pad Repair',done:false}]},
+    {group:'Documentation',done:1,total:5,items:[{name:'Work Order Processing',done:true,date:'Nov 5, 2025'},{name:'8130-3 Tag Completion',done:false},{name:'Repair Station Manual',done:false},{name:'Quality Escapes',done:false},{name:'FAA Form 337',done:false}]},
+    {group:'Inspection',done:0,total:5,items:[{name:'Visual Inspection (IPC-A-610)',done:false},{name:'X-Ray Interpretation',done:false},{name:'Incoming Inspection',done:false},{name:'In-Process Inspection',done:false},{name:'Final Inspection',done:false}]},
+    {group:'Leadership',done:0,total:4,locked:true,items:[{name:'Mentoring New Apprentices',done:false,locked:true},{name:'Process Improvement',done:false,locked:true},{name:'Training Delivery',done:false,locked:true},{name:'Shift Lead Competency',done:false,locked:true}]}
+  ]},
+  {name:'David Rodriguez',initials:'DR',grad:'linear-gradient(135deg,#10b981,#3b82f6)',pct:65,tier:'Tier 3',status:'Ahead',comps:[
+    {group:'Safety & Compliance',done:6,total:6,items:[{name:'OSHA General Safety',done:true,date:'Jun 15, 2025'},{name:'ESD Procedures',done:true,date:'Jun 28, 2025'},{name:'Chemical Handling',done:true,date:'Jul 10, 2025'},{name:'FOD Prevention',done:true,date:'Jul 25, 2025'},{name:'Lockout/Tagout',done:true,date:'Aug 8, 2025'},{name:'Hazardous Materials Shipping',done:true,date:'Sep 1, 2025'}]},
+    {group:'Soldering & Termination',done:5,total:5,items:[{name:'Through-Hole Soldering',done:true,date:'Jul 5, 2025'},{name:'SMD Rework',done:true,date:'Aug 12, 2025'},{name:'Wire Crimping & Termination',done:true,date:'Sep 5, 2025'},{name:'Connector Assembly',done:true,date:'Oct 1, 2025'},{name:'BGA Rework',done:true,date:'Nov 15, 2025'}]},
+    {group:'Test Equipment',done:4,total:6,items:[{name:'DMM Operation',done:true,date:'Jul 20, 2025'},{name:'Oscilloscope Basics',done:true,date:'Aug 30, 2025'},{name:'DMM Calibration Verification',done:true,date:'Oct 14, 2025'},{name:'Spectrum Analyzer',done:true,date:'Dec 5, 2025'},{name:'Hipot Testing',done:false},{name:'TDR Operation',done:false}]},
+    {group:'Wire Harness',done:3,total:4,items:[{name:'Harness Blueprint Reading',done:true,date:'Sep 18, 2025'},{name:'Cable Routing & Lacing',done:true,date:'Oct 28, 2025'},{name:'Harness Fabrication',done:true,date:'Dec 20, 2025'},{name:'Shielding & Grounding',done:false}]},
+    {group:'Component Repair',done:4,total:8,items:[{name:'Component Identification',done:true,date:'Aug 5, 2025'},{name:'Basic Board Repair',done:true,date:'Sep 25, 2025'},{name:'Conformal Coating',done:true,date:'Nov 8, 2025'},{name:'Pad Repair',done:true,date:'Jan 12, 2026'},{name:'Trace Repair',done:false},{name:'Laminate Repair',done:false},{name:'Plated Hole Repair',done:false},{name:'BGA Pad Repair',done:false}]},
+    {group:'Documentation',done:3,total:5,items:[{name:'Work Order Processing',done:true,date:'Jul 15, 2025'},{name:'8130-3 Tag Completion',done:true,date:'Oct 20, 2025'},{name:'Repair Station Manual',done:true,date:'Jan 5, 2026'},{name:'Quality Escapes',done:false},{name:'FAA Form 337',done:false}]},
+    {group:'Inspection',done:3,total:5,items:[{name:'Visual Inspection (IPC-A-610)',done:true,date:'Sep 10, 2025'},{name:'X-Ray Interpretation',done:true,date:'Nov 22, 2025'},{name:'Incoming Inspection',done:true,date:'Jan 28, 2026'},{name:'In-Process Inspection',done:false},{name:'Final Inspection',done:false}]},
+    {group:'Leadership',done:0,total:4,locked:false,items:[{name:'Mentoring New Apprentices',done:false},{name:'Process Improvement',done:false},{name:'Training Delivery',done:false},{name:'Shift Lead Competency',done:false}]}
+  ]}
+];
+
+// ---- RENDER FUNCTIONS ----
+function renderCompetencies(data, container, signoffMode=false) {
+  container.innerHTML = '';
+  data.forEach(g => {
+    const div = document.createElement('div');
+    div.className = 'comp-group';
+    let itemsHtml = g.items.map((item,i) => {
+      const checkClass = item.done ? 'done' : (item.locked ? 'locked' : '');
+      const checkContent = item.done ? '✓' : (item.locked ? '🔒' : '');
+      const nameClass = item.locked ? 'locked-text' : '';
+      const dateStr = item.date ? `<span class="comp-date">${item.date}</span>` : '';
+      const signBtn = signoffMode && !item.done && !item.locked ? 
+        `<button class="signoff-btn" onclick="doSignoff(this,'${item.name}')">Sign Off</button>` : '';
+      return `<div class="comp-item"><div class="comp-check ${checkClass}">${checkContent}</div><span class="comp-name ${nameClass}">${item.name}</span>${dateStr}${signBtn}</div>`;
+    }).join('');
+    div.innerHTML = `<div class="comp-group-header"><span class="comp-group-name">${g.group}${g.locked?' 🔒':''}</span><span class="comp-group-count">${g.done}/${g.total}</span></div>${itemsHtml}`;
+    container.appendChild(div);
+  });
+}
+
+function renderActivity(data, container) {
+  container.innerHTML = data.map(a => 
+    `<div class="activity-item"><div class="activity-dot" style="background:${a.color}"></div><div><div>${a.text}</div><div class="activity-date">${a.date}</div></div></div>`
+  ).join('');
+}
+
+function renderShopTable() {
+  document.getElementById('shopTableBody').innerHTML = shopData.map(r => {
+    const statusBadge = r[5]==='On Track'?'badge-green':r[5]==='Needs Attention'?'badge-yellow':'badge-red';
+    return `<tr><td style="font-weight:600">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td><div style="display:flex;align-items:center;gap:8px"><div style="width:60px;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden"><div style="width:${r[3]}%;height:100%;background:var(--accent-gradient);border-radius:3px"></div></div>${r[3]}%</div></td><td>${r[4]}</td><td><span class="badge ${statusBadge}">${r[5]}</span></td></tr>`;
+  }).join('');
+}
+
+let sortCol=-1, sortAsc=true;
+function sortTable(col) {
+  if(sortCol===col) sortAsc=!sortAsc; else {sortCol=col;sortAsc=true;}
+  shopData.sort((a,b)=>{
+    let va=a[col],vb=b[col];
+    if(typeof va==='number') return sortAsc?va-vb:vb-va;
+    return sortAsc?String(va).localeCompare(String(vb)):String(vb).localeCompare(String(va));
+  });
+  renderShopTable();
+}
+
+// ---- VIEW SWITCHING ----
+function switchView(view) {
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.toggle('active',t.dataset.view===view));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+view).classList.add('active');
+  if(view==='admin') animateCounters();
+  animateBars();
+}
+
+// ---- ANIMATIONS ----
+function animateCounters() {
+  document.querySelectorAll('.counter').forEach(el=>{
+    const target=parseFloat(el.dataset.target);
+    const decimals=parseInt(el.dataset.decimals)||0;
+    const duration=1200;
+    const start=performance.now();
+    function tick(now){
+      const p=Math.min((now-start)/duration,1);
+      const ease=1-Math.pow(1-p,3);
+      el.textContent=(target*ease).toFixed(decimals);
+      if(p<1) requestAnimationFrame(tick);
+      else el.textContent=target.toFixed(decimals);
+    }
+    requestAnimationFrame(tick);
+  });
+}
+
+function animateBars() {
+  setTimeout(()=>{
+    document.querySelectorAll('.progress-bar-fill[data-width]').forEach(el=>{el.style.width=el.dataset.width+'%'});
+    document.querySelectorAll('.module-bar-fill[data-width]').forEach(el=>{el.style.width=el.dataset.width+'%'});
+    document.querySelectorAll('.funnel-bar[data-width]').forEach(el=>{el.style.width=el.dataset.width+'%'});
+  },100);
+}
+
+function animateRing() {
+  const ring=document.getElementById('mainRing');
+  const pct=document.getElementById('mainPct');
+  const target=42;
+  const circ=427.3;
+  setTimeout(()=>{ring.style.strokeDashoffset=circ-(circ*target/100)},200);
+  const dur=1500;const start=performance.now();
+  function tick(now){const p=Math.min((now-start)/dur,1);const e=1-Math.pow(1-p,3);pct.textContent=Math.round(target*e)+'%';if(p<1)requestAnimationFrame(tick)}
+  requestAnimationFrame(tick);
+}
+
+// ---- SHOP INTERACTIONS ----
+let selectedApprentice = -1;
+function selectApprentice(idx) {
+  selectedApprentice = idx;
+  document.querySelectorAll('.roster-item').forEach((r,i)=>r.classList.toggle('selected',i===idx));
+  const a = apprenticeShopData[idx];
+  document.getElementById('signoffName').textContent = a.name;
+  const list = document.getElementById('signoffList');
+  list.style.opacity = '1';
+  renderCompetencies(a.comps, list, true);
+}
+
+function doSignoff(btn, compName) {
+  btn.classList.add('signed');
+  btn.textContent = 'Signed Off';
+  const check = btn.parentElement.querySelector('.comp-check');
+  if(check){check.classList.add('done','check-pop');check.textContent='✓'}
+  document.getElementById('modalTitle').textContent='Competency Signed Off!';
+  document.getElementById('modalMsg').textContent=`"${compName}" signed off for ${apprenticeShopData[selectedApprentice].name} by Mike Torres on Feb 15, 2026.`;
+  document.getElementById('signoffModal').classList.add('show');
+  setTimeout(()=>closeModal(),2500);
+}
+
+function closeModal(){document.getElementById('signoffModal').classList.remove('show')}
+document.getElementById('signoffModal').addEventListener('click',e=>{if(e.target.classList.contains('modal-overlay'))closeModal()});
+
+// ---- TOAST ----
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;
+  t.style.transform='translateX(-50%) translateY(0)';
+  setTimeout(()=>{t.style.transform='translateX(-50%) translateY(100px)'},3000);
+}
+
+// ---- INIT ----
+renderCompetencies(competencyData, document.getElementById('apprenticeCompetencies'));
+renderActivity(activityData, document.getElementById('activityFeed'));
+renderShopTable();
+animateRing();
+animateBars();
+</script>
+</body>
+</html>

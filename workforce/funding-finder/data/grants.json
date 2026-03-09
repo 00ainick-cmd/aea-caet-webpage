@@ -1,0 +1,531 @@
+{
+  "lastUpdated": "2026-02-14",
+  "federal": [
+    {
+      "id": "gi-bill",
+      "name": "GI Bill for Apprenticeships",
+      "agency": "U.S. Department of Veterans Affairs",
+      "amount": "$1,500–$3,000+/month",
+      "amountNote": "Paid directly to the veteran apprentice, NOT the employer. $0 cost to shop.",
+      "description": "Veterans in registered apprenticeships receive a monthly housing allowance based on their ZIP code. Post-9/11 GI Bill pays 100% of BAH for first 6 months, then decreases. Montgomery GI Bill pays flat rates.",
+      "whoQualifies": "Veterans with GI Bill benefits working at a shop with a VA-approved registered apprenticeship program.",
+      "howToApply": "1. Register as RA sponsor (Fastport handles this). 2. Contact your State Approving Agency (SAA). 3. Submit VA Form 22-8865. 4. SAA approves. 5. Veterans apply through VA.",
+      "difficulty": "moderate",
+      "categories": ["veteran", "wages", "housing"],
+      "level": "federal",
+      "url": "https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/",
+      "ratesUrl": "https://www.va.gov/education/benefit-rates/post-9-11-gi-bill-rates/",
+      "requiresRA": true,
+      "veteranOnly": true,
+      "deadline": "Ongoing — no deadline",
+      "confidence": "high",
+      "proTip": "The apprentice gets paid by VA ON TOP of their wages from you. This is free money for your employee that costs you nothing. It makes your job offer dramatically more competitive."
+    },
+    {
+      "id": "skillbridge",
+      "name": "DoD SkillBridge Program",
+      "agency": "U.S. Department of Defense",
+      "amount": "Free labor — up to 180 days",
+      "amountNote": "DoD continues paying the service member's full salary and benefits. You pay $0.",
+      "description": "Active duty service members in their last 180 days can intern at civilian companies. DoD keeps paying them. Your shop gets a trained technician at zero cost, with the option to hire them when they separate.",
+      "whoQualifies": "Any employer. Service member must be in last 180 days of active duty and get commander approval.",
+      "howToApply": "1. Register your company at skillbridge.osd.mil. 2. Create an opportunity listing. 3. Service members apply to you. 4. Their commander approves.",
+      "difficulty": "easy",
+      "categories": ["veteran", "labor"],
+      "level": "federal",
+      "url": "https://skillbridge.osd.mil/",
+      "requiresRA": false,
+      "veteranOnly": true,
+      "deadline": "Ongoing — no deadline",
+      "confidence": "high",
+      "proTip": "This is a 6-month job interview where DoD pays the salary. If they're good, hire them. If not, you're out nothing. Many shops use SkillBridge as the front door to their apprenticeship program."
+    },
+    {
+      "id": "cool",
+      "name": "COOL (Credentialing Opportunities On-Line)",
+      "agency": "U.S. Department of Defense",
+      "amount": "Up to $4,000/year",
+      "amountNote": "Pays for certifications, licenses, and credentialing exams.",
+      "description": "Active duty and certain reserve/guard members can get DoD funding to earn civilian credentials that match their military specialty. CAET certification qualifies.",
+      "whoQualifies": "Active duty service members, certain reserve/guard. Must be a credential related to their military occupation.",
+      "howToApply": "Service members apply through their branch's COOL portal. The certification provider (AEA for CAET) must be listed.",
+      "difficulty": "easy",
+      "categories": ["veteran", "certification"],
+      "level": "federal",
+      "url": "https://www.cool.osd.mil/",
+      "requiresRA": false,
+      "veteranOnly": true,
+      "deadline": "Ongoing",
+      "confidence": "high",
+      "proTip": "If you hire a transitioning service member, tell them about COOL before they separate. They can get CAET certification paid for while still on active duty."
+    },
+    {
+      "id": "wioa",
+      "name": "WIOA (Workforce Innovation and Opportunity Act)",
+      "agency": "U.S. Department of Labor",
+      "amount": "Up to 50% wage reimbursement + training funds",
+      "amountNote": "Paid to the employer. Reimbursement for wages during OJT period.",
+      "description": "Your local American Job Center / workforce board can reimburse up to 50% of an apprentice's wages during their on-the-job training period. Some boards also fund related instruction costs. This works for ANY apprentice — not just veterans.",
+      "whoQualifies": "Employers working with their local workforce board. Apprentice must be enrolled through the workforce system. Works for veterans AND non-veterans.",
+      "howToApply": "1. Contact your local American Job Center (find at CareerOneStop.org). 2. Work with a business services rep to set up an OJT contract. 3. Hire and train. 4. Get reimbursed.",
+      "difficulty": "moderate",
+      "categories": ["wages", "training"],
+      "level": "federal",
+      "url": "https://www.careeronestop.org/LocalHelp/AmericanJobCenters/find-american-job-centers.aspx",
+      "requiresRA": false,
+      "veteranOnly": false,
+      "deadline": "Ongoing — funding depends on local board allocation",
+      "confidence": "high",
+      "proTip": "This is the best program for NON-veteran apprentices. 50% wage reimbursement is real money. Your local workforce board wants to spend this money — they have performance targets to hit. Make it easy for them."
+    },
+    {
+      "id": "dol-pay-for-performance",
+      "name": "DOL Pay-for-Performance Incentive Program",
+      "agency": "U.S. Department of Labor / ETA",
+      "amount": "Part of $145 million pool",
+      "amountNote": "Competitive cooperative agreements — up to 5 awards nationally.",
+      "description": "Brand new program announced February 2026. Provides incentive payments to RA program sponsors for scaling apprenticeship programs. Transportation is a targeted industry.",
+      "whoQualifies": "Registered Apprenticeship program sponsors. Competitive application through Grants.gov.",
+      "howToApply": "Apply through Grants.gov — see FOA for full requirements.",
+      "difficulty": "complex",
+      "categories": ["training", "program-expansion"],
+      "level": "federal",
+      "url": "https://www.apprenticeship.gov/investments-tax-credits-and-tuition-support/open-funding-opportunities",
+      "grantsGovUrl": "https://www.grants.gov/search-results-detail/361087",
+      "requiresRA": true,
+      "veteranOnly": false,
+      "deadline": "Applications currently being accepted",
+      "confidence": "high",
+      "flag": "Transportation is listed as targeted industry — aviation/avionics may qualify. Review FOA carefully.",
+      "proTip": "This is a BIG grant for program sponsors (like AEA), not individual shops. But if AEA wins, member shops benefit from expanded program resources."
+    },
+    {
+      "id": "aba-grants",
+      "name": "Apprenticeship Building America (ABA) Grants",
+      "agency": "U.S. DOL / ETA",
+      "amount": "Indirect — free services through funded hubs",
+      "amountNote": "Shops don't apply directly. Connect with a funded hub in your area.",
+      "description": "$113 million funds regional hubs that help employers design and deliver apprenticeship programs. Your shop can get free program development support.",
+      "whoQualifies": "Any employer connecting with an ABA-funded hub/intermediary in their region.",
+      "howToApply": "Find an ABA-funded intermediary through Apprenticeship.gov or your state apprenticeship agency.",
+      "difficulty": "easy",
+      "categories": ["training", "program-development"],
+      "level": "federal",
+      "url": "https://www.apprenticeship.gov/investments-tax-credits-and-tuition-support/apprenticeship-building-america-aba1",
+      "requiresRA": true,
+      "veteranOnly": false,
+      "deadline": "Ongoing — depends on hub availability",
+      "confidence": "high",
+      "proTip": "These hubs exist to help small employers like you. They've already been funded — they WANT to help you set up your program. It's literally their job."
+    },
+    {
+      "id": "wotc",
+      "name": "Work Opportunity Tax Credit (WOTC)",
+      "agency": "U.S. Department of Labor / IRS",
+      "amount": "$2,400–$9,600 per qualifying hire",
+      "amountNote": "Tax credit against federal income tax. Amount depends on target group and hours worked.",
+      "description": "Federal tax credit for hiring from specific target groups including veterans, SNAP recipients, ex-felons, and long-term unemployment. Veterans can qualify for up to $9,600 credit.",
+      "whoQualifies": "Any employer hiring from qualified target groups. Must file IRS Form 8850 within 28 days of hire.",
+      "howToApply": "1. Determine if new hire is in a target group. 2. Submit IRS Form 8850 to your state workforce agency within 28 days of start date. 3. Claim credit on tax return.",
+      "difficulty": "easy",
+      "categories": ["tax-credit", "veteran"],
+      "level": "federal",
+      "url": "https://www.dol.gov/agencies/eta/wotc",
+      "requiresRA": false,
+      "veteranOnly": false,
+      "deadline": "Must file Form 8850 within 28 days of hire date",
+      "confidence": "medium",
+      "flag": "WOTC authorization expired 12/31/2025. Historically reauthorized by Congress retroactively. Status for 2026 needs verification.",
+      "proTip": "Even if this expired, Congress almost always renews it retroactively. File the paperwork anyway — you can claim it later when they reauthorize."
+    },
+    {
+      "id": "workforce-pell",
+      "name": "Workforce Pell Grants",
+      "agency": "U.S. Department of Education",
+      "amount": "Up to ~$7,395/year",
+      "amountNote": "Paid to the apprentice for short-term training programs.",
+      "description": "New expansion of Pell Grants to cover short-term workforce training programs, including registered apprenticeship RTI. Still being implemented.",
+      "whoQualifies": "Apprentices enrolled in eligible short-term training programs at approved institutions.",
+      "howToApply": "Through the educational institution providing related instruction. FAFSA required.",
+      "difficulty": "moderate",
+      "categories": ["training", "tuition"],
+      "level": "federal",
+      "url": "https://www.ed.gov/financial-aid",
+      "requiresRA": false,
+      "veteranOnly": false,
+      "deadline": "Implementation timeline TBD",
+      "confidence": "medium",
+      "flag": "Implementation is underway but timeline for full availability is unclear. Check ED.gov for updates.",
+      "proTip": "This could be huge for apprentices paying for RTI. Watch for updates — when this goes live, it's essentially free tuition for your apprentice's classroom training."
+    },
+    {
+      "id": "va-vocrehab",
+      "name": "VA Veteran Readiness & Employment (VR&E / Chapter 31)",
+      "agency": "U.S. Department of Veterans Affairs",
+      "amount": "Full training costs + monthly subsistence",
+      "amountNote": "VA pays for everything — training, tools, supplies, and monthly living allowance.",
+      "description": "For veterans with service-connected disabilities. VA covers all costs of apprenticeship training plus tools, supplies, and a monthly subsistence allowance. More generous than GI Bill for qualifying veterans.",
+      "whoQualifies": "Veterans with a service-connected disability rating and an employment barrier. Must apply through VA.",
+      "howToApply": "Veteran applies through VA.gov or their local VA Regional Office. VA counselor develops a rehabilitation plan that includes the apprenticeship.",
+      "difficulty": "moderate",
+      "categories": ["veteran", "training", "tools", "wages"],
+      "level": "federal",
+      "url": "https://www.va.gov/careers-employment/vocational-rehabilitation/",
+      "requiresRA": true,
+      "veteranOnly": true,
+      "deadline": "Ongoing",
+      "confidence": "high",
+      "proTip": "If your veteran apprentice has ANY service-connected disability rating, check VR&E before using GI Bill. VR&E is often more generous and doesn't burn GI Bill months."
+    },
+    {
+      "id": "federal-tax-credit-proposed",
+      "name": "Federal Apprenticeship Tax Credit (PROPOSED)",
+      "agency": "U.S. Congress",
+      "amount": "$1,500/year per apprentice (proposed)",
+      "amountNote": "NOT YET LAW. Multiple bills introduced but none passed.",
+      "description": "Several bills have proposed a federal tax credit for apprenticeship sponsors. None have passed yet, but bipartisan support exists.",
+      "whoQualifies": "Would apply to all RA sponsors if passed.",
+      "howToApply": "N/A — not yet law.",
+      "difficulty": "n/a",
+      "categories": ["tax-credit"],
+      "level": "federal",
+      "url": "https://www.congress.gov/",
+      "requiresRA": true,
+      "veteranOnly": false,
+      "deadline": "N/A — legislative proposal",
+      "confidence": "low",
+      "flag": "NOT LAW. Do not present as available. Monitor for passage.",
+      "proTip": "Keep an eye on this. When it passes — and it likely will eventually — it'll be another reason to be glad you already set up your apprenticeship."
+    }
+  ],
+  "state": {
+    "TX": {
+      "name": "Texas",
+      "programs": [
+        {
+          "id": "tx-twc-apprenticeship",
+          "name": "TWC Apprenticeship Training Program",
+          "amount": "Varies — state funding for program development",
+          "description": "Texas Workforce Commission provides state funding to encourage private sector apprenticeship development. Includes training grants and support services.",
+          "url": "https://www.twc.texas.gov/programs/apprenticeship/initiatives",
+          "taxCredit": false,
+          "confidence": "high"
+        }
+      ],
+      "taxCredit": null,
+      "notes": "No state apprenticeship tax credit. But Texas has no state income tax, so credits matter less. TWC provides development funding."
+    },
+    "FL": {
+      "name": "Florida",
+      "programs": [
+        {
+          "id": "fl-experiential-learning",
+          "name": "Experiential Learning Tax Credit",
+          "amount": "$2,000/apprentice, max $10,000/year",
+          "description": "Corporate income tax credit for employers with registered apprentices. $2,000 per apprentice, maximum 5 apprentices per year.",
+          "url": "https://floridarevenue.com/forms_library/current/f1198.pdf",
+          "taxCredit": true,
+          "confidence": "high",
+          "flag": "Authorized for taxable years 2022-2025. Extension for 2026+ needs verification."
+        }
+      ],
+      "taxCredit": "$2,000/apprentice (max 5)",
+      "notes": "One of the 5 launch states for AEA/Fastport. Banyan Air Services is based here."
+    },
+    "KS": {
+      "name": "Kansas",
+      "programs": [
+        {
+          "id": "ks-apprenticeship-credit",
+          "name": "Kansas Apprenticeship Tax Credit",
+          "amount": "$2,500/apprentice (2025); $2,750 (2026+)",
+          "description": "State income tax credit per apprentice. Max 20 apprentices. Additional $500 for high school apprentices. Max 4 years per apprentice. Increases to $2,750 in 2026.",
+          "url": "https://www.ksrevenue.gov/prtaxcredits-apprenticeship.html",
+          "taxCredit": true,
+          "confidence": "high"
+        }
+      ],
+      "taxCredit": "$2,750/apprentice (2026+)",
+      "notes": "Strong credit. AEA headquarters is in Lee's Summit, MO — right across the border."
+    },
+    "CO": {
+      "name": "Colorado",
+      "programs": [
+        {
+          "id": "co-apprenticeship-credit",
+          "name": "New & Emerging Industries Apprenticeship Tax Credit",
+          "amount": "Up to $12,600/apprentice/year",
+          "description": "Refundable state tax credit — up to $12,600 per apprentice per year. Maximum 10 apprentices = $126,000/year potential. Available through 2034.",
+          "url": "https://apprenticeship.colorado.gov/tax-credit",
+          "taxCredit": true,
+          "confidence": "high",
+          "flag": "Must be in an approved 'new and emerging' occupation. Avionics technician eligibility needs verification on CO's list."
+        }
+      ],
+      "taxCredit": "Up to $12,600/apprentice/year",
+      "notes": "The biggest state credit in the country. If avionics qualifies as 'new and emerging,' this is massive. Refundable means you get money back even if you owe no tax."
+    },
+    "CT": {
+      "name": "Connecticut",
+      "programs": [
+        {
+          "id": "ct-manufacturing-credit",
+          "name": "Manufacturing Apprenticeship Tax Credit",
+          "amount": "Up to $7,500/apprentice OR 50% of wages",
+          "description": "Tax credit for manufacturers with registered apprentices. Up to $7,500 per apprentice or 50% of wages paid, whichever is less.",
+          "url": "https://portal.ct.gov/dol/knowledge-base/articles/employment-and-training/apprenticeship/manufacturing-tax-credit",
+          "taxCredit": true,
+          "confidence": "high",
+          "flag": "Requires 'manufacturing' classification. Part 145 avionics repair stations may qualify — needs verification of CT's definition."
+        }
+      ],
+      "taxCredit": "Up to $7,500/apprentice",
+      "notes": "Very strong credit if Part 145 shops qualify as manufacturing."
+    },
+    "NY": {
+      "name": "New York",
+      "programs": [
+        {
+          "id": "ny-esatc",
+          "name": "Empire State Apprenticeship Tax Credit (ESATC)",
+          "amount": "$2,000–$7,000/apprentice (scales by year)",
+          "description": "Refundable state tax credit that increases each year of the apprenticeship. Higher rates for 'disadvantaged youth' apprentices.",
+          "url": "https://www.tax.ny.gov/pit/credits/empire-state-apprenticeship-tax-credit.htm",
+          "taxCredit": true,
+          "confidence": "high",
+          "wageTable": [
+            {"year": 1, "standard": "$2,000", "disadvantaged": "$3,000"},
+            {"year": 2, "standard": "$3,000", "disadvantaged": "$4,000"},
+            {"year": 3, "standard": "$4,000", "disadvantaged": "$5,000"},
+            {"year": 4, "standard": "$5,000", "disadvantaged": "$6,000"},
+            {"year": 5, "standard": "$6,000", "disadvantaged": "$7,000"}
+          ]
+        }
+      ],
+      "taxCredit": "$2,000–$7,000/apprentice",
+      "notes": "Credit GROWS each year you keep the apprentice. Year 5 = $6,000 standard or $7,000 for disadvantaged youth. Incentivizes retention."
+    },
+    "IL": {
+      "name": "Illinois",
+      "programs": [
+        {
+          "id": "il-apprenticeship-credit",
+          "name": "Apprenticeship Education Expense Tax Credit",
+          "amount": "Up to $5,000/apprentice",
+          "description": "State tax credit up to $3,500 per apprentice. Additional $1,500 if apprentice is in underserved area OR employer has fewer than 100 employees.",
+          "url": "https://dceo.illinois.gov/expandrelocate/incentives/ilapprenticeshiptaxcredit.html",
+          "taxCredit": true,
+          "confidence": "high"
+        }
+      ],
+      "taxCredit": "Up to $5,000/apprentice",
+      "notes": "Most AEA member shops have fewer than 100 employees — they'd qualify for the extra $1,500."
+    },
+    "SC": {
+      "name": "South Carolina",
+      "programs": [
+        {
+          "id": "sc-apprenticeship-carolina",
+          "name": "Apprenticeship Carolina",
+          "amount": "$1,000/apprentice/year tax credit + free technical assistance",
+          "description": "Apprenticeship Carolina provides free technical assistance to employers setting up apprenticeship programs, plus a $1,000 annual tax credit per registered apprentice. One of the strongest state programs in the country.",
+          "url": "https://www.apprenticeshipcarolina.com/",
+          "sourceUrl": "https://www.scstatehouse.gov/code/t12c006.php",
+          "statute": "SC Code §12-6-3540",
+          "taxCredit": true,
+          "confidence": "high",
+          "lastVerified": "2026-02-14"
+        }
+      ],
+      "taxCredit": "$1,000/apprentice/year",
+      "notes": "One of the 5 launch states for AEA/Fastport. Apprenticeship Carolina is one of the strongest state programs in the country — they'll walk you through everything."
+    },
+    "WV": {
+      "name": "West Virginia",
+      "programs": [
+        {
+          "id": "wv-workforce",
+          "name": "WV Workforce Development",
+          "amount": "Varies",
+          "description": "West Virginia Division of Labor administers apprenticeship programs. State workforce boards may provide additional WIOA funding.",
+          "url": "https://labor.wv.gov/Apprenticeship/Pages/default.aspx",
+          "taxCredit": false,
+          "confidence": "high"
+        }
+      ],
+      "taxCredit": null,
+      "notes": "One of the 5 launch states for AEA/Fastport."
+    },
+    "OH": {
+      "name": "Ohio",
+      "programs": [
+        {
+          "id": "oh-workforce",
+          "name": "Ohio Workforce Development",
+          "amount": "Varies — WIOA and state grants",
+          "description": "Ohio State Apprenticeship Council oversees programs. Workforce boards provide WIOA-funded OJT and training support.",
+          "url": "https://jfs.ohio.gov/apprenticeship",
+          "taxCredit": false,
+          "confidence": "high"
+        }
+      ],
+      "taxCredit": null,
+      "notes": "One of the 5 launch states for AEA/Fastport. Strong manufacturing base."
+    },
+    "OK": {
+      "name": "Oklahoma",
+      "programs": [
+        {
+          "id": "ok-workforce",
+          "name": "Oklahoma Workforce Programs",
+          "amount": "Varies",
+          "description": "Oklahoma Department of Commerce and workforce boards offer employer support for apprenticeships.",
+          "url": "https://oklahomaworks.gov/",
+          "taxCredit": false,
+          "confidence": "medium",
+          "flag": "No dedicated state apprenticeship tax credit identified. Needs verification."
+        }
+      ],
+      "taxCredit": null,
+      "notes": "One of the 5 launch states. No dedicated tax credit found — relies on federal programs."
+    },
+    "CA": {
+      "name": "California",
+      "programs": [
+        {
+          "id": "ca-etpl",
+          "name": "Automatic ETPL Eligibility",
+          "amount": "Indirect — access to WIOA training funds",
+          "description": "DAS-approved apprenticeship programs are automatically eligible for State Eligible Training Provider List, unlocking WIOA training funds.",
+          "url": "https://workforce.org/become-an-eligible-training-provider/",
+          "taxCredit": false,
+          "confidence": "high"
+        }
+      ],
+      "taxCredit": null,
+      "notes": "No state apprenticeship tax credit. Cal Competes was discretionary and expired. ETPL eligibility is the main state benefit."
+    },
+    "AZ": {
+      "name": "Arizona",
+      "programs": [
+        {
+          "id": "az-workforce",
+          "name": "Arizona Workforce Programs",
+          "amount": "Varies",
+          "description": "Arizona workforce boards offer employer support and WIOA-funded training for apprenticeships.",
+          "url": "https://www.azcommerce.com/workforce",
+          "taxCredit": false,
+          "confidence": "medium",
+          "flag": "No dedicated state apprenticeship tax credit identified. Needs verification."
+        }
+      ],
+      "taxCredit": null,
+      "notes": "No dedicated tax credit found."
+    },
+    "GA": {
+      "name": "Georgia",
+      "programs": [
+        {
+          "id": "ga-workforce",
+          "name": "Georgia Workforce Programs",
+          "amount": "Varies",
+          "description": "Georgia DOL and workforce boards support registered apprenticeships. Quick Start program may provide additional training support.",
+          "url": "https://dol.georgia.gov/find-registered-apprenticeship",
+          "taxCredit": false,
+          "confidence": "medium",
+          "flag": "No dedicated state apprenticeship tax credit identified."
+        }
+      ],
+      "taxCredit": null,
+      "notes": "No dedicated tax credit. Strong workforce system though."
+    },
+    "WA": {
+      "name": "Washington",
+      "programs": [
+        {
+          "id": "wa-apprentice-grant",
+          "name": "WA Grant for Apprenticeship",
+          "amount": "State financial aid for apprentices",
+          "description": "State financial aid for apprentices attending related instruction. Washington State Apprenticeship and Training Council oversees programs.",
+          "url": "https://wsac.wa.gov/wcg-apprentices",
+          "taxCredit": false,
+          "confidence": "high"
+        }
+      ],
+      "taxCredit": null,
+      "notes": "No state tax credit but strong financial aid for apprentices."
+    },
+    "NC": {
+      "name": "North Carolina",
+      "programs": [
+        {
+          "id": "nc-apprenticeship",
+          "name": "ApprenticeshipNC",
+          "amount": "Varies — training and development support",
+          "description": "NC Commerce Department's apprenticeship division provides employer support, curriculum development, and connections to community colleges.",
+          "url": "https://www.apprenticeshipnc.com/",
+          "taxCredit": false,
+          "confidence": "high"
+        }
+      ],
+      "taxCredit": null,
+      "notes": "No dedicated tax credit. Strong community college integration though — good RTI partners."
+    },
+    "PA": {
+      "name": "Pennsylvania",
+      "programs": [
+        {
+          "id": "pa-apprenticeship",
+          "name": "PA Apprenticeship & Training Office",
+          "amount": "Varies — WIOA and state grants",
+          "description": "PA L&I Apprenticeship and Training Office oversees programs. PAsmart grants have funded apprenticeship expansion.",
+          "url": "https://www.dli.pa.gov/Businesses/Workforce-Development/apprenticeship/Pages/default.aspx",
+          "taxCredit": false,
+          "confidence": "high"
+        }
+      ],
+      "taxCredit": null,
+      "notes": "PAsmart grants have expanded apprenticeship. No dedicated tax credit."
+    }
+  },
+  "stackingExamples": [
+    {
+      "scenario": "Veteran Apprentice in Colorado",
+      "yearOne": [
+        {"program": "GI Bill (Post-9/11)", "amount": "$24,000–$36,000/year", "paidTo": "Apprentice", "costToShop": "$0"},
+        {"program": "Colorado Tax Credit", "amount": "$12,600", "paidTo": "Shop (tax credit)", "costToShop": "Saves $12,600"},
+        {"program": "SkillBridge (first 6 months)", "amount": "$30,000+ in free labor", "paidTo": "DoD pays salary", "costToShop": "$0"},
+        {"program": "WIOA OJT Reimbursement", "amount": "50% of wages for OJT period", "paidTo": "Shop (reimbursement)", "costToShop": "Saves ~$12,000"}
+      ],
+      "totalValue": "$60,000+"
+    },
+    {
+      "scenario": "Non-Veteran Apprentice in Kansas",
+      "yearOne": [
+        {"program": "Kansas Tax Credit", "amount": "$2,750", "paidTo": "Shop (tax credit)", "costToShop": "Saves $2,750"},
+        {"program": "WIOA OJT Reimbursement", "amount": "50% of wages for OJT period", "paidTo": "Shop (reimbursement)", "costToShop": "Saves ~$12,000"}
+      ],
+      "totalValue": "$14,750+"
+    },
+    {
+      "scenario": "Veteran Apprentice in New York (5-year program)",
+      "fiveYear": [
+        {"program": "GI Bill (Post-9/11)", "amount": "$60,000–$100,000+", "paidTo": "Apprentice"},
+        {"program": "NY ESATC (5 years)", "amount": "$20,000", "paidTo": "Shop (tax credit)"},
+        {"program": "WIOA OJT", "amount": "$12,000+", "paidTo": "Shop (reimbursement)"},
+        {"program": "WOTC (if renewed)", "amount": "Up to $9,600", "paidTo": "Shop (tax credit)"}
+      ],
+      "totalValue": "$100,000+"
+    }
+  ],
+  "verificationNeeded": [
+    {"item": "WOTC 2026 reauthorization", "status": "expired 12/31/2025", "action": "Check if Congress reauthorized"},
+    {"item": "Florida tax credit extension", "status": "authorized 2022-2025", "action": "Verify if extended to 2026+"},
+    {"item": "Colorado occupation list", "status": "avionics must be 'new and emerging'", "action": "Check CO's approved occupation list"},
+    {"item": "Connecticut manufacturing definition", "status": "Part 145 may or may not qualify", "action": "Verify CT's definition of manufacturing"},
+    {"item": "DOL Pay-for-Performance Transportation scope", "status": "aviation unclear under 'Transportation'", "action": "Review FOA for specific industry definitions"},
+    {"item": "Workforce Pell timeline", "status": "implementation underway", "action": "Check ED.gov for go-live date"},
+    {"item": "Oklahoma programs", "status": "no specific programs identified", "action": "Contact OK workforce agency"},
+    {"item": "Arizona programs", "status": "no specific programs identified", "action": "Contact AZ workforce agency"}
+  ]
+}

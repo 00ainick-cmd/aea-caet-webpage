@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEA Apprenticeship FAQ — Funding Finder</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--blue:#003366;--gold:#C5960C;--light:#f4f6f8;--text:#1a1a1a;--gray:#666;--border:#ddd;--white:#fff;--shadow:0 2px 8px rgba(0,0,0,.12)}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--text);background:var(--light);line-height:1.6}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+
+/* Header */
+.header{background:var(--blue);color:var(--white);padding:1.5rem 0;text-align:center}
+.logo-placeholder{width:80px;height:80px;background:rgba(255,255,255,0.1);border:2px dashed var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--gold);text-align:center;padding:0.5rem;margin:0 auto 1rem}
+.header h1{font-size:1.8rem;margin-bottom:.25rem}
+.header p{color:var(--gold);font-size:1rem;font-weight:500}
+.nav-bar{background:#002244;padding:.5rem 0;text-align:center;font-size:.9rem}
+.nav-bar a{color:var(--gold);margin:0 1rem;font-weight:500}
+.nav-bar a:hover{color:var(--white)}
+
+/* Container */
+.container{max-width:860px;margin:0 auto;padding:1.5rem 1rem 3rem}
+
+/* Search */
+.search-wrap{margin-bottom:2rem}
+.search-wrap input{width:100%;padding:.85rem 1rem .85rem 2.8rem;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='%23999' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3C/svg%3E") .8rem center no-repeat;transition:border-color .2s}
+.search-wrap input:focus{outline:none;border-color:var(--gold)}
+.no-results{display:none;text-align:center;padding:2rem;color:var(--gray);font-size:1.05rem}
+
+/* Sections */
+.faq-section{margin-bottom:1.5rem}
+.section-title{font-size:1.15rem;font-weight:700;color:var(--white);background:var(--blue);padding:.75rem 1rem;border-radius:8px 8px 0 0;cursor:default;display:flex;align-items:center;gap:.5rem}
+.section-title .icon{font-size:1.2rem}
+.section-body{background:var(--white);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;overflow:hidden}
+
+/* Accordion items */
+.faq-item{border-top:1px solid var(--border)}
+.faq-item:first-child{border-top:none}
+.faq-q{padding:1rem 1.25rem;cursor:pointer;font-weight:600;font-size:1rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;user-select:none;transition:background .15s}
+.faq-q:hover{background:#f9f9f9}
+.faq-q::after{content:'+';font-size:1.4rem;font-weight:300;color:var(--gold);flex-shrink:0;transition:transform .25s}
+.faq-item.open .faq-q::after{content:'−'}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.faq-a-inner{padding:0 1.25rem 1.15rem;color:#333;font-size:.95rem;line-height:1.7}
+.faq-a-inner p{margin-bottom:.6rem}
+.faq-a-inner .cite{font-size:.8rem;color:var(--gray);font-style:italic;margin-top:.3rem}
+.faq-a-inner ul,.faq-a-inner ol{margin:.4rem 0 .6rem 1.4rem}
+.faq-a-inner li{margin-bottom:.25rem}
+.faq-a-inner strong{color:var(--blue)}
+.highlight{background:#fff3cd;padding:0 2px;border-radius:2px}
+.wage-table{width:100%;border-collapse:collapse;margin:.6rem 0;font-size:.9rem}
+.wage-table th{background:var(--blue);color:var(--white);padding:.4rem .6rem;text-align:left;font-weight:600}
+.wage-table td{padding:.35rem .6rem;border-bottom:1px solid var(--border)}
+.wage-table tr:last-child td{border-bottom:none}
+
+/* CTA */
+.cta-section{background:var(--blue);border-radius:10px;padding:2.5rem 2rem;text-align:center;color:var(--white);margin-top:2.5rem}
+.cta-section h2{font-size:1.5rem;margin-bottom:.5rem}
+.cta-section p{color:#ccc;margin-bottom:1.5rem;font-size:1rem}
+.cta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;max-width:700px;margin:0 auto}
+.cta-btn{display:block;padding:.85rem 1rem;border-radius:6px;font-weight:600;font-size:.95rem;transition:transform .15s,box-shadow .15s;text-align:center}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decoration:none}
+.cta-primary{background:var(--gold);color:var(--blue)}
+.cta-secondary{background:rgba(255,255,255,.12);color:var(--white);border:1px solid rgba(255,255,255,.25)}
+
+/* Footer */
+.footer{background:#002244;color:#aab;padding:1.5rem 1rem;text-align:center;font-size:.82rem;line-height:1.6;margin-top:3rem}
+.footer a{color:var(--gold)}
+
+@media(max-width:600px){
+  .header h1{font-size:1.35rem}
+  .cta-grid{grid-template-columns:1fr}
+  .container{padding:1rem .75rem 2rem}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <!-- AEA LOGO HERE -->
+  <img src="AEA%20corporate%20logo%20-%20transparent%20-%20white.png" alt="AEA" style="height:45px;width:auto;">
+  <h1>AEA Apprenticeship Program FAQ</h1>
+  <p>Straight answers for shop owners</p>
+</div>
+<div class="nav-bar">
+  <a href="index.html">← Funding Finder</a>
+  <a href="apprenticeship-guide.html">Apprenticeship Guide</a>
+</div>
+
+<div class="container">
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Search questions… e.g. &quot;veteran&quot; or &quot;cost&quot;" autocomplete="off">
+</div>
+<div class="no-results" id="noResults">No questions match your search. Try different keywords.</div>
+
+<!-- Section 1 -->
+<div class="faq-section" data-section>
+  <div class="section-title"><span class="icon">📋</span> About the Program</div>
+  <div class="section-body">
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What is the AEA/Fastport Apprenticeship Program?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>A nationally registered apprenticeship program, approved by the U.S. Department of Labor, for <strong>Avionics Technicians</strong> (O*NET 49-2091.00, RAPIDS code 0003CB).</p>
+        <p>AEA partnered with Fastport to create a <strong>national program</strong> so individual shops don't have to go through the lengthy process of registering their own. Any AEA member shop can join by signing a one-page Employer Acceptance Agreement.</p>
+        <p class="cite">Ref: 29 CFR Part 29 — National Apprenticeship Standards</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">Who is Fastport?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>Fastport is a <strong>DOL-recognized Standards Recognition Entity (SRE) and intermediary</strong> that handles all compliance, paperwork, EEO reporting, and DOL communication for the program.</p>
+        <p>They serve as the liaison between your shop and the federal government. <strong>You focus on training — they handle the bureaucracy.</strong></p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What is AEA's role?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>AEA is the <strong>Related Technical Instruction (RTI) provider</strong>. We deliver 586 hours of structured training across 4 phases through the CAET (Certified Aircraft Electronics Technician) curriculum.</p>
+        <p>AEA also advocates for the program, connects shops with resources, and supports member adoption.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">How is this different from just hiring and training someone?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>You're probably already training people informally. A registered apprenticeship <strong>formalizes what you're already doing</strong>, which unlocks federal and state funding — tax credits, wage reimbursements, veteran benefits.</p>
+        <p>It also gives your apprentice a <strong>nationally recognized DOL credential</strong> upon completion.</p>
+        <p><strong>Same work, more money, better retention.</strong></p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">Is DOL going to show up at my shop?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p><strong>No.</strong> Fastport handles all DOL compliance and reporting. DOL may request records, but Fastport manages that communication.</p>
+        <p>Your obligation is to provide quality training and maintain progress records — which the tracking system handles for you.</p>
+        <p class="cite">Ref: 29 CFR §29.7 — Apprenticeship program compliance</p>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Section 2 -->
+<div class="faq-section" data-section>
+  <div class="section-title"><span class="icon">✅</span> How to Join</div>
+  <div class="section-body">
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">How do I sign up?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>Sign the <strong>one-page Employer Acceptance Agreement</strong>. That's it.</p>
+        <p>Fastport registers your shop as a participating employer under the national program standards. No separate DOL application needed.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What are the requirements?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <ul>
+          <li>At least one <strong>journeyworker</strong> (experienced avionics tech) for every apprentice — <strong>1:1 ratio</strong></li>
+          <li>You need to be an <strong>AEA member shop</strong></li>
+          <li>Agree to follow the <strong>Work Process Schedule</strong> (43 OJT competencies)</li>
+          <li>Ensure your apprentice completes the RTI</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">How many apprentices can I have?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>As many as you have qualified journeyworkers to supervise. The 1:1 ratio means if you have <strong>5 experienced techs, you can have up to 5 apprentices</strong>.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What does it cost me?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>The Employer Acceptance Agreement is <strong>free</strong>. RTI through AEA — pricing details available from AEA.</p>
+        <p>But here's the key: <strong>the grants and tax credits available to you as a registered apprenticeship sponsor typically far exceed any program costs.</strong></p>
+        <p>Use the <a href="index.html">Funding Finder</a> to see what's available in your state.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">Can I hire someone new, or does it have to be a current employee?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p><strong>Either.</strong> You can enroll a current employee or hire someone new specifically as an apprentice.</p>
+        <p>Veterans can enter through <strong>Direct Entry</strong>, bypassing standard selection procedures.</p>
+        <p class="cite">Ref: 29 CFR §29.5(b)(21) — Direct Entry provisions</p>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Section 3 -->
+<div class="faq-section" data-section>
+  <div class="section-title"><span class="icon">🎓</span> About the Apprentice</div>
+  <div class="section-body">
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">How long does the program take?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>Approximately <strong>4 years</strong>, competency-based. Faster learners who demonstrate competency can progress more quickly.</p>
+        <p>There's a <strong>12-week probationary period</strong> at the start.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What does the apprentice earn?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>Progressive wage schedule increasing as they demonstrate competencies. Shops can customize their own wage schedule. Example:</p>
+        <table class="wage-table">
+          <tr><th>Phase</th><th>Approx. Hourly Rate</th></tr>
+          <tr><td>Phase 1</td><td>$23/hr</td></tr>
+          <tr><td>Phase 2</td><td>$24/hr</td></tr>
+          <tr><td>Phase 3</td><td>$25/hr</td></tr>
+          <tr><td>Phase 4</td><td>$26/hr</td></tr>
+          <tr><td><strong>Journeyworker</strong></td><td><strong>$30/hr</strong></td></tr>
+        </table>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What credential does the apprentice earn?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>Upon completion, a <strong>DOL Certificate of Completion</strong> — a nationally recognized credential. Combined with CAET certification from AEA, this gives them a strong professional foundation.</p>
+        <p>The program also aligns with the path to <strong>FAA A&amp;P certification</strong> and Inspection Authorization.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">Can veterans join?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p><strong>Absolutely.</strong> Veterans qualify for Direct Entry — meaning they can bypass standard selection procedures. Military avionics training counts as credit for previous experience.</p>
+        <p>Plus, veterans unlock <strong>additional funding</strong>:</p>
+        <ul>
+          <li><strong>GI Bill</strong> — $1,500–$3,000+/month housing allowance</li>
+          <li><strong>COOL</strong> — $4,000/year for certifications</li>
+          <li><strong>SkillBridge</strong> — free labor for up to 180 days (DoD pays their salary)</li>
+          <li><strong>VR&amp;E</strong> — additional support for disabled veterans</li>
+        </ul>
+        <p class="cite">Ref: 38 U.S.C. Chapter 33 (GI Bill); DoD Instruction 1322.29 (SkillBridge)</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What if my apprentice quits or I need to let them go?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>During the <strong>12-week probationary period</strong>, either party can cancel without cause.</p>
+        <p>After probation, cancellation requires due notice and documented reason. Fastport handles the paperwork.</p>
+        <p><strong>This does NOT jeopardize your program</strong> — it's a normal part of the process.</p>
+        <p class="cite">Ref: 29 CFR §29.7(g) — Cancellation and deregistration</p>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Section 4 -->
+<div class="faq-section" data-section>
+  <div class="section-title"><span class="icon">🔧</span> What the Shop Owner Has to Do</div>
+  <div class="section-body">
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What are my ongoing obligations?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <ol>
+          <li>Provide on-the-job training following the <strong>43-competency Work Process Schedule</strong></li>
+          <li>Ensure your apprentice completes RTI through AEA</li>
+          <li>Rate your apprentice's competency progress (0–5 scale)</li>
+          <li>Report leave, vacation, or suspension to Fastport</li>
+          <li>Report when the apprentice completes the program</li>
+        </ol>
+        <p>The AEA tracking system makes all of this simple.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">How do I track my apprentice's progress?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>AEA provides a <strong>tracking system</strong>. OJT competencies are checked off by the supervisor as the apprentice demonstrates them on real shop work.</p>
+        <p>RTI progress is tracked automatically through the training platform. You can see scores, weak areas, and completion percentage at any time.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">Do I have to create a training curriculum?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p><strong>No.</strong> AEA provides all RTI content. The OJT is your normal shop work — installations, troubleshooting, inspections — mapped to 43 specific competencies.</p>
+        <p>We give you the checklist; you train them the way you already do.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What paperwork do I need to maintain?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>The tracking system handles most of it. You'll need:</p>
+        <ul>
+          <li>Signed apprenticeship agreement (<strong>ETA-671</strong>, Fastport provides)</li>
+          <li>Competency rating records (in the tracker)</li>
+          <li>Attendance/leave records</li>
+        </ul>
+        <p>Fastport handles all DOL reporting.</p>
+        <p class="cite">Ref: ETA Form 671 — Apprenticeship Agreement</p>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Section 5 -->
+<div class="faq-section" data-section>
+  <div class="section-title"><span class="icon">🔍</span> About the Funding Finder Tool</div>
+  <div class="section-body">
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What is this tool?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>The <strong>AEA Apprenticeship Funding Finder</strong> shows you every federal and state funding opportunity available to your shop as a registered apprenticeship sponsor.</p>
+        <p>Select your state, see what's available, and learn exactly how to apply.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">Is this data accurate?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>Every entry is sourced from <strong>official .gov databases</strong> with statute numbers, source URLs, and verification dates.</p>
+        <p>Programs flagged with ⚠️ need additional verification — we note those clearly. We update this tool regularly to reflect program changes.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">Do I automatically get all this money?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p><strong>No.</strong> Each program has its own application process. The tool shows you what's available and how to apply.</p>
+        <p>Some programs (like state tax credits) are <strong>automatic</strong> once you have a registered apprenticeship. Others (like WIOA) require working with your local workforce board.</p>
+        <p class="cite">Ref: WIOA (29 U.S.C. §3101 et seq.)</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">Can I stack multiple programs?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p><strong>Yes!</strong> That's where the real value is. A veteran apprentice in a state with a tax credit could stack:</p>
+        <ul>
+          <li>GI Bill</li>
+          <li>State tax credit</li>
+          <li>WIOA wage reimbursement</li>
+          <li>SkillBridge</li>
+        </ul>
+        <p>See the <strong>"Stack These Together"</strong> section in the Funding Finder for examples specific to your state.</p>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Section 6 — Funding Mechanics -->
+<div class="faq-section" data-section>
+  <div class="section-title"><span class="icon">💰</span> Funding & Payment Mechanics</div>
+  <div class="section-body">
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">How does my shop receive funding payments?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>Each funding stream has its own process. <strong>Registered apprenticeship is a "ticket to the dance"</strong> — it qualifies you for funding, but each source has different triggers and timelines.</p>
+        <p><strong>State tax credits:</strong> You claim them on your annual state tax return. The credit reduces what you owe (or in some states like Colorado, you get a refund even if you owe zero).</p>
+        <p><strong>WIOA/workforce board funds:</strong> Reimbursement payments after you submit proof of wages paid and training completed. Your local American Job Center administers this.</p>
+        <p><strong>VA benefits (GI Bill):</strong> Paid directly to the veteran apprentice by the VA. $0 hits your books — it's supplemental income for them.</p>
+        <p><strong>Federal tax credits (WOTC):</strong> Claimed on your federal income tax return after filing IRS Form 8850 within 28 days of hire.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What triggers the actual funding?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>It varies by source:</p>
+        <p><strong>State tax credits:</strong> Trigger automatically once you have a registered apprentice. You claim it when you file taxes. Fastport provides the documentation you need.</p>
+        <p><strong>WIOA funds:</strong> Require coordination with your local American Job Center. You sign an OJT agreement with them <em>before</em> hiring. They reimburse based on milestones (usually monthly or quarterly).</p>
+        <p><strong>VA benefits:</strong> Flow directly to the veteran once your shop is VA-approved and the veteran applies. Fastport provides technical assistance navigating VA approval.</p>
+        <p style="margin-top:.75rem"><strong>Fastport provides technical assistance and coaching throughout all of this.</strong> You're not navigating it alone.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What does Fastport do to help with VA approval?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>Fastport's subject matter experts provide <strong>technical assistance around becoming VA-approved</strong>, connecting you with State Approving Agencies (SAA), and navigating the approval process.</p>
+        <p>This is critical if you want to hire veterans who will use GI Bill benefits. The SAA reviews your training program, ensures it meets VA standards, and issues approval.</p>
+        <p>Once approved, any veteran you hire can apply for GI Bill housing allowance ($1,500–$3,000+/month) while working for you.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">Do I need to work with my local workforce board?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p><strong>Yes, for local WIOA/workforce development funds.</strong></p>
+        <p>Your local American Job Center (part of the workforce board system) administers WIOA On-the-Job Training (OJT) reimbursement — which can reimburse up to 50% of wages during training.</p>
+        <p>Fastport provides assistance and coaching to help you connect with and navigate your local workforce board requirements. Each board operates slightly differently, so local guidance matters.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What internal commitments are required for state programs?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>This varies by state. The <strong>National Program Standard provides some reciprocity</strong>, but each state and local workforce board may have their own requirements:</p>
+        <ul>
+          <li>Some states require annual reporting (Fastport handles this)</li>
+          <li>Some workforce boards require pre-approval before hiring (sign OJT agreement first)</li>
+          <li>Some states have specific documentation requirements for tax credit claims (Fastport provides templates)</li>
+        </ul>
+        <p>Fastport provides <strong>guides during onboarding training and continuous technical assistance</strong> specific to your state and local requirements.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What paperwork is needed when I approve a new apprentice?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>You'll need the <strong>ETA-671 (Apprentice Agreement)</strong> and <strong>Voluntary Disability Disclosure Forms</strong>.</p>
+        <p>Successful employers incorporate these into their existing onboarding process — same packet as W-4, I-9, and direct deposit forms.</p>
+        <p>The forms are individualized (pre-filled with your shop info and apprentice info) and available after Fastport's onboarding training, which covers exactly how to complete and submit them.</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">Who is responsible for submitting apprentice paperwork?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p><strong>You (the employer):</strong></p>
+        <ul>
+          <li>Hire the apprentice</li>
+          <li>Verify previous training/experience (for credit toward competencies)</li>
+          <li>Support RTI completion (ensure apprentice attends training)</li>
+          <li>Provide qualified mentors and OJT supervision</li>
+          <li>Assess competencies and provide ratings</li>
+          <li>Advise Fastport of status changes: cancelled, suspended, or completed</li>
+        </ul>
+        <p style="margin-top:.75rem"><strong>Fastport:</strong></p>
+        <ul>
+          <li>Handles all DOL submissions</li>
+          <li>Manages compliance reporting</li>
+          <li>EEO data collection and reporting</li>
+          <li>DOL registration and deregistration</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What records do I need to keep?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p>Employers retain all apprentice documents including:</p>
+        <ul>
+          <li>Hiring records (application, interview notes, selection justification)</li>
+          <li>Signed apprenticeship agreement (ETA-671)</li>
+          <li>Related training documentation (RTI attendance, test scores, completion certificates)</li>
+          <li>OJT records (competency evaluations, supervisor sign-offs, progress tracking)</li>
+          <li>Wage information (pay stubs, wage progression documentation)</li>
+          <li>Competency assessments (ratings, evaluations, milestone completions)</li>
+        </ul>
+        <p style="margin-top:.75rem">The AEA tracking system maintains most of this digitally. You just need to retain copies per your normal business record retention policy (typically 3–7 years depending on state).</p>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-faq>
+      <div class="faq-q">What funding should I pursue as an employer?</div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <p><strong>Pursue ALL available funding.</strong> Don't leave money on the table. Here's the checklist:</p>
+        <ol>
+          <li><strong>WOTC (Work Opportunity Tax Credit)</strong> — Federal tax credit for hiring from target groups (veterans, SNAP recipients, long-term unemployed). File IRS Form 8850 within 28 days of hire.</li>
+          <li><strong>WIOA funds</strong> — Contact your local American Job Center and set up an OJT agreement BEFORE you hire. They reimburse up to 50% of wages.</li>
+          <li><strong>State tax credits</strong> — Automatic in most states once you have a registered apprentice. Claim on annual state tax return.</li>
+          <li><strong>VA Benefits (if hiring veteran)</strong> — Work with Fastport to get VA-approved. Veteran applies for GI Bill. They get $1,500–$3,000+/month.</li>
+          <li><strong>Veteran-specific tax credits</strong> — Some states offer additional credits for hiring veterans.</li>
+          <li><strong>Recently announced incentive funding</strong> — DOL Pay-for-Performance, ABA grants, state-specific programs. Fastport keeps you updated.</li>
+        </ol>
+        <p style="margin-top:.75rem"><strong>💡 Pro Tip:</strong> Use the <a href="index.html">Funding Finder tool</a> to see exactly what's available in your state. It lists every program with step-by-step application instructions and links to official sources.</p>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>Ready to Get Started?</h2>
+  <p>Join the AEA/Fastport Apprenticeship Program and start accessing funding for your shop.</p>
+  <div class="cta-grid">
+    <a href="https://aea.net" target="_blank" class="cta-btn cta-primary">Contact AEA</a>
+    <a href="https://fastport.com" target="_blank" class="cta-btn cta-secondary">Learn About Fastport</a>
+    <a href="index.html" class="cta-btn cta-primary">Funding Finder</a>
+    <a href="apprenticeship-guide.html" class="cta-btn cta-secondary">Apprenticeship Guide</a>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>This FAQ is provided for informational purposes. Program details are subject to change. Verify current requirements with AEA and Fastport.</p>
+  <p>Regulatory references: 29 CFR Part 29 · 29 U.S.C. §3101 (WIOA) · 38 U.S.C. Chapter 33 (GI Bill) · ETA Form 671</p>
+  <p style="margin-top:.5rem"><a href="index.html">Funding Finder</a> · <a href="https://aea.net" target="_blank">AEA</a> · <a href="https://fastport.com" target="_blank">Fastport</a></p>
+</div>
+
+<script>
+// Accordion
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement;
+    const a=q.nextElementSibling;
+    if(item.classList.contains('open')){
+      a.style.maxHeight=null;item.classList.remove('open');
+    }else{
+      // close siblings
+      item.parentElement.querySelectorAll('.faq-item.open').forEach(o=>{
+        o.querySelector('.faq-a').style.maxHeight=null;o.classList.remove('open');
+      });
+      item.classList.add('open');
+      a.style.maxHeight=a.scrollHeight+'px';
+    }
+  });
+});
+
+// Search
+const search=document.getElementById('search');
+const noResults=document.getElementById('noResults');
+search.addEventListener('input',()=>{
+  const term=search.value.toLowerCase().trim();
+  let visible=0;
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    const text=item.textContent.toLowerCase();
+    const match=!term||text.includes(term);
+    item.style.display=match?'':'none';
+    if(match)visible++;
+  });
+  document.querySelectorAll('.faq-section').forEach(sec=>{
+    const items=sec.querySelectorAll('.faq-item');
+    const any=[...items].some(i=>i.style.display!=='none');
+    sec.style.display=any?'':'none';
+  });
+  noResults.style.display=visible?'none':'block';
+});
+</script>
+</body>
+</html>

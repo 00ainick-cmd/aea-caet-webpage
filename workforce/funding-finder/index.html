@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEA Apprenticeship Funding Finder</title>
+<style>
+:root{--blue:#003366;--blue-d:#001a33;--gold:#C5960C;--gold-l:#f5e6b8;--bg:#f4f7fa;--card:#fff;--text:#1a1a2e;--text2:#5a5a7a;--green:#28a745;--red:#dc3545;--yellow:#e6a817;--border:#e2e5ea;--r:12px;--sh:0 2px 12px rgba(0,0,0,0.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+
+header{background:linear-gradient(135deg,var(--blue),var(--blue-d));color:#fff;padding:2.5rem 2rem}
+.hdr{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem}
+.hdr-left{display:flex;align-items:center;gap:1.5rem}
+.logo-placeholder{width:80px;height:80px;background:rgba(255,255,255,0.1);border:2px dashed var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--gold);text-align:center;padding:0.5rem}
+h1{font-size:1.8rem;font-weight:800;line-height:1.2}
+h1 span{color:var(--gold);display:block;font-size:2.2rem}
+.tagline{margin-top:.5rem;font-size:1.05rem;opacity:.8}
+.badge{background:rgba(255,255,255,.1);border:2px solid var(--gold);border-radius:var(--r);padding:1rem 1.5rem;text-align:center;min-width:200px}
+.badge-val{font-size:2rem;font-weight:800;color:var(--gold)}
+.badge-lbl{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;opacity:.7}
+
+main{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+.step{margin-bottom:2rem}
+.step.hide{display:none}
+h2{font-size:1.5rem;margin-bottom:.5rem}
+.subdesc{color:var(--text2);margin-bottom:1.5rem}
+
+.quick-start{background:linear-gradient(135deg,#f0f7ff,#fff8e8);border-radius:var(--r);padding:1.5rem;margin-bottom:2rem;border-left:4px solid var(--blue)}
+.quick-start h3{font-size:1.2rem;margin-bottom:1rem;color:var(--blue)}
+.quick-btns{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.qbtn{background:#fff;border:2px solid var(--border);border-radius:8px;padding:1rem;cursor:pointer;transition:.2s;text-align:left;display:flex;align-items:flex-start;gap:1rem}
+.qbtn:hover{border-color:var(--blue);box-shadow:var(--sh);transform:translateY(-2px)}
+.qbtn-icon{font-size:2rem;flex-shrink:0}
+.qbtn-text h4{font-size:1rem;margin-bottom:.25rem;color:var(--blue)}
+.qbtn-text p{font-size:.85rem;color:var(--text2)}
+
+select{width:100%;max-width:420px;padding:1rem;font-size:1.1rem;border:2px solid var(--border);border-radius:8px;background:#fff;cursor:pointer}
+select:focus{outline:none;border-color:var(--blue)}
+
+.toggle-row{margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:1.5rem}
+.toggle{display:flex;align-items:center;gap:.75rem;cursor:pointer;font-size:1rem}
+.toggle input{display:none}
+.tslider{width:48px;height:26px;background:#ccc;border-radius:13px;position:relative;transition:.3s;flex-shrink:0}
+.tslider::after{content:'';width:22px;height:22px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;transition:.3s}
+.toggle input:checked+.tslider{background:var(--green)}
+.toggle input:checked+.tslider::after{left:24px}
+.thint{font-size:.85rem;color:var(--text2);margin-top:.35rem;width:100%}
+
+.rh{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem}
+.btn-back{background:none;border:2px solid var(--blue);color:var(--blue);padding:.5rem 1rem;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600}
+.btn-back:hover{background:var(--blue);color:#fff}
+
+.sstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem}
+.scard{background:var(--card);border-radius:var(--r);padding:1.25rem;text-align:center;box-shadow:var(--sh)}
+.scard.hl{background:var(--blue);color:#fff}
+.sval{font-size:2rem;font-weight:800}
+.scard.hl .sval{color:var(--gold)}
+.slbl{font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;margin-top:.25rem;opacity:.7}
+
+.controls{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;margin-bottom:1.5rem;justify-content:space-between}
+.sort-wrap{display:flex;align-items:center;gap:.5rem}
+.sort-wrap label{font-size:.9rem;font-weight:600;color:var(--text2)}
+.sort-sel{padding:.5rem 1rem;border:2px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:.9rem}
+.fbar{display:flex;flex-wrap:wrap;gap:.5rem}
+.fbtn{padding:.5rem 1rem;border:2px solid var(--border);background:#fff;border-radius:24px;cursor:pointer;font-size:.85rem;font-weight:600;transition:.2s}
+.fbtn.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.fbtn:hover:not(.on){border-color:var(--blue);color:var(--blue)}
+
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem}
+.pcard{background:var(--card);border-radius:var(--r);padding:1.5rem;box-shadow:var(--sh);cursor:pointer;transition:.2s;border-left:4px solid var(--blue);position:relative}
+.pcard:hover{box-shadow:0 4px 20px rgba(0,0,0,.12);transform:translateY(-2px)}
+.pcard.vet{border-left-color:var(--green)}
+.pcard .plvl{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);font-weight:700;margin-bottom:.4rem}
+.pcard h4{font-size:1.05rem;margin-bottom:.4rem}
+.pcard .pamt{font-size:1.3rem;font-weight:800;color:var(--blue);margin-bottom:.4rem}
+.pcard .pdesc{font-size:.85rem;color:var(--text2);margin-bottom:.75rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.pcard .action-steps{background:#f8f9fb;border-radius:6px;padding:.75rem;margin-top:.75rem;font-size:.8rem}
+.pcard .action-steps h5{font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:var(--blue);margin-bottom:.35rem}
+.pcard .action-steps ol{margin-left:1.2rem;line-height:1.5}
+.pcard .action-steps li{margin-bottom:.25rem}
+.tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.75rem}
+.tag{font-size:.7rem;padding:.2rem .5rem;border-radius:12px;font-weight:600}
+.t-easy{background:#d4edda;color:#155724}.t-mod{background:#fff3cd;color:#856404}.t-hard{background:#f8d7da;color:#721c24}
+.t-vet{background:#cce5ff;color:#004085}.t-flag{background:#fff3cd;color:#856404}.t-ra{background:#e8e0f0;color:#4a2d7a}
+.pdot{position:absolute;top:1rem;right:1rem;font-size:1.1rem}
+
+.stack{margin-top:2rem;background:linear-gradient(135deg,#f8f9ff,#fff8e8);border-radius:var(--r);padding:2rem}
+.stack h3{margin-bottom:1rem;font-size:1.3rem}
+.stcard{background:#fff;border-radius:8px;padding:1.25rem;margin-bottom:1rem;box-shadow:var(--sh)}
+.stcard h4{margin-bottom:.75rem;color:var(--blue)}
+.sttbl{width:100%;border-collapse:collapse;font-size:.9rem}
+.sttbl th,.sttbl td{padding:.5rem;text-align:left;border-bottom:1px solid #eee}
+.sttbl th{font-weight:700;color:var(--text2);font-size:.8rem;text-transform:uppercase}
+.sttot{font-size:1.5rem;font-weight:800;color:var(--green);text-align:right;margin-top:.5rem}
+
+.cta{text-align:center;padding:3rem 1.5rem;margin-top:2rem;background:var(--card);border-radius:var(--r);box-shadow:var(--sh)}
+.cta h3{font-size:1.5rem;margin-bottom:.75rem}
+.cta p{max-width:600px;margin:0 auto 1.5rem;color:var(--text2)}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-p,.btn-s{padding:.75rem 2rem;border-radius:8px;font-weight:700;font-size:1rem;text-decoration:none;transition:.2s;display:inline-block}
+.btn-p{background:var(--blue);color:#fff}.btn-p:hover{background:#004080}
+.btn-s{background:#fff;color:var(--blue);border:2px solid var(--blue)}.btn-s:hover{background:var(--bg)}
+
+.isec{margin-top:3rem}
+.isec h2{font-size:1.5rem;margin-bottom:.5rem}
+.isub{color:var(--text2);margin-bottom:1.5rem}
+.igrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin-top:1.5rem}
+.icard{background:var(--card);border-radius:var(--r);padding:1.5rem;box-shadow:var(--sh)}
+.iico{font-size:2rem;margin-bottom:.75rem}
+.icard h4{font-size:1.05rem;margin-bottom:.5rem}
+.icard p{font-size:.9rem;color:var(--text2)}
+
+.asec{background:linear-gradient(135deg,var(--blue-d),var(--blue));color:#fff;padding:3rem 1.5rem;border-radius:var(--r);margin-top:2rem}
+.asec h2{color:var(--gold)}
+.asec .isub{color:rgba(255,255,255,.7)}
+.asec .icard{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15)}
+.asec .icard h4{color:var(--gold)}
+.asec .icard p{color:rgba(255,255,255,.8)}
+
+.modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem}
+.modal.hide{display:none}
+.mcontent{background:#fff;border-radius:var(--r);max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:2rem;position:relative}
+.mclose{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text2);width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.mclose:hover{background:var(--bg)}
+.mcontent h3{font-size:1.4rem;margin-bottom:.5rem;padding-right:2rem}
+.mamt{font-size:1.8rem;font-weight:800;color:var(--blue);margin-bottom:1rem}
+.msec{margin-bottom:1.25rem}
+.msec h4{font-size:.85rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text2);margin-bottom:.35rem}
+.msec p{font-size:.95rem;line-height:1.6}
+.mtip{background:#f0f7ff;border-left:4px solid var(--blue);padding:1rem;border-radius:0 8px 8px 0;margin-top:1rem}
+.mtip h4{color:var(--blue)}
+.mflag{background:#fff8e0;border-left:4px solid var(--yellow);padding:1rem;border-radius:0 8px 8px 0;margin-top:1rem}
+.mlink{display:inline-block;margin-top:1rem;padding:.75rem 1.5rem;background:var(--blue);color:#fff;text-decoration:none;border-radius:8px;font-weight:600}
+.mlink:hover{background:#004080}
+
+footer{background:var(--blue);color:rgba(255,255,255,.7);padding:2rem 1.5rem;margin-top:3rem;text-align:center}
+footer a{color:var(--gold)}
+.disc{font-size:.75rem;margin-top:.75rem;opacity:.6}
+
+@media(max-width:768px){h1{font-size:1.4rem}h1 span{font-size:1.7rem}.pgrid{grid-template-columns:1fr}.badge{width:100%}.sstrip{grid-template-columns:1fr}.hdr-left{flex-direction:column;text-align:center}.logo-placeholder{margin:0 auto}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="hdr">
+<div class="hdr-left">
+<img src="aea-logo-white.png" alt="AEA" style="height:45px;width:auto;">
+<div>
+<h1>AEA Apprenticeship<span>Funding Finder</span></h1>
+<p class="tagline">Find the money your shop is leaving on the table.</p>
+</div>
+</div>
+<div class="badge">
+<div class="badge-val" id="hTotal">$0</div>
+<div class="badge-lbl">Potential First-Year Value</div>
+</div>
+</div>
+</header>
+
+<main>
+
+<section class="step" id="s1">
+<div class="quick-start">
+<h3>🚀 Quick Start: What Can I Get?</h3>
+<div class="quick-btns">
+<div class="qbtn" onclick="quickPath('veteran')">
+<div class="qbtn-icon">🎖️</div>
+<div class="qbtn-text">
+<h4>I'm hiring a veteran</h4>
+<p>Show me veteran-specific programs and tax credits</p>
+</div>
+</div>
+<div class="qbtn" onclick="quickPath('non-vet')">
+<div class="qbtn-icon">👷</div>
+<div class="qbtn-text">
+<h4>I'm hiring anyone</h4>
+<p>Show me all available funding for any apprentice</p>
+</div>
+</div>
+<div class="qbtn" onclick="quickPath('state')">
+<div class="qbtn-icon">📍</div>
+<div class="qbtn-text">
+<h4>Just show me my state</h4>
+<p>See state-specific tax credits and programs</p>
+</div>
+</div>
+</div>
+</div>
+
+<h2>Step 1: Where is your shop?</h2>
+<p class="subdesc">Select your state to see what funding you qualify for as a registered apprenticeship sponsor.</p>
+<select id="stSel"><option value="">— Select Your State —</option></select>
+<div class="toggle-row">
+<label class="toggle"><input type="checkbox" id="vetTog"><span class="tslider"></span><span>Show veteran-specific programs</span></label>
+<p class="thint">Check this if you plan to hire veterans or transitioning military</p>
+</div>
+</section>
+
+<section class="step hide" id="s2">
+<div class="rh">
+<h2>Funding Available in <span id="stName"></span></h2>
+<button class="btn-back" onclick="reset()">← Change State</button>
+</div>
+
+<div class="sstrip">
+<div class="scard"><div class="sval" id="nProg">0</div><div class="slbl">Programs Available</div></div>
+<div class="scard hl"><div class="sval" id="tVal">$0</div><div class="slbl">Est. First-Year Value</div></div>
+<div class="scard"><div class="sval" id="nEasy">0</div><div class="slbl">Easy to Apply</div></div>
+<div class="scard"><div class="sval" id="nVet">0</div><div class="slbl">Veteran Programs</div></div>
+</div>
+
+<div class="controls">
+<div class="fbar">
+<button class="fbtn on" data-f="all">All</button>
+<button class="fbtn" data-f="tax-credit">💰 Tax Credits</button>
+<button class="fbtn" data-f="wages">💵 Wage Support</button>
+<button class="fbtn" data-f="training">📚 Training</button>
+<button class="fbtn" data-f="veteran">🎖️ Veteran</button>
+<button class="fbtn" data-f="certification">📋 Certification</button>
+</div>
+<div class="sort-wrap">
+<label>Sort by:</label>
+<select class="sort-sel" id="sortSel">
+<option value="default">Recommended</option>
+<option value="amount-high">Value: High to Low</option>
+<option value="difficulty">Difficulty: Easy First</option>
+<option value="federal-first">Federal Programs First</option>
+</select>
+</div>
+</div>
+
+<div class="pgrid" id="pGrid"></div>
+
+<div class="stack hide" id="stackSec">
+<h3>💡 Stack These Together — The Money Shot</h3>
+<div id="stackCards"></div>
+</div>
+
+<div class="cta">
+<h3>Ready to get started?</h3>
+<p>Joining the AEA/Fastport apprenticeship is one page of paperwork. Fastport handles the DOL compliance. AEA provides the training. You just sign up and train your people.</p>
+<div class="cta-btns">
+<a href="apprenticeship-guide.html" class="btn-p">View Apprenticeship Guide</a>
+<a href="faq.html" class="btn-s">Read the FAQ</a>
+</div>
+</div>
+</section>
+
+<div class="modal hide" id="modal" onclick="if(event.target===this)closeM()">
+<div class="mcontent">
+<button class="mclose" onclick="closeM()">✕</button>
+<div id="mBody"></div>
+</div>
+</div>
+
+<section class="isec">
+<h2>What's a Registered Apprenticeship?</h2>
+<div class="igrid">
+<div class="icard"><div class="iico">🔧</div><h4>For Your Shop (OJT)</h4><p>43 competencies your apprentice demonstrates on the bench — the same way you already train people. The apprenticeship just formalizes it with a checklist and sign-offs.</p></div>
+<div class="icard"><div class="iico">📚</div><h4>The Training (RTI)</h4><p>586 hours of structured instruction. AEA handles it through CAET training. Four courses covering fundamentals through leadership. Your technician earns while they learn.</p></div>
+<div class="icard"><div class="iico">📋</div><h4>The Paperwork</h4><p>One page. The Employer Acceptance Agreement. Sign it, and Fastport handles everything else — DOL registration, compliance, reporting, EEO.</p></div>
+<div class="icard"><div class="iico">💰</div><h4>The Money</h4><p>Once you're registered, you unlock federal and state funding — tax credits, wage reimbursements, veteran benefits, training funds. That's what this tool shows you.</p></div>
+</div>
+</section>
+
+<section class="asec">
+<h2>For Potential Apprentices</h2>
+<p class="isub">Why work at an AEA member shop with a registered apprenticeship?</p>
+<div class="igrid">
+<div class="icard"><div class="iico">💵</div><h4>Earn While You Learn</h4><p>Start at $23/hr day one. No student debt. No tuition. You get paid to learn a skill that's in massive demand. Journeyworker: $30/hr.</p></div>
+<div class="icard"><div class="iico">📜</div><h4>National Credential</h4><p>DOL Certificate of Completion. Recognized nationwide. Clear path to FAA A&P certification and Inspection Authorization.</p></div>
+<div class="icard"><div class="iico">🎖️</div><h4>Veterans: Direct Entry</h4><p>Military training counts. Direct entry — no hoops. GI Bill pays $1,500–$3,000+/month ON TOP of your wages.</p></div>
+<div class="icard"><div class="iico">🎯</div><h4>Clear Career Path</h4><p>43 competencies. You know exactly what to learn and when you've learned it. Milestones, not mystery.</p></div>
+</div>
+</section>
+
+</main>
+
+<footer>
+<p>Built by <a href="https://www.aea.net" target="_blank">Aircraft Electronics Association</a> | Data sourced from .gov databases</p>
+<p class="disc">This tool provides general information about potential funding opportunities. Verify all programs with the administering agency before making financial decisions.</p>
+</footer>
+
+<script>
+const ST={AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',CT:'Connecticut',DE:'Delaware',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming'};
+
+const FED=[
+{id:'gi-bill',name:'GI Bill for Apprenticeships',agency:'U.S. Department of Veterans Affairs',amount:'$1,500–$3,000+/month',note:'Paid directly to the veteran apprentice. $0 cost to your shop.',desc:'Veterans in registered apprenticeships receive a monthly housing allowance based on ZIP code. Post-9/11 GI Bill pays 100% of BAH for first 6 months, then decreases over training period.',who:'Veterans with GI Bill benefits at a VA-approved registered apprenticeship.',how:'1. Register as RA sponsor (Fastport handles this)\n2. Contact your State Approving Agency (SAA)\n3. Submit VA Form 22-8865\n4. SAA approves\n5. Veterans apply through VA',actionSteps:['Register with Fastport','Contact State Approving Agency','Submit VA Form 22-8865','Veteran applies for benefits'],diff:'moderate',diffNum:2,cats:['veteran','wages'],url:'https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/',ra:true,vet:true,tip:'The apprentice gets paid by VA ON TOP of their wages from you. Free money for your employee that costs you nothing. Makes your job offer dramatically more competitive.',estVal:24000},
+{id:'skillbridge',name:'DoD SkillBridge Program',agency:'U.S. Department of Defense',amount:'Free labor — up to 180 days',note:'DoD continues paying the service member\'s full salary and benefits. You pay $0.',desc:'Active duty service members in their last 180 days can intern at civilian companies. DoD keeps paying them. You get a trained technician at zero cost, with the option to hire them.',who:'Any employer. Service member must be in last 180 days of active duty with commander approval.',how:'1. Register at skillbridge.osd.mil\n2. Create an opportunity listing\n3. Service members apply\n4. Commander approves',actionSteps:['Register at skillbridge.osd.mil','Create opportunity listing','Interview applicants','Start training'],diff:'easy',diffNum:1,cats:['veteran','labor'],url:'https://skillbridge.osd.mil/',ra:false,vet:true,tip:'This is a 6-month job interview where DoD pays the salary. If they\'re good, hire them. If not, you\'re out nothing. Many shops use SkillBridge as the front door to their apprenticeship.',estVal:30000},
+{id:'cool',name:'COOL (Credentialing Opportunities On-Line)',agency:'U.S. Department of Defense',amount:'Up to $4,000/year',note:'Pays for certifications, licenses, and credentialing exams like CAET.',desc:'Active duty and certain reserve/guard members can get DoD funding to earn civilian credentials matching their military specialty. CAET certification qualifies.',who:'Active duty, certain reserve/guard. Credential must relate to military occupation.',how:'Service members apply through their branch\'s COOL portal. AEA/CAET must be listed as a provider.',actionSteps:['Confirm CAET is COOL-eligible','Service member applies via COOL portal','Complete certification training'],diff:'easy',diffNum:1,cats:['veteran','certification'],url:'https://www.cool.osd.mil/',ra:false,vet:true,tip:'Tell transitioning service members about COOL before they separate. They can get CAET certification paid for while still on active duty.',estVal:4000},
+{id:'wioa',name:'WIOA (Workforce Innovation & Opportunity Act)',agency:'U.S. Department of Labor',amount:'Up to 50% wage reimbursement + training funds',note:'Paid to the employer. Reimbursement for wages during OJT period.',desc:'Your local American Job Center can reimburse up to 50% of an apprentice\'s wages during on-the-job training. Some boards also fund related instruction costs. Works for ANY apprentice — not just veterans.',who:'Employers working with their local workforce board. Works for veterans AND non-veterans.',how:'1. Contact your local American Job Center (CareerOneStop.org)\n2. Set up an OJT contract with a business services rep\n3. Hire and train\n4. Get reimbursed',actionSteps:['Find your local American Job Center','Schedule meeting with business services rep','Sign OJT agreement','Hire and get reimbursed'],diff:'moderate',diffNum:2,cats:['wages','training'],url:'https://www.careeronestop.org/LocalHelp/AmericanJobCenters/find-american-job-centers.aspx',ra:false,vet:false,tip:'Best program for NON-veteran apprentices. 50% wage reimbursement is real money. Your local workforce board wants to spend this — they have targets to hit.',estVal:12000},
+{id:'dol-pfp',name:'DOL Pay-for-Performance Incentive Program',agency:'U.S. DOL / ETA',amount:'Part of $145 million pool',note:'Competitive cooperative agreements — up to 5 awards nationally.',desc:'Brand new (Feb 2026). Incentive payments to RA sponsors for scaling apprenticeship programs. Transportation is a targeted industry — aviation may qualify.',who:'Registered Apprenticeship program sponsors. Competitive application.',how:'Apply through Grants.gov — see FOA for full requirements.',actionSteps:['Review FOA on Grants.gov','Determine eligibility','Submit application (competitive)'],diff:'complex',diffNum:3,cats:['training'],url:'https://www.grants.gov/search-results-detail/361087',ra:true,vet:false,flag:'Transportation is targeted — aviation/avionics may qualify. Review FOA carefully.',tip:'Big grant for program sponsors (like AEA), not individual shops. If AEA wins, member shops benefit from expanded resources.',estVal:0},
+{id:'aba',name:'Apprenticeship Building America (ABA) — Free Support',agency:'U.S. DOL / ETA',amount:'Indirect — free services through funded hubs',note:'Shops don\'t apply directly. Connect with a funded hub in your area.',desc:'$113 million funds regional hubs that help employers design and deliver apprenticeship programs. Your shop gets free program development support.',who:'Any employer connecting with an ABA-funded hub/intermediary.',how:'Find an ABA-funded intermediary through Apprenticeship.gov or your state apprenticeship agency.',actionSteps:['Find ABA hub in your area','Contact hub for support','Receive free program assistance'],diff:'easy',diffNum:1,cats:['training'],url:'https://www.apprenticeship.gov/investments-tax-credits-and-tuition-support/apprenticeship-building-america-aba1',ra:true,vet:false,tip:'These hubs exist to help small employers. They\'ve been funded — they WANT to help you. It\'s their job.',estVal:0},
+{id:'wotc',name:'Work Opportunity Tax Credit (WOTC)',agency:'U.S. DOL / IRS',amount:'$2,400–$9,600 per qualifying hire',note:'Tax credit. Veterans can qualify for up to $9,600.',desc:'Federal tax credit for hiring from target groups — veterans, SNAP recipients, ex-felons, long-term unemployed. Must file within 28 days of hire.',who:'Any employer hiring from qualified target groups.',how:'1. Determine if new hire is in a target group\n2. Submit IRS Form 8850 within 28 days of start\n3. Claim on tax return',actionSteps:['Screen new hires for WOTC eligibility','File IRS Form 8850 within 28 days','Claim credit on tax return'],diff:'easy',diffNum:1,cats:['tax-credit','veteran'],url:'https://www.dol.gov/agencies/eta/wotc',ra:false,vet:false,flag:'Authorization expired 12/31/2025. Congress typically renews retroactively. File paperwork anyway.',tip:'Even if expired, Congress almost always renews retroactively. File the paperwork — claim it later.',estVal:5000},
+{id:'vr-e',name:'VA Veteran Readiness & Employment (VR&E)',agency:'U.S. Department of Veterans Affairs',amount:'Full training costs + monthly subsistence',note:'VA pays for everything — training, tools, supplies, and monthly living allowance.',desc:'For veterans with service-connected disabilities. VA covers all apprenticeship costs plus tools, supplies, and monthly subsistence. More generous than GI Bill.',who:'Veterans with service-connected disability rating and employment barrier.',how:'Veteran applies through VA.gov or local VA Regional Office. VA counselor develops rehabilitation plan.',actionSteps:['Veteran applies at VA.gov or regional office','VA counselor approves plan','Veteran begins apprenticeship','VA pays all costs'],diff:'moderate',diffNum:2,cats:['veteran','training','wages'],url:'https://www.va.gov/careers-employment/vocational-rehabilitation/',ra:true,vet:true,tip:'If your veteran apprentice has ANY disability rating, check VR&E before GI Bill. Often more generous and doesn\'t burn GI Bill months.',estVal:30000}
+];
+
+const STATES={
+SC:{name:'South Carolina',programs:[{id:'sc-ac',name:'Apprenticeship Carolina',amount:'$1,000/apprentice/year tax credit + free technical assistance',desc:'Apprenticeship Carolina provides free technical assistance to employers setting up apprenticeship programs, plus a $1,000 annual tax credit per registered apprentice. One of the strongest state programs in the country.',url:'https://www.apprenticeshipcarolina.com/',tc:true,statute:'SC Code §12-6-3540',lastVerified:'2026-02-14',confidence:'high',estVal:1000,actionSteps:['Register with Apprenticeship Carolina','Enroll each apprentice','Claim $1,000/year tax credit']}],tc:'$1,000/apprentice/year',notes:'One of the 5 launch states for AEA/Fastport. Apprenticeship Carolina is one of the strongest state programs in the country — they\'ll walk you through everything.'},
+FL:{name:'Florida',programs:[{id:'fl-exp',name:'Experiential Learning Tax Credit',amount:'$2,000/apprentice, max $10,000/year',desc:'Corporate income tax credit for employers with registered apprentices. $2,000 per apprentice, maximum 5 per year.',url:'https://floridarevenue.com/forms_library/current/f1198.pdf',tc:true,flag:'Authorized 2022-2025. Extension for 2026+ needs verification.',estVal:2000,actionSteps:['Register apprenticeship','Claim on FL corporate tax return','Max 5 apprentices ($10k)']}],tc:'$2,000/apprentice (max 5)',notes:'Launch state. Banyan Air Services is based here.'},
+TX:{name:'Texas',programs:[{id:'tx-twc',name:'TWC Apprenticeship Training Program',amount:'Varies — state development funding',desc:'Texas Workforce Commission provides state funding for apprenticeship development including training funds and support.',url:'https://www.twc.texas.gov/programs/apprenticeship/initiatives',tc:false,estVal:0,actionSteps:['Contact Texas Workforce Commission','Apply for development funding','Receive training support']}],tc:null,notes:'No state income tax, so credits matter less. TWC provides development funding. Convention is in Dallas.'},
+CO:{name:'Colorado',programs:[{id:'co-tc',name:'New & Emerging Industries Apprenticeship Tax Credit',amount:'Up to $12,600/apprentice/year',desc:'Refundable state tax credit — up to $12,600 per apprentice per year. Max 10 apprentices = $126,000/year. Available through 2034.',url:'https://apprenticeship.colorado.gov/tax-credit',tc:true,flag:'Must be an approved "new and emerging" occupation. Avionics eligibility needs verification.',statute:'CO Rev Stat §39-30.5-104',lastVerified:'2026-02-14',confidence:'high',estVal:12600,actionSteps:['Verify avionics qualifies as "new and emerging"','Register apprenticeship','Claim refundable credit (up to $12,600/apprentice)']}],tc:'Up to $12,600/apprentice/year',notes:'Biggest state credit in the country. Refundable = you get money back even if you owe no tax.'},
+CT:{name:'Connecticut',programs:[{id:'ct-mfg',name:'Manufacturing Apprenticeship Tax Credit',amount:'Up to $7,500/apprentice OR 50% of wages',desc:'Tax credit for manufacturers with registered apprentices. Up to $7,500 or 50% of wages, whichever is less.',url:'https://portal.ct.gov/dol/knowledge-base/articles/employment-and-training/apprenticeship/manufacturing-tax-credit',tc:true,flag:'Requires "manufacturing" classification. Part 145 shops may qualify.',estVal:7500,actionSteps:['Confirm Part 145 qualifies as manufacturing','Register apprenticeship','Claim credit on CT tax return']}],tc:'Up to $7,500/apprentice',notes:'Very strong credit if Part 145 qualifies as manufacturing.'},
+NY:{name:'New York',programs:[{id:'ny-esatc',name:'Empire State Apprenticeship Tax Credit',amount:'$2,000–$7,000/apprentice (scales by year)',desc:'Refundable credit that increases each year. Year 1: $2,000, Year 2: $3,000, Year 3: $4,000, Year 4: $5,000, Year 5: $6,000. Higher for disadvantaged youth.',url:'https://www.tax.ny.gov/pit/credits/empire-state-apprenticeship-tax-credit.htm',tc:true,statute:'NY Tax Law §210-B.53',lastVerified:'2026-02-14',confidence:'high',estVal:4000,actionSteps:['Register apprentice in NY','Claim credit each year (grows annually)','Year 1: $2k, Year 2: $3k, Year 3: $4k+']}],tc:'$2,000–$7,000/apprentice',notes:'Credit GROWS each year. Incentivizes retention.'},
+KS:{name:'Kansas',programs:[{id:'ks-tc',name:'Kansas Apprenticeship Tax Credit',amount:'$2,750/apprentice (2026+)',desc:'State income tax credit per apprentice. Max 20 apprentices. +$500 for HS apprentices. Max 4 years each. Increases to $2,750 in 2026.',url:'https://www.ksrevenue.gov/prtaxcredits-apprenticeship.html',tc:true,statute:'KS Stat §79-32,212',lastVerified:'2026-02-14',confidence:'high',estVal:2750,actionSteps:['Register apprentice in KS','Claim $2,750/apprentice/year on state return','Max 20 apprentices, 4 years each']}],tc:'$2,750/apprentice (2026+)',notes:'Strong credit. AEA HQ is in Lee\'s Summit, MO — right across the border.'},
+IL:{name:'Illinois',programs:[{id:'il-tc',name:'Apprenticeship Education Expense Tax Credit',amount:'Up to $5,000/apprentice',desc:'$3,500 per apprentice + $1,500 if apprentice is in underserved area OR employer has <100 employees.',url:'https://dceo.illinois.gov/expandrelocate/incentives/ilapprenticeshiptaxcredit.html',tc:true,statute:'35 ILCS 5/220',lastVerified:'2026-02-14',confidence:'high',estVal:5000,actionSteps:['Register apprentice in IL','Claim $3,500 base credit','Add $1,500 if <100 employees (most AEA shops qualify)']}],tc:'Up to $5,000/apprentice',notes:'Most AEA shops have <100 employees — they\'d qualify for the extra $1,500.'},
+OH:{name:'Ohio',programs:[{id:'oh-wf',name:'Ohio Workforce Development',amount:'Varies — WIOA and state funding',desc:'Ohio State Apprenticeship Council oversees programs. Workforce boards provide WIOA-funded OJT.',url:'https://jfs.ohio.gov/apprenticeship',tc:false,estVal:0,actionSteps:['Contact Ohio State Apprenticeship Council','Apply for WIOA funding via local board','Receive OJT reimbursement']}],tc:null,notes:'Launch state. Strong manufacturing base.'},
+OK:{name:'Oklahoma',programs:[{id:'ok-wf',name:'Oklahoma Workforce Programs',amount:'Varies',desc:'Oklahoma workforce boards offer employer support for apprenticeships.',url:'https://oklahomaworks.gov/',tc:false,flag:'No dedicated tax credit found. Needs verification.',estVal:0,actionSteps:['Contact Oklahoma Works','Apply for workforce board funding','Receive employer support']}],tc:null,notes:'Launch state. Relies on federal programs.'},
+WV:{name:'West Virginia',programs:[{id:'wv-wf',name:'WV Workforce Development',amount:'Varies',desc:'WV Division of Labor administers apprenticeship programs. State workforce boards may provide additional WIOA.',url:'https://labor.wv.gov/Apprenticeship/Pages/default.aspx',tc:false,estVal:0,actionSteps:['Contact WV Division of Labor','Apply for workforce board support','Receive program assistance']}],tc:null,notes:'Launch state.'},
+CA:{name:'California',programs:[{id:'ca-etpl',name:'Automatic ETPL Eligibility',amount:'Indirect — access to WIOA training funds',desc:'DAS-approved programs automatically eligible for State Eligible Training Provider List, unlocking WIOA funds.',url:'https://workforce.org/become-an-eligible-training-provider/',tc:false,estVal:0,actionSteps:['Register apprenticeship','Gain automatic ETPL status','Access WIOA training funds']}],tc:null,notes:'No state tax credit. ETPL eligibility is the main benefit.'},
+GA:{name:'Georgia',programs:[{id:'ga-wf',name:'Georgia Workforce Programs',amount:'Varies — training and development',desc:'Georgia DOL supports registered apprenticeships. Quick Start may provide additional training.',url:'https://dol.georgia.gov/find-registered-apprenticeship',tc:false,estVal:0,actionSteps:['Contact Georgia DOL','Apply for Quick Start training support','Receive program assistance']}],tc:null,notes:'No dedicated tax credit. Strong workforce system.'},
+WA:{name:'Washington',programs:[{id:'wa-aid',name:'WA Financial Aid for Apprentices',amount:'State financial aid for apprentices',desc:'State financial aid for apprentices attending related instruction.',url:'https://wsac.wa.gov/wcg-apprentices',tc:false,estVal:0,actionSteps:['Apprentices apply for WA financial aid','Receive financial aid for RTI','Reduces apprentice training costs']}],tc:null,notes:'No state tax credit but strong financial aid for apprentices.'},
+NC:{name:'North Carolina',programs:[{id:'nc-anc',name:'ApprenticeshipNC',amount:'Varies — training and development',desc:'NC Commerce provides employer support, curriculum development, and community college connections.',url:'https://www.apprenticeshipnc.com/',tc:false,estVal:0,actionSteps:['Contact ApprenticeshipNC','Receive free curriculum support','Connect with community college partners']}],tc:null,notes:'Strong community college integration — good RTI partners.'},
+PA:{name:'Pennsylvania',programs:[{id:'pa-ato',name:'PA Apprenticeship & Training Office',amount:'Varies — WIOA and PAsmart grants',desc:'PA L&I oversees programs. PAsmart grants have funded apprenticeship expansion.',url:'https://www.dli.pa.gov/Businesses/Workforce-Development/apprenticeship/Pages/default.aspx',tc:false,estVal:0,actionSteps:['Contact PA L&I Apprenticeship Office','Apply for PAsmart grants','Access WIOA funding']}],tc:null,notes:'PAsmart grants expanded apprenticeship.'}
+};
+
+const STACKS=[
+{scenario:'Veteran Apprentice in South Carolina',items:[
+{prog:'GI Bill (Post-9/11)',amt:'$24,000–$36,000/yr',to:'Apprentice (VA-paid)','cost':'$0'},
+{prog:'SC Tax Credit',amt:'$1,000/yr',to:'Shop (tax credit)','cost':'Saves $1,000'},
+{prog:'SkillBridge (first 6 months)',amt:'$30,000+ free labor',to:'DoD pays salary','cost':'$0'},
+{prog:'WIOA OJT Reimbursement',amt:'~$12,000',to:'Shop (reimbursement)','cost':'Saves $12,000'}
+],total:'$55,000+'},
+{scenario:'Non-Veteran Apprentice in South Carolina',items:[
+{prog:'SC Tax Credit',amt:'$1,000/yr',to:'Shop (tax credit)','cost':'Saves $1,000'},
+{prog:'WIOA OJT Reimbursement',amt:'~$12,000',to:'Shop (reimbursement)','cost':'Saves $12,000'},
+{prog:'Apprenticeship Carolina Support',amt:'Free tech assistance',to:'Shop','cost':'$0'}
+],total:'$13,000+'},
+{scenario:'Veteran Apprentice in Colorado (Best Case)',items:[
+{prog:'GI Bill (Post-9/11)',amt:'$24,000–$36,000/yr',to:'Apprentice (VA-paid)','cost':'$0'},
+{prog:'Colorado Tax Credit',amt:'$12,600',to:'Shop (tax credit)','cost':'Saves $12,600'},
+{prog:'SkillBridge (first 6 months)',amt:'$30,000+ free labor',to:'DoD pays salary','cost':'$0'},
+{prog:'WIOA OJT Reimbursement',amt:'~$12,000',to:'Shop (reimbursement)','cost':'Saves $12,000'},
+{prog:'WOTC (if renewed)',amt:'Up to $9,600',to:'Shop (tax credit)','cost':'Saves $9,600'}
+],total:'$64,000+'}
+];
+
+let cur=null,vet=false,filt='all',sortMode='default';
+
+document.addEventListener('DOMContentLoaded',()=>{
+const sel=document.getElementById('stSel');
+Object.entries(ST).sort((a,b)=>a[1].localeCompare(b[1])).forEach(([c,n])=>{const o=document.createElement('option');o.value=c;o.textContent=n;sel.appendChild(o)});
+
+sel.addEventListener('change',e=>{if(e.target.value){cur=e.target.value;show()}});
+document.getElementById('vetTog').addEventListener('change',e=>{vet=e.target.checked;if(cur)show()});
+document.getElementById('sortSel').addEventListener('change',e=>{sortMode=e.target.value;render()});
+document.querySelectorAll('.fbtn').forEach(b=>b.addEventListener('click',()=>{
+document.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('on'));
+b.classList.add('on');filt=b.dataset.f;render();
+}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+});
+
+function quickPath(type){
+if(type==='veteran'){document.getElementById('vetTog').checked=true;vet=true}
+else if(type==='non-vet'){document.getElementById('vetTog').checked=false;vet=false}
+document.getElementById('stSel').focus();
+}
+
+function getProgs(){
+let p=[];
+FED.forEach(f=>{if(!vet&&f.vet)return;p.push({...f,level:'federal'})});
+const sd=STATES[cur];
+if(sd){sd.programs.forEach(sp=>{p.push({...sp,level:'state',cats:sp.tc?['tax-credit']:['training'],diff:sp.flag?'moderate':'easy',diffNum:sp.flag?2:1,who:'Employers in '+sd.name+' with registered apprenticeships.',how:'Visit program website or contact state workforce agency.',ra:true,vet:false,tip:sd.notes||''})})
+}else{p.push({id:'st-next',name:'Your Next Steps in '+ST[cur],agency:ST[cur]+' + Federal Resources',amount:'Federal programs apply everywhere',note:'No dedicated state apprenticeship tax credit found yet — but every federal program above applies to your shop. Here\'s exactly what to do.',desc:'No state-specific tax credit identified for '+ST[cur]+', but that doesn\'t mean there\'s no money. All federal programs (GI Bill, SkillBridge, WIOA, COOL, VR&E) apply in every state. Plus your state may have workforce funding we haven\'t catalogued yet.',level:'state',cats:['training','wages'],diff:'easy',diffNum:1,url:'https://www.apprenticeship.gov/partners/find-your-state-apprenticeship-agency',ra:false,vet:false,estVal:0,who:'Any shop in '+ST[cur]+' joining the AEA/Fastport apprenticeship program.',how:'1. Sign the one-page Employer Acceptance Agreement (Fastport handles DOL compliance).\n2. Contact your state apprenticeship agency — find them at apprenticeship.gov/partners/find-your-state-apprenticeship-agency.\n3. Call your local American Job Center and ask about WIOA OJT reimbursement — they can reimburse up to 50% of wages.\n4. If hiring veterans, contact your State Approving Agency (SAA) to get VA benefits flowing.\n5. AEA handles all Related Technical Instruction through CAET training.',actionSteps:['Sign Employer Acceptance Agreement with Fastport','Contact state apprenticeship agency','Apply for WIOA OJT reimbursement at American Job Center','If hiring veteran: contact State Approving Agency'],tip:'Just because we haven\'t found a state tax credit doesn\'t mean your state has nothing. Call your state apprenticeship agency directly — they know about local grants, workforce board funds, and economic development incentives that aren\'t published online. Tell them you\'re joining a national registered apprenticeship program and ask what\'s available.'})}
+return p;
+}
+
+function sortProgs(progs){
+let sorted=[...progs];
+if(sortMode==='amount-high'){sorted.sort((a,b)=>(b.estVal||0)-(a.estVal||0))}
+else if(sortMode==='difficulty'){sorted.sort((a,b)=>(a.diffNum||2)-(b.diffNum||2))}
+else if(sortMode==='federal-first'){sorted.sort((a,b)=>{if(a.level==='federal'&&b.level!=='federal')return -1;if(a.level!=='federal'&&b.level==='federal')return 1;return 0})}
+return sorted;
+}
+
+function show(){
+document.getElementById('s1').classList.add('hide');
+document.getElementById('s2').classList.remove('hide');
+document.getElementById('stName').textContent=ST[cur];
+render();renderStack();updateSum();
+}
+
+function render(){
+const g=document.getElementById('pGrid');
+const progs=getProgs();
+const fl=filt==='all'?progs:progs.filter(p=>p.cats&&p.cats.includes(filt));
+const sorted=sortProgs(fl);
+g.innerHTML=sorted.map(p=>`
+<div class="pcard ${p.vet?'vet':''}" onclick="detail('${p.id}')">
+<div class="plvl">${p.level} program</div>
+<h4>${p.name}</h4>
+<div class="pamt">${p.amount}</div>
+<div class="pdesc">${p.note||p.desc}</div>
+${p.actionSteps?`<div class="action-steps"><h5>✅ Next Steps</h5><ol>${p.actionSteps.map(s=>'<li>'+s+'</li>').join('')}</ol></div>`:''}
+<div class="tags">
+${dtag(p.diff)}
+${p.vet?'<span class="tag t-vet">🎖️ Veteran</span>':''}
+${p.flag?'<span class="tag t-flag">⚠️ Verify</span>':''}
+${p.ra?'<span class="tag t-ra">Requires RA</span>':''}
+</div>
+<span class="pdot">${ddot(p.diff)}</span>
+</div>`).join('');
+}
+
+function dtag(d){return{easy:'<span class="tag t-easy">✅ Easy</span>',moderate:'<span class="tag t-mod">⚡ Moderate</span>',complex:'<span class="tag t-hard">🔴 Complex</span>'}[d]||''}
+function ddot(d){return{easy:'🟢',moderate:'🟡',complex:'🔴'}[d]||''}
+
+function updateSum(){
+const p=getProgs();
+document.getElementById('nProg').textContent=p.length;
+document.getElementById('nEasy').textContent=p.filter(x=>x.diff==='easy').length;
+document.getElementById('nVet').textContent=p.filter(x=>x.vet).length;
+let est=p.reduce((sum,x)=>sum+(x.estVal||0),0);
+const f=est>=1000?'$'+Math.round(est/1000)+',000+':'$'+est;
+document.getElementById('tVal').textContent=f;
+document.getElementById('hTotal').textContent=f;
+}
+
+function renderStack(){
+const sec=document.getElementById('stackSec'),cards=document.getElementById('stackCards');
+let ex=STACKS;if(!vet)ex=ex.filter(e=>!e.scenario.toLowerCase().includes('veteran'));
+const stName=ST[cur]?.toLowerCase()||'';
+const relevant=ex.filter(e=>e.scenario.toLowerCase().includes(stName));
+const show_=relevant.length?relevant:ex.slice(0,2);
+if(!show_.length){sec.classList.add('hide');return}
+sec.classList.remove('hide');
+cards.innerHTML=show_.map(e=>`
+<div class="stcard"><h4>📊 ${e.scenario}</h4>
+<table class="sttbl"><thead><tr><th>Program</th><th>Amount</th><th>Paid To</th></tr></thead>
+<tbody>${e.items.map(i=>`<tr><td>${i.prog}</td><td><strong>${i.amt}</strong></td><td>${i.to}</td></tr>`).join('')}</tbody></table>
+<div class="sttot">Total: ${e.total}</div></div>`).join('');
+}
+
+function detail(id){
+const all=[...FED.map(f=>({...f,confidence:'high',lastVerified:'2026-02-14'})),...(STATES[cur]?.programs||[])];
+const p=all.find(x=>x.id===id);if(!p)return;
+const m=document.getElementById('modal'),b=document.getElementById('mBody');
+b.innerHTML=`
+<h3>${p.name}</h3>
+<div class="mamt">${p.amount}</div>
+${p.note?`<p style="color:var(--text2);margin-bottom:1.5rem">${p.note}</p>`:''}
+<div class="msec"><h4>What Is This?</h4><p>${p.desc}</p></div>
+${p.who?`<div class="msec"><h4>Who Qualifies?</h4><p>${p.who}</p></div>`:''}
+${p.actionSteps?`<div class="msec"><h4>✅ What To Do Next</h4><ol style="margin-left:1.2rem;line-height:1.8">${p.actionSteps.map(s=>'<li>'+s+'</li>').join('')}</ol></div>`:(p.how?`<div class="msec"><h4>How to Apply</h4><p style="white-space:pre-wrap">${p.how}</p></div>`:'')}
+${p.agency?`<div class="msec"><h4>Agency</h4><p>${p.agency}</p></div>`:''}
+${p.tip?`<div class="mtip"><h4>💡 Pro Tip</h4><p>${p.tip}</p></div>`:''}
+${p.flag?`<div class="mflag"><h4>⚠️ Verification Needed</h4><p>${p.flag}</p></div>`:''}
+${p.url?`<div class="msec" style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid #eee"><h4>📋 Source & Verification</h4><p style="font-size:.85rem;color:var(--text2)">${p.statute?'Statute: '+p.statute+'<br>':''}${p.lastVerified?'Last verified: '+p.lastVerified+'<br>':''}Confidence: ${p.confidence||'high'}</p></div><a href="${p.url}" target="_blank" class="mlink">Visit Official .gov Source →</a>`:''}`;
+m.classList.remove('hide');
+}
+
+function closeM(){document.getElementById('modal').classList.add('hide')}
+
+function reset(){
+cur=null;document.getElementById('stSel').value='';
+document.getElementById('s2').classList.add('hide');
+document.getElementById('s1').classList.remove('hide');
+document.getElementById('hTotal').textContent='$0';
+filt='all';sortMode='default';document.getElementById('sortSel').value='default';
+document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+document.querySelector('.fbtn[data-f="all"]').classList.add('on');
+}
+</script>
+</body>
+</html>

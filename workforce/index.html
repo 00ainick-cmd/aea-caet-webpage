@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workforce Development | Aircraft Electronics Association</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --aea-blue: #003366;
+            --aea-blue-light: #004d99;
+            --aea-blue-accent: #0066cc;
+            --aea-gold: #c8a84e;
+            --aea-gray: #f5f5f5;
+            --aea-text: #333;
+            --aea-border: #ddd;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--aea-text); line-height: 1.6; margin: 0; }
+
+        /* === HEADER / NAV === */
+        .aea-topbar { background: var(--aea-blue); padding: 8px 0; font-size: 13px; }
+        .aea-topbar a { color: rgba(255,255,255,0.7); text-decoration: none; margin-left: 16px; }
+        .aea-topbar a:hover { color: #fff; }
+        .aea-header { background: #fff; border-bottom: 3px solid var(--aea-blue); padding: 12px 0; }
+        .aea-nav { background: var(--aea-blue); padding: 0; }
+        .aea-nav .nav-link { color: #fff !important; font-size: 14px; font-weight: 500; padding: 12px 18px; text-transform: uppercase; letter-spacing: 0.3px; }
+        .aea-nav .nav-link:hover, .aea-nav .nav-link.active { background: var(--aea-blue-light); }
+        .breadcrumb-bar { background: var(--aea-gray); border-bottom: 1px solid var(--aea-border); padding: 10px 0; font-size: 13px; }
+        .breadcrumb-bar a { color: var(--aea-blue-accent); text-decoration: none; }
+
+        /* === HERO === */
+        .hero-section { background: linear-gradient(135deg, var(--aea-blue) 0%, #001a33 100%); color: #fff; padding: 64px 0; position: relative; overflow: hidden; }
+        .hero-section::after { content: ''; position: absolute; top: -50%; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(200,168,78,0.08) 0%, transparent 70%); border-radius: 50%; }
+        .hero-section h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 16px; }
+        .hero-section p.lead { font-size: 1.15rem; opacity: 0.9; max-width: 680px; line-height: 1.75; }
+        .hero-badge-label { display: inline-block; background: var(--aea-gold); color: var(--aea-blue); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 4px 12px; border-radius: 3px; margin-bottom: 16px; }
+        .hero-stat { text-align: center; padding: 20px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; }
+        .hero-stat .stat-val { font-size: 2.2rem; font-weight: 800; color: var(--aea-gold); line-height: 1; }
+        .hero-stat .stat-lbl { font-size: 12px; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 6px; }
+
+        /* === SECTIONS === */
+        .section { padding: 56px 0; }
+        .section-alt { background: var(--aea-gray); }
+        .section h2 { font-size: 1.75rem; font-weight: 700; color: var(--aea-blue); margin-bottom: 12px; }
+        .section h3 { font-size: 1.25rem; font-weight: 600; color: var(--aea-blue); margin-bottom: 10px; }
+        .section-label { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--aea-gold); margin-bottom: 10px; }
+
+        /* === BUTTONS === */
+        .btn-aea { background: var(--aea-blue); color: #fff; border: none; padding: 12px 30px; font-weight: 600; border-radius: 4px; text-transform: uppercase; font-size: 14px; letter-spacing: 0.5px; text-decoration: none; display: inline-block; transition: background 0.2s; }
+        .btn-aea:hover { background: var(--aea-blue-light); color: #fff; }
+        .btn-aea-gold { background: var(--aea-gold); color: var(--aea-blue); border: none; padding: 12px 30px; font-weight: 700; border-radius: 4px; text-transform: uppercase; font-size: 14px; letter-spacing: 0.5px; text-decoration: none; display: inline-block; transition: background 0.2s; }
+        .btn-aea-gold:hover { background: #d4b45c; color: var(--aea-blue); }
+        .btn-aea-outline { border: 2px solid var(--aea-blue); color: var(--aea-blue); background: transparent; padding: 10px 28px; font-weight: 600; border-radius: 4px; text-transform: uppercase; font-size: 14px; letter-spacing: 0.5px; text-decoration: none; display: inline-block; transition: all 0.2s; }
+        .btn-aea-outline:hover { background: var(--aea-blue); color: #fff; }
+
+        /* === PROGRAM CARD === */
+        .program-card { background: #fff; border: 1px solid var(--aea-border); border-radius: 10px; padding: 32px 28px; height: 100%; transition: box-shadow 0.2s, border-color 0.2s; }
+        .program-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.09); border-color: var(--aea-gold); }
+        .program-card .prog-icon { font-size: 2.2rem; color: var(--aea-gold); margin-bottom: 16px; }
+        .program-card h4 { font-size: 1.1rem; font-weight: 700; color: var(--aea-blue); margin-bottom: 10px; }
+        .program-card p { font-size: 14px; color: #555; }
+
+        /* === FASTPORT PARTNERSHIP === */
+        .partner-block { background: #fff; border: 2px solid var(--aea-blue); border-radius: 12px; padding: 40px; }
+        .partner-logo-placeholder { width: 160px; height: 60px; background: linear-gradient(135deg, #1a1a2e, #003366); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 18px; letter-spacing: 2px; }
+        .partner-divider { width: 2px; background: var(--aea-border); align-self: stretch; margin: 0 32px; }
+
+        /* === HOW IT WORKS STEPS === */
+        .step-row { display: flex; gap: 0; align-items: flex-start; flex-wrap: wrap; margin: 30px 0; }
+        .step-item { flex: 1; min-width: 200px; text-align: center; padding: 0 16px; position: relative; }
+        .step-item:not(:last-child)::after { content: ''; position: absolute; top: 22px; right: -1px; width: 2px; height: 40px; background: var(--aea-border); }
+        .step-num { width: 44px; height: 44px; background: var(--aea-blue); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; margin: 0 auto 14px; }
+        .step-item h5 { font-size: 0.95rem; font-weight: 700; color: var(--aea-blue); margin-bottom: 8px; }
+        .step-item p { font-size: 13px; color: #666; }
+
+        /* === TOOL CARDS === */
+        .tool-card { background: #fff; border: 1px solid var(--aea-border); border-radius: 10px; padding: 28px; height: 100%; transition: box-shadow 0.2s; text-decoration: none; color: inherit; display: block; }
+        .tool-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.09); border-color: var(--aea-blue-accent); color: inherit; }
+        .tool-card .tool-icon { font-size: 2rem; color: var(--aea-gold); margin-bottom: 14px; }
+        .tool-card h4 { font-size: 1rem; font-weight: 700; color: var(--aea-blue); margin-bottom: 8px; }
+        .tool-card p { font-size: 13px; color: #666; margin-bottom: 0; }
+        .tool-card .tool-arrow { color: var(--aea-blue-accent); font-size: 13px; font-weight: 600; margin-top: 12px; display: block; }
+
+        /* === INFO BOX === */
+        .info-box { background: #fff; border-left: 4px solid var(--aea-gold); padding: 24px 28px; border-radius: 0 6px 6px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+
+        /* === FUNDING CALLOUT === */
+        .funding-callout { background: linear-gradient(135deg, #003366, #001a33); color: #fff; border-radius: 12px; padding: 48px 40px; }
+        .funding-callout h2 { color: #fff; margin-bottom: 8px; }
+        .funding-callout p { opacity: 0.85; font-size: 1.05rem; }
+        .funding-number { font-size: 3rem; font-weight: 800; color: var(--aea-gold); line-height: 1; }
+        .funding-number span { font-size: 1rem; color: rgba(255,255,255,0.6); font-weight: 400; display: block; margin-top: 4px; }
+
+        /* === FOOTER === */
+        .aea-footer { background: #1a1a2e; color: rgba(255,255,255,0.6); padding: 40px 0 20px; font-size: 13px; }
+        .aea-footer h6 { color: #fff; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; margin-bottom: 14px; }
+        .aea-footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+        .aea-footer a:hover { color: #fff; }
+        .aea-footer ul { list-style: none; padding: 0; }
+        .aea-footer ul li { padding: 3px 0; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px; margin-top: 30px; text-align: center; font-size: 12px; }
+
+        .mockup-notice { background: #fff3cd; border-bottom: 2px solid #ffc107; padding: 10px; text-align: center; font-size: 13px; font-weight: 600; color: #856404; position: sticky; top: 0; z-index: 9999; }
+    </style>
+</head>
+<body>
+
+<div class="mockup-notice"><i class="fas fa-drafting-compass"></i> &nbsp; MOCKUP — Workforce Development Page for aea.net/workforce &nbsp;|&nbsp; Prepared for March 10, 2026 planning meeting</div>
+
+<div class="aea-topbar"><div class="container d-flex justify-content-end"><a href="#">Login</a><a href="#">Find Member</a></div></div>
+<div class="aea-header"><div class="container d-flex align-items-center justify-content-between">
+    <div><svg width="165" height="50" viewBox="0 0 165 50"><rect width="165" height="50" rx="4" fill="#003366"/><text x="82" y="30" text-anchor="middle" fill="white" font-family="Arial" font-size="13" font-weight="bold">AEA LOGO</text></svg></div>
+    <div class="d-none d-md-block" style="font-size:13px;color:#666;">816-347-8400 &nbsp;|&nbsp; info@aea.net</div>
+</div></div>
+<nav class="aea-nav"><div class="container"><div class="d-flex flex-wrap">
+    <a class="nav-link" href="#">About</a>
+    <a class="nav-link" href="#">Join</a>
+    <a class="nav-link" href="#">Members</a>
+    <a class="nav-link" href="#">Jobs</a>
+    <a class="nav-link" href="#">Events</a>
+    <a class="nav-link active" href="#" style="background:var(--aea-blue-light)">Training</a>
+    <a class="nav-link" href="#">Publications</a>
+    <a class="nav-link" href="#">News</a>
+</div></div></nav>
+<div class="breadcrumb-bar"><div class="container"><a href="#">Home</a> &rsaquo; <strong>Workforce Development</strong></div></div>
+
+<!-- HERO -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+                <span class="hero-badge-label">Workforce Development</span>
+                <h1>Build the Avionics Workforce Your Shop Needs</h1>
+                <p class="lead">The AEA Registered Apprenticeship Program gives repair stations a structured, DOL-compliant pathway to grow their own technicians — with federal and state funding available to offset costs.</p>
+                <div class="mt-4 d-flex flex-wrap gap-3">
+                    <a href="#apprenticeship" class="btn-aea">Learn About Apprenticeship</a>
+                    <a href="funding-finder/" class="btn-aea-gold">Find Funding for Your State <i class="fas fa-arrow-right ms-2"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="row g-3">
+                    <div class="col-6"><div class="hero-stat"><div class="stat-val">$20K+</div><div class="stat-lbl">Potential first-year value per apprentice</div></div></div>
+                    <div class="col-6"><div class="hero-stat"><div class="stat-val">50</div><div class="stat-lbl">States with available funding programs</div></div></div>
+                    <div class="col-6"><div class="hero-stat"><div class="stat-val">DOL</div><div class="stat-lbl">Registered — Department of Labor</div></div></div>
+                    <div class="col-6"><div class="hero-stat"><div class="stat-val">CAET</div><div class="stat-lbl">Built-in RTI through AEA training</div></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- APPRENTICESHIP OVERVIEW -->
+<section class="section" id="apprenticeship">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+                <span class="section-label">AEA Registered Apprenticeship Program</span>
+                <h2>A National Program Built for Avionics Shops</h2>
+                <p>The AEA Registered Apprenticeship Program is a DOL-registered apprenticeship for <strong>Avionics Technicians (O*NET 49-2091.00)</strong>. It gives repair stations a proven framework to train entry-level technicians into fully qualified avionics professionals — with structured on-the-job training, built-in Related Technical Instruction (RTI) through CAET certification, and compliance handled by AEA and Fastport.</p>
+                <p>Any AEA member shop can join the national program with a single <strong>Employer Acceptance Agreement</strong> — no lengthy registration process, no standalone program to build from scratch.</p>
+                <div class="mt-4 d-flex flex-wrap gap-3">
+                    <a href="funding-finder/apprenticeship-guide.html" class="btn-aea">View Full Program Guide</a>
+                    <a href="/apprentice/" class="btn-aea-outline">Enroll Your Shop →</a>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="info-box">
+                    <h5 style="color:var(--aea-blue);font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:14px;">Program at a Glance</h5>
+                    <div style="font-size:14px;line-height:2.2;">
+                        <strong>Occupation:</strong> Avionics Technician (49-2091.00)<br>
+                        <strong>Registration:</strong> U.S. Department of Labor<br>
+                        <strong>OJT Partner:</strong> Fastport (DOL compliance)<br>
+                        <strong>RTI Provider:</strong> AEA (CAET certification)<br>
+                        <strong>Program Length:</strong> 2 years<br>
+                        <strong>Entry Requirement:</strong> One-page Employer Agreement<br>
+                        <strong>Cost to Join:</strong> AEA membership
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section section-alt">
+    <div class="container">
+        <h2 class="text-center mb-2">How the Apprenticeship Program Works</h2>
+        <p class="text-center text-muted mb-5" style="max-width:640px;margin-left:auto;margin-right:auto;">From enrollment to journey-level certification — here's how a shop moves through the program.</p>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4 col-lg">
+                <div class="text-center">
+                    <div class="step-num mx-auto">1</div>
+                    <h5 style="font-weight:700;color:var(--aea-blue);margin-bottom:6px;">Join AEA</h5>
+                    <p style="font-size:13px;color:#666;">AEA membership is the gateway. Member shops gain access to the national apprenticeship program.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg">
+                <div class="text-center">
+                    <div class="step-num mx-auto">2</div>
+                    <h5 style="font-weight:700;color:var(--aea-blue);margin-bottom:6px;">Sign the Agreement</h5>
+                    <p style="font-size:13px;color:#666;">One-page Employer Acceptance Agreement enrolls your shop in the DOL-registered national program.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg">
+                <div class="text-center">
+                    <div class="step-num mx-auto">3</div>
+                    <h5 style="font-weight:700;color:var(--aea-blue);margin-bottom:6px;">Hire &amp; Register</h5>
+                    <p style="font-size:13px;color:#666;">Bring on an apprentice. Fastport handles DOL registration and compliance documentation.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg">
+                <div class="text-center">
+                    <div class="step-num mx-auto">4</div>
+                    <h5 style="font-weight:700;color:var(--aea-blue);margin-bottom:6px;">Train On the Job</h5>
+                    <p style="font-size:13px;color:#666;">Apprentice works in your shop under a mentor. CAET training satisfies the RTI requirement.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg">
+                <div class="text-center">
+                    <div class="step-num mx-auto">5</div>
+                    <h5 style="font-weight:700;color:var(--aea-blue);margin-bottom:6px;">Earn Credentials</h5>
+                    <p style="font-size:13px;color:#666;">Apprentice earns CAET and CAET-Advanced certifications as milestones. Journey-level status upon completion.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FASTPORT PARTNERSHIP -->
+<section class="section" id="fastport">
+    <div class="container">
+        <div class="partner-block">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-3 text-center">
+                    <div class="partner-logo-placeholder mx-auto mb-3">Fastport</div>
+                    <p style="font-size:12px;color:#888;">/images/fastport-logo.png</p>
+                </div>
+                <div class="col-lg-1 d-none d-lg-flex justify-content-center">
+                    <div style="width:1px;background:var(--aea-border);height:100%;min-height:160px;"></div>
+                </div>
+                <div class="col-lg-8">
+                    <span class="section-label">Partnership</span>
+                    <h2>AEA + Fastport: DOL Compliance, Handled</h2>
+                    <p>Fastport is AEA's DOL compliance partner for the national apprenticeship program. They manage the documentation, registration, and reporting that comes with running a federally registered apprenticeship — so your shop can focus on training technicians, not paperwork.</p>
+                    <div class="row g-3 mt-2">
+                        <div class="col-sm-6">
+                            <div style="display:flex;gap:10px;align-items:flex-start;">
+                                <i class="fas fa-check-circle" style="color:var(--aea-gold);margin-top:3px;flex-shrink:0;"></i>
+                                <div style="font-size:14px;"><strong>DOL Registration</strong><br><span style="color:#666;">Fastport handles all federal registration and reporting requirements.</span></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div style="display:flex;gap:10px;align-items:flex-start;">
+                                <i class="fas fa-check-circle" style="color:var(--aea-gold);margin-top:3px;flex-shrink:0;"></i>
+                                <div style="font-size:14px;"><strong>OJT Tracking</strong><br><span style="color:#666;">Structured on-the-job training records for every apprentice.</span></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div style="display:flex;gap:10px;align-items:flex-start;">
+                                <i class="fas fa-check-circle" style="color:var(--aea-gold);margin-top:3px;flex-shrink:0;"></i>
+                                <div style="font-size:14px;"><strong>Funding Navigation</strong><br><span style="color:#666;">Helps shops identify and access state and federal funding.</span></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div style="display:flex;gap:10px;align-items:flex-start;">
+                                <i class="fas fa-check-circle" style="color:var(--aea-gold);margin-top:3px;flex-shrink:0;"></i>
+                                <div style="font-size:14px;"><strong>Veteran Expertise</strong><br><span style="color:#666;">Specialized support for shops hiring transitioning military technicians.</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FUNDING CALLOUT -->
+<section class="section section-alt">
+    <div class="container">
+        <div class="funding-callout">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-7">
+                    <span class="section-label" style="color:var(--aea-gold);">Apprenticeship Funding</span>
+                    <h2>There's Money for This. Most Shops Don't Know It.</h2>
+                    <p>Federal Workforce Innovation and Opportunity Act (WIOA) grants, state apprenticeship tax credits, veteran hiring incentives, and Department of Defense SkillBridge support can stack together to significantly reduce — or eliminate — the cost of running an apprenticeship. Every state is different.</p>
+                    <a href="funding-finder/" class="btn-aea-gold mt-3">Open Funding Finder — Select Your State <i class="fas fa-arrow-right ms-2"></i></a>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row g-3 text-center">
+                        <div class="col-6">
+                            <div class="funding-number">$20K+<span>potential per apprentice/year</span></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="funding-number">40+<span>federal &amp; state programs cataloged</span></div>
+                        </div>
+                        <div class="col-12 mt-3" style="font-size:13px;color:rgba(255,255,255,0.5);">
+                            Use the Funding Finder to see programs available in your state, including veteran-specific credits and how programs stack together.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TOOLS & RESOURCES -->
+<section class="section">
+    <div class="container">
+        <h2 class="mb-2">Tools &amp; Resources</h2>
+        <p class="text-muted mb-4">Interactive tools to help shops explore the program, find funding, and understand requirements.</p>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <a href="funding-finder/" class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-magnifying-glass-dollar"></i></div>
+                    <h4>Apprenticeship Funding Finder</h4>
+                    <p>Select your state to see every available federal and state funding program — with eligibility, amounts, and how to apply.</p>
+                    <span class="tool-arrow">Open Tool <i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a href="funding-finder/apprenticeship-guide.html" class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-book-open"></i></div>
+                    <h4>Apprenticeship Program Guide</h4>
+                    <p>Interactive reference covering program requirements, OJT structure, RTI, and compliance — everything a new sponsor needs.</p>
+                    <span class="tool-arrow">View Guide <i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a href="funding-finder/coverage-map.html" class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-map-location-dot"></i></div>
+                    <h4>State Coverage Map</h4>
+                    <p>See program availability and funding tiers across all 50 states. Identify your state's highest-value opportunities at a glance.</p>
+                    <span class="tool-arrow">View Map <i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a href="funding-finder/faq.html" class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-circle-question"></i></div>
+                    <h4>Frequently Asked Questions</h4>
+                    <p>Answers to the most common questions about joining the program, DOL requirements, funding eligibility, and veteran hiring.</p>
+                    <span class="tool-arrow">View FAQs <i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
+        </div>
+
+        <!-- PDF Resources -->
+        <div class="row g-4 mt-2">
+            <div class="col-12">
+                <h3 class="mb-3" style="font-size:13px;color:var(--aea-blue);text-transform:uppercase;letter-spacing:0.5px;font-weight:700;">Downloadable Resources</h3>
+            </div>
+            <div class="col-md-6">
+                <div style="background:var(--aea-gray);border:1px solid var(--aea-border);border-radius:8px;padding:20px 24px;display:flex;align-items:center;gap:16px;">
+                    <i class="fas fa-file-pdf" style="font-size:2rem;color:#dc3545;flex-shrink:0;"></i>
+                    <div>
+                        <div style="font-weight:700;color:var(--aea-blue);margin-bottom:4px;">Military Avionics Career Playbook</div>
+                        <div style="font-size:13px;color:#666;margin-bottom:10px;">Guide for transitioning military avionics technicians entering civilian repair stations.</div>
+                        <a href="careerplaybook.pdf" class="btn-aea" style="padding:6px 16px;font-size:12px;"><i class="fas fa-download me-1"></i> Download PDF</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div style="background:var(--aea-gray);border:1px solid var(--aea-border);border-radius:8px;padding:20px 24px;display:flex;align-items:center;gap:16px;">
+                    <i class="fas fa-file-pdf" style="font-size:2rem;color:#dc3545;flex-shrink:0;"></i>
+                    <div>
+                        <div style="font-weight:700;color:var(--aea-blue);margin-bottom:4px;">Military Hiring Toolkit</div>
+                        <div style="font-size:13px;color:#666;margin-bottom:10px;">Resources for repair stations actively recruiting and onboarding veterans.</div>
+                        <a href="hiringtoolkit.pdf" class="btn-aea" style="padding:6px 16px;font-size:12px;"><i class="fas fa-download me-1"></i> Download PDF</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CAET CONNECTION -->
+<section class="section section-alt">
+    <div class="container">
+        <div style="background:linear-gradient(135deg,#eef6ff,#e8f0fe);border:2px solid var(--aea-blue-accent);border-radius:10px;padding:36px;">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-8">
+                    <span class="section-label">CAET + Apprenticeship</span>
+                    <h3 style="font-size:1.3rem;">CAET Certification is the RTI for the Apprenticeship</h3>
+                    <p>The AEA apprenticeship program uses CAET certification as its <strong>Related Technical Instruction (RTI)</strong> — the formal knowledge component required by the DOL alongside on-the-job hours. Apprentices earn their CAET, then advance to CAET-Advanced as a milestone in their journey to journey-level status.</p>
+                    <div class="d-flex flex-wrap gap-3 mt-3">
+                        <a href="/caet/" class="btn-aea-outline">Learn About CAET</a>
+                        <a href="/caetadvanced/" class="btn-aea-outline">Learn About CAET-Advanced</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <div style="font-size:3.5rem;color:var(--aea-blue-accent);"><i class="fas fa-graduation-cap"></i></div>
+                    <p style="font-size:13px;color:#666;margin-top:8px;">CAET → CAET-Advanced → Journey Level</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT / CTA -->
+<section class="section" style="background:#fff;">
+    <div class="container text-center" style="max-width:600px;">
+        <h2>Ready to Start or Have Questions?</h2>
+        <p class="text-muted mt-2 mb-4">Contact Nick Brown to learn how to enroll your shop, find funding, or connect with Fastport for DOL compliance support.</p>
+        <div style="width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#f0f0f0,#ccc);display:flex;align-items:center;justify-content:center;font-size:40px;color:#999;margin:0 auto 16px;"><i class="fas fa-user"></i></div>
+        <h4 style="margin-bottom:4px;">Nick Brown</h4>
+        <p class="text-muted" style="margin-bottom:20px;">Director of Workforce Development</p>
+        <div class="d-flex gap-3 justify-content-center">
+            <a href="tel:816-366-5102" class="btn-aea">Call 816-366-5102</a>
+            <a href="mailto:nickb@aea.net" class="btn-aea-outline">nickb@aea.net</a>
+        </div>
+    </div>
+</section>
+
+<section style="background:var(--aea-blue);color:#fff;padding:40px 0;text-align:center;">
+    <div class="container">
+        <h2 style="color:#fff;font-size:1.6rem;margin-bottom:8px;">Become an AEA Member today!</h2>
+        <p style="opacity:0.8;margin-bottom:20px;">Membership is your gateway to the apprenticeship program and all AEA workforce development resources.</p>
+        <a href="/joinaea.asp" style="background:var(--aea-gold);color:var(--aea-blue);padding:12px 32px;font-weight:700;border-radius:4px;text-decoration:none;text-transform:uppercase;font-size:14px;letter-spacing:0.5px;">Join AEA</a>
+    </div>
+</section>
+
+<footer class="aea-footer"><div class="container"><div class="row">
+    <div class="col-md-4"><div style="margin-bottom:16px;"><svg width="120" height="36" viewBox="0 0 120 36"><rect width="120" height="36" rx="4" fill="#003366"/><text x="60" y="22" text-anchor="middle" fill="white" font-family="Arial" font-size="10" font-weight="bold">AEA LOGO</text></svg></div><p style="font-size:12px;line-height:1.7;">The mission of the Aircraft Electronics Association is to educate, communicate, and advocate for aviation businesses around the world.</p><p style="font-size:12px;">3570 NE Ralph Powell Road<br>Lee's Summit, MO USA 64064<br>816-347-8400</p></div>
+    <div class="col-md-4"><h6>Workforce</h6><ul><li><a href="#">Apprenticeship Program</a></li><li><a href="funding-finder/">Funding Finder</a></li><li><a href="funding-finder/apprenticeship-guide.html">Program Guide</a></li><li><a href="funding-finder/faq.html">FAQs</a></li><li><a href="careerplaybook.pdf">Career Playbook (PDF)</a></li><li><a href="hiringtoolkit.pdf">Hiring Toolkit (PDF)</a></li></ul></div>
+    <div class="col-md-4"><h6>Certifications</h6><ul><li><a href="/caet/">CAET</a></li><li><a href="/caetadvanced/">CAET-Advanced</a></li><li><a href="#">CAET-Pro (2026)</a></li></ul></div>
+</div><div class="footer-bottom">Copyright &copy; 2026 Aircraft Electronics Association. All Rights Reserved</div></div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
